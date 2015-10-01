@@ -1,7 +1,13 @@
+<<<<<<< HEAD
 led / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
+=======
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+>>>>>>> 74a7e340ff8c87b8d548ce0abc2b12e950ec2760
 
 # C extensions
 *.so
