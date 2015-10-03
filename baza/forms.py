@@ -28,3 +28,15 @@ class ObiektForm(ModelForm):
                     ),
             }
 
+
+
+class SzukajObiektForm(ModelForm):
+
+    class Meta:
+        model = Obiekt
+        fields = ('typ',)
+        widgets = {
+                'typ': Select(
+                    attrs={'class': 'form-control'}
+                    )}
+                

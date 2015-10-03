@@ -24,4 +24,6 @@ urlpatterns = [
     url(r'dodajobiekt/$', views.dodajobiekt, name='dodajobiekt'),
     url(r'dodane/$', views.dodane, name='dodane'),
     url(r'^signin/$', views.signin, name='signin'),
+    url(r'^szukajobiekt/$', views.szukajobiekt, name='szukajobiekt'),
+    url(r'^znaleziony/$', views.znaleziony, name='znaleziony'),
 ]

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 
-from baza.forms import ObiektForm
+from baza.forms import ObiektForm, SzukajObiektForm
 from . models import Obiekt
 
 
@@ -45,3 +45,26 @@ def profile(request):
 
 def signin(request):
     return render(request, 'baza/signin.html')
+
+def szukajobiekt(request):
+    if request.method == 'POST':
+        form = SzukajObiektForm(request.POST)
+     
+        if form.is_valid():
+
+            typ = form.cleaned_data['typ']
+            obiekty = Obiekt.objects.all().filter(typ=typ)
+            
+            return HttpResponseRedirect('/dodane/')
+        else:
+            return HttpResponseRedirect('/')
+
+
+    
+          #    return HttpRequestRedirect('/znaleziony/')
+  #  else:
+    form = SzukajObiektForm()
+    return render(request, 'baza/szukajobiekt.html', {'form':form})
+
+def znaleziony(request):
+    return render(request, 'baza.znazleziony.html')
