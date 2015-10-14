@@ -77,6 +77,19 @@ def szukajobiekt(request):
     return render(request, 'baza/szukajobiekt.html', {'form':form})
 
 def znalezionyobiekt(request, obiekt_id):
+    obiekt = Obiekt.objects.get(pk=obiekt_id)
+    form = ObiektForm(instance=obiekt)
+    if request.method =='POST':
+        form = ObiektForm(request.POST, instance=obiekt)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/profile/')
+        else:
+            return HttpResponseRedirect('/rafal')
 
-    obiekt = get_object_or_404(Obiekt, pk=obiekt_id)
-    return render(request, 'baza/znalezionyobiekt.html', {'obiekt': obiekt})
+    
+    
+    # obiekt = get_object_or_404(Obiekt, pk=obiekt_id)
+
+    return render(request, 'baza/znalezionyobiekt.html', {'form': form})
+#    return render(request, 'baza/znalezionyobiekt.html', {'obiekt': obiekt})

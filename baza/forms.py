@@ -28,6 +28,25 @@ class ObiektForm(ModelForm):
                     ),
             }
 
+#class ObiektFormValueIsFieldValue(ObiektForm):
+ #    widgets = {
+  #           'typ': Select(
+ #                attrs={'class': 'form-control', 'value': typ}
+  #               ),
+   #          'nazwa': TextInput(
+    #             attrs={'class':'form-control', 'value': nazwa}
+     #            ),
+      #       'lokalizacja': TextInput(
+       #          attrs={'class':'form-control', 'value': lokalizacja}
+        #         ),
+         #    'nr': TextInput(
+  #               attrs={'class':'form-control', 'value': nr}
+   #              ),
+    #         'wytyczne': Textarea(
+     #            attrs={'class':'form-control', 'value': wytyczne}
+      #           ),
+       #      }
+
 
 
 class SzukajObiektForm(ModelForm):
