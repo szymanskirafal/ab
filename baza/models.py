@@ -26,7 +26,7 @@ class Urzadzenie(models.Model):
 
 
 class Przedmiot(models.Model):
-    obiekt = models.ForeignKey(Obiekt)
+    urzadzenie = models.ForeignKey(Urzadzenie, default=None)
     nazwa = models.CharField(max_length=100)
     lokalizacja = models.TextField()
     nr = models.CharField(max_length=100)
