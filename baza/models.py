@@ -17,6 +17,12 @@ class Obiekt(models.Model):
     nr = models.CharField(max_length=100, default=None)
     wytyczne = models.TextField(default=None)
 
+class Urzadzenie(models.Model):
+    obiekt = models.ForeignKey(Obiekt)
+    nazwa = models.CharField(max_length=100)
+    lokalizacja = models.TextField()
+    nr = models.CharField(max_length=100)
+    wytyczne = models.TextField()
 
 
 class Przedmiot(models.Model):

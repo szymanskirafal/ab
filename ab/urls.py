@@ -20,11 +20,13 @@ from baza import views
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^profile/$', views.profile, name='profile'),
+    url(r'^profile/$', views.profile, name='profile'),    
     url(r'dodajobiekt/$', views.dodajobiekt, name='dodajobiekt'),
+    url(r'dodajurzadzenie/$', views.dodajurzadzenie, name='dodajurzadzenie'),
     url(r'dodane/$', views.dodane, name='dodane'),
     url(r'^signin/$', views.signin, name='signin'),
     url(r'^szukajobiekt/$', views.szukajobiekt, name='szukajobiekt'),
+    url(r'^wybranyobiekt/(?P<obiekt_id>[0-9]+)/$', views.wybranyobiekt, name='wybranyobiekt'),
     url(r'^znalezionyobiekt/(?P<obiekt_id>[0-9]+)/$', views.znalezionyobiekt, name='znalezionyobiekt'),
     url(r'^rafal/$', views.rafal, name='rafal'),
 ]

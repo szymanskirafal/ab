@@ -2,8 +2,8 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect
 
-from .forms import ObiektForm, SzukajObiektForm
-from .models import Obiekt
+from .forms import ObiektForm, SzukajObiektForm, UrzadzenieForm
+from .models import Obiekt, Urzadzenie
 
 
 def dodajobiekt(request):
@@ -32,7 +32,30 @@ def dodajobiekt(request):
 
     return render(request, 'baza/dodajobiekt.html', {'form': form})
 
+#def dobierzobiekt(request):
 
+    
+ #   return render(request, 'baza/dobierzobiekt.html', {'form': form})
+
+
+
+
+def dodajurzadzenie(request):
+    if request.method == 'POST':
+        form = SzukajObiektForm(request.POST)
+     
+        if form.is_valid():
+
+            typ = form.cleaned_data['typ']
+            obiekty = Obiekt.objects.all().filter(typ=typ)
+             
+            return render(request, 'baza/okreslobiekt.html', {'obiekty': obiekty})
+        else:
+            return HttpResponseRedirect('/')
+
+    form = SzukajObiektForm()
+    return render(request, 'baza/dobierzobiekt.html', {'form':form})
+   
 def dodane(request):
     return render(request, 'baza/dodane.html')
 
@@ -75,6 +98,18 @@ def szukajobiekt(request):
   #  else:
     form = SzukajObiektForm()
     return render(request, 'baza/szukajobiekt.html', {'form':form})
+
+def wybranyobiekt(request, obiekt_id):
+    obiekt = Obiekt.objects.get(pk=obiekt_id)
+    nazwa_obiektu = obiekt.nazwa
+    form = UrzadzenieForm()
+     
+    # obiekt = get_object_or_404(Obiekt, pk=obiekt_id)
+
+    return render(request, 'baza/dodajurzadzenie.html', {'obiekt': nazwa_obiektu, 'form': form})
+
+
+
 
 def znalezionyobiekt(request, obiekt_id):
     obiekt = Obiekt.objects.get(pk=obiekt_id)
