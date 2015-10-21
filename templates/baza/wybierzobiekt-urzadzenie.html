@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+
+         
+{% block header %}
+<h2 class="text-center">Wybierz obiekt, do ktorego przypisane jest szukane urzadzenie.</h2>
+{% endblock %}
+
+{% block obiekty %}
+<a href="{% url 'obiektdlaurzadzenia' obiekt.id %}" class="list-group-item">{{ obiekt.nazwa }}</a>
+{% endblock %}
+
+
