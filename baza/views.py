@@ -59,6 +59,9 @@ def dodajurzadzenie(request):
 def dodane(request):
     return render(request, 'baza/dodane.html')
 
+def niedodane(request):
+    return render(request, 'baza/niedodane.html')
+
 
 def profile(request):
     return render(request, 'baza/profile.html')
@@ -164,9 +167,9 @@ def znalezionyobiekt(request, obiekt_id):
         form = ObiektForm(request.POST, instance=obiekt)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/profile/')
+            return HttpResponseRedirect('/dodane/')
         else:
-            return HttpResponseRedirect('/rafal')
+            return HttpResponseRedirect('/niedodane/')
 
     
     
@@ -174,3 +177,31 @@ def znalezionyobiekt(request, obiekt_id):
 
     return render(request, 'baza/znalezionyobiekt.html', {'form': form})
 #    return render(request, 'baza/znalezionyobiekt.html', {'obiekt': obiekt})
+
+def znalezioneurzadzenie(request, urzadzenie_id):
+    urzadzenie = Urzadzenie.objects.get(pk=urzadzenie_id)
+    form = UrzadzenieForm(instance=urzadzenie)
+
+    if request.method == 'POST':
+        form = UrzadzenieForm(request.POST, instance=urzadzenie)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/dodane/')
+        else:
+            return HttpResponseRedirect('/niedodane/')
+
+    return render(request, 'baza/znalezioneurzadzenie.html', {'form': form})
+
+
+def obiektdlaurzadzenia(request, obiekt_id):
+
+    obiekt = Obiekt.objects.get(pk=obiekt_id)
+    urzadzenia = Urzadzenie.objects.all().filter(obiekt = obiekt)
+
+
+    return render(request, 'baza/obiektdlaurzadzenia.html',
+            {
+                'obiekt': obiekt,
+                'urzadzenia': urzadzenia
+                })
+
