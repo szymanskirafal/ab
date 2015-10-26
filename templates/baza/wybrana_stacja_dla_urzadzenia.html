@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-4 col-lg-6 col-lg-offset-3">
+            
+            {% block header %}
+            <h2 class="text-center">Wybierz obiekt, do którego dodasz urządzenie.</h2>
+            <h4 class="text-center">Lokalizacja poniższych obiektów to:</h4> 
+            <h4 class="text-center">{{ stacja.nazwa }}</h4>
+            <h4 class="text-center">{{ stacja.lokalizacja }}</h4>
+            {% endblock %}
+
+            <div class="list-group">               
+                {% for obiekt in obiekty %}
+
+
+                {% block urzadzenia %}
+                <a href="{% url 'urzadzenie_dla_obiektu' obiekt.id %}" class="list-group-item">{{ obiekt.nazwa }}</a>
+                {% endblock %}
+
+                {% endfor %}
+            </div>            
+            <a class="btn btn-default btn-lg btn-block" href='/profile/' role="button">Główne Menu</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

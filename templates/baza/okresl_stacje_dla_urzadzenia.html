@@ -1,0 +1,12 @@
+{% extends 'baza/wybierzobiekt.html' %}
+
+
+{% block header %}
+<h2 class="text-center">Wybierz stację paliw, do której dodasz urządzenie.</h2>
+{% endblock %}
+
+{% block obiekty %}
+<a href="{% url 'wybrana_stacja_dla_urzadzenia' obiekt.id %}" class="list-group-item">{{ obiekt.nazwa }}</a>
+{% endblock %}
+
+

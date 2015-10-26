@@ -40,6 +40,25 @@ def dodajobiekt(request):
 
 
 
+def dodaj_urzadzenie(request):
+    if request.method == 'POST':
+        form = SzukajObiektForm(request.POST)
+     
+        if form.is_valid():
+
+            typ = form.cleaned_data['typ']
+            obiekty = Obiekt.objects.all().filter(typ=typ)
+             
+            return render(request, 'baza/okresl_stacje_dla_urzadzenia.html', {'obiekty': obiekty})
+        else:
+            return HttpResponseRedirect('/')
+
+    form = SzukajObiektForm()
+    return render(request, 'baza/wybierz_stacje_dla_urzadzenia.html', {'form': form})
+
+
+
+
 def dodajurzadzenie(request):
     if request.method == 'POST':
         form = SzukajObiektForm(request.POST)
@@ -118,6 +137,20 @@ def szukajurzadzenie(request):
     return render(request, 'baza/szukajobiekt-urzadzenie.html', {'form':form})
 
 
+def wybrana_stacja_dla_urzadzenia(request, obiekt_id):
+    stacja = Obiekt.objects.get(pk=obiekt_id)
+    obiekty = Urzadzenie.objects.all().filter(obiekt = stacja)
+
+   
+
+    return render(request, 'baza/wybrana_stacja_dla_urzadzenia.html',
+            {
+            'stacja': stacja,
+            'obiekty': obiekty,
+            })
+
+def wybrany_obiekt_dla_urzadzenia(request):
+    pass
 
 
 
