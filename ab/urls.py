@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'dodajurzadzenie/$', views.dodajurzadzenie, name='dodajurzadzenie'),
     url(r'dodaj/urzadzenie/$', views.dodaj_urzadzenie, name='dodaj_urzadzenie'),
     url(r'dodaj/urzadzenie/dostacji/(?P<obiekt_id>[0-9]+)/$', views.wybrana_stacja_dla_urzadzenia, name='wybrana_stacja_dla_urzadzenia'),
+    url(r'dodaj/urzadzenie/dostacji/doobiektu/(?P<stacja_id>[0-9]+)/(?P<obiekt_id>[0-9]+)/$', views.wybrany_obiekt_dla_urzadzenia, name='wybrany_obiekt_dla_urzadzenia'),
     url(r'doobiektu/$', views.wybrany_obiekt_dla_urzadzenia, name='wybrany_obiekt_dla_urzadzenia'),
     url(r'dodane/$', views.dodane, name='dodane'),
     url(r'niedodane/$', views.niedodane, name='niedodane'),

@@ -16,12 +16,9 @@
 
             <div class="list-group">               
                 {% for obiekt in obiekty %}
-
-
-                {% block urzadzenia %}
-                <a href="{% url 'urzadzenie_dla_obiektu' obiekt.id %}" class="list-group-item">{{ obiekt.nazwa }}</a>
-                {% endblock %}
-
+               
+                <a href="{% url 'wybrany_obiekt_dla_urzadzenia' stacja.id obiekt.id  %}" class="list-group-item">{{ obiekt.nazwa }}</a>
+                
                 {% endfor %}
             </div>            
             <a class="btn btn-default btn-lg btn-block" href='/profile/' role="button">Główne Menu</a>

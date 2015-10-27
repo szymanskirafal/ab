@@ -137,20 +137,32 @@ def szukajurzadzenie(request):
     return render(request, 'baza/szukajobiekt-urzadzenie.html', {'form':form})
 
 
+def urzadzenie_dla_obiektu(request, obiekt_id):
+    obiekt = Urzadzenie.objects.get(pk=obiekt_id)
+    return render(request, 'baza/wybrana_stacja_dla_urzadzenia.html')
+
 def wybrana_stacja_dla_urzadzenia(request, obiekt_id):
     stacja = Obiekt.objects.get(pk=obiekt_id)
-    obiekty = Urzadzenie.objects.all().filter(obiekt = stacja)
+    obiekty = Urzadzenie.objects.all().filter(obiekt=stacja)
+    return render(request, 'baza/wybrana_stacja_dla_urzadzenia.html', {'stacja': stacja, 'obiekty': obiekty})
 
-   
 
-    return render(request, 'baza/wybrana_stacja_dla_urzadzenia.html',
-            {
-            'stacja': stacja,
-            'obiekty': obiekty,
-            })
+def wybrany_obiekt_dla_urzadzenia(request, stacja_id, obiekt_id):
 
-def wybrany_obiekt_dla_urzadzenia(request):
-    pass
+    # zwrócić nazwę stacji
+    stacja = Obiekt.objects.get(pk=stacja_id)
+    nazwa_stacji = stacja.nazwa
+
+    # zwrócić nazwę obiektu
+    obiekt = Urzadzenie.objects.get(pk=obiekt_id)
+    nazwa_obiektu = obiekt.nazwa
+    # wyświetlić formularz do wpisania danych urządzenia
+
+
+    return render(request, 'baza/urzadzenie.html',
+        {
+        'stacja': nazwa_stacji,
+        'obiekt' : nazwa_obiektu})
 
 
 
