@@ -33,6 +33,8 @@ urlpatterns = [
     url(r'^signin/$', views.signin, name='signin'),
     url(r'^szukajobiekt/$', views.szukajobiekt, name='szukajobiekt'),
     url(r'szukajurzadzenie/$', views.szukajurzadzenie, name='szukajurzadzenie'),
+    url(r'szukaj/urzadzenie/$', views.szukajurzadzenie, name='szukajurzadzenie'),
+
     url(r'^wybranyobiekt/(?P<obiekt_id>[0-9]+)/$', views.wybranyobiekt, name='wybranyobiekt'),
     url(r'^znalezionyobiekt/(?P<obiekt_id>[0-9]+)/$', views.znalezionyobiekt, name='znalezionyobiekt'),
     url(r'^znalezioneurzadzenie/(?P<urzadzenie_id>[0-9]+)/$', views.znalezioneurzadzenie, name='znalezioneurzadzenie'),

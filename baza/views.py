@@ -2,8 +2,8 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect
 
-from .forms import ObiektForm, SzukajObiektForm, UrzadzenieForm
-from .models import Obiekt, Urzadzenie
+from .forms import ObiektForm, SzukajObiektForm, UrzadzenieForm, PrzedmiotForm
+from .models import Obiekt, Urzadzenie, Przedmiot
 
 
 def dodajobiekt(request):
@@ -156,13 +156,38 @@ def wybrany_obiekt_dla_urzadzenia(request, stacja_id, obiekt_id):
     # zwrócić nazwę obiektu
     obiekt = Urzadzenie.objects.get(pk=obiekt_id)
     nazwa_obiektu = obiekt.nazwa
+    
+    if request.method == 'POST':
+        form = PrzedmiotForm(request.POST)
+        if form.is_valid():
+            urzadzenie = obiekt
+            nazwa = form.cleaned_data['nazwa']
+            lokalizacja = form.cleaned_data['lokalizacja']
+            numer = form.cleaned_data['nr']
+            wytyczne = form.cleaned_data['wytyczne']
+            przedmiot = Przedmiot.objects.create(
+                urzadzenie=urzadzenie,
+                nazwa=nazwa,
+                lokalizacja=lokalizacja,
+                nr=numer,
+                wytyczne=wytyczne)
+            return HttpResponseRedirect('/dodane/')
+        else:
+            return HttpResponseRedirect('/')
+
+    else:
+
+
     # wyświetlić formularz do wpisania danych urządzenia
+        form = PrzedmiotForm()
 
 
     return render(request, 'baza/urzadzenie.html',
         {
         'stacja': nazwa_stacji,
-        'obiekt' : nazwa_obiektu})
+        'obiekt' : nazwa_obiektu,
+        'form': form
+        })
 
 
 
