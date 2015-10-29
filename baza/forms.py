@@ -29,6 +29,17 @@ class ObiektForm(ModelForm):
             }
 
 
+
+class StacjaForm(ObiektForm):
+
+    fields = ('nazwa', 'lokalizacja', 'nr', 'wytyczne')
+            
+
+
+
+
+
+
 class UrzadzenieForm(ModelForm):
     class Meta:
         model = Urzadzenie

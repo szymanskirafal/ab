@@ -34,6 +34,8 @@ urlpatterns = [
     url(r'^szukajobiekt/$', views.szukajobiekt, name='szukajobiekt'),
     url(r'szukajurzadzenie/$', views.szukajurzadzenie, name='szukajurzadzenie'),
     url(r'szukaj/urzadzenie/$', views.szukajurzadzenie, name='szukajurzadzenie'),
+    url(r'profile/szukaj/$', views.szukaj, name='szukaj'),
+    url(r'profile/szukaj/stacja/(?P<stacja_id>[0-9]+)/$', views.stacja, name='stacja'),
 
     url(r'^wybranyobiekt/(?P<obiekt_id>[0-9]+)/$', views.wybranyobiekt, name='wybranyobiekt'),
     url(r'^znalezionyobiekt/(?P<obiekt_id>[0-9]+)/$', views.znalezionyobiekt, name='znalezionyobiekt'),

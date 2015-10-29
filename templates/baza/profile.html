@@ -45,9 +45,23 @@
                 </ul>
             </div>
             </p>
+            <div>
+                <button class="btn btn-success btn-lg btn-block" type="button" data-toggle="collapse"
+                    data-target="#collapseExample" aria-expanded="false"
+                    aria-controls="collapseExample">Nowa opcja szukania
+                </button>
+                <div class="collapse" id="collapseExample">
+                    <div class="well">
+                        <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                            <a class="btn btn-lg btn-success" href="{% url 'szukaj' %}" role="button">Stacje paliw</a>                      
+                            <a class="btn btn-lg btn-danger" href="#" role="button">Magazyny paliw</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+<div>
 {% endblock %}
 
 

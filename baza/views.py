@@ -2,7 +2,7 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect
 
-from .forms import ObiektForm, SzukajObiektForm, UrzadzenieForm, PrzedmiotForm
+from .forms import ObiektForm, StacjaForm, SzukajObiektForm, UrzadzenieForm, PrzedmiotForm
 from .models import Obiekt, Urzadzenie, Przedmiot
 
 
@@ -114,6 +114,36 @@ def szukajobiekt(request):
     else:
         form = SzukajObiektForm()
     return render(request, 'baza/szukajobiekt.html', {'form':form})
+
+def szukaj(request):
+    # pobrać z bazy wszystkie stacje
+    stacje = Obiekt.objects.all().filter(typ='stacja')
+ 
+    # przekazać wszystkie pobrane stacje do renderowania   
+    return render(request, 'baza/szukaj.html', {'obiekty':stacje})
+
+
+
+
+
+
+def stacja (request, stacja_id):
+    stacja = Obiekt.objects.get(pk=stacja_id)
+    form = StacjaForm(instance=stacja)
+    if request.method =='POST':
+        form = StacjaForm(request.POST, instance=stacja)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/dodane/')
+        else:
+            return HttpResponseRedirect('/niedodane/')
+
+    obiekty = Urzadzenie.objects.all().filter(obiekt=stacja)
+    
+    # obiekt = get_object_or_404(Obiekt, pk=obiekt_id)
+
+    return render(request, 'baza/stacja.html', {'form': form, 'obiekty': obiekty})
+
 
 
 

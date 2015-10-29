@@ -12,7 +12,7 @@
                 
                 
                 {% block header %}
-                <h4 class="text-center">Szczegółowe dane obiektu.</h4>
+                <h4 class="text-center">Szczegółowe dane stacji paliw.</h4>
                 {% endblock %}
 
 
@@ -28,12 +28,21 @@
                               
                 <a class="btn btn-default btn-lg" href='/profile/' role="button">Główne Menu</a>
             
-                <button type="button" class="btn btn-success btn-lg"
+                <button type="button" class="btn btn-danger btn-lg"
                     data-toggle="modal" data-target="#Zapisz">
                     Zapisz zmiany
                 </button>
                        
-                
+                <hr class="half-rule">                
+                <h2 class="text-center">Lista urządzeń na powyższej stacji paliw.</h2>
+                <div class="list-group">            
+                    {% for urzadzenie in obiekty %}
+                    
+                    <a href="#" class="list-group-item">{{ urzadzenie.nazwa }}</a>
+
+                    {% endfor %}
+                </div> 
+             
                 
                 
                 
@@ -57,10 +66,9 @@
                         <div>
                     </div>
                 </div>
-
-
-                
             </form>
+
+
         </div>
     </div>
 </div>
