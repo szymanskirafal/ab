@@ -34,8 +34,8 @@
                 </button>
                        
                 <hr class="half-rule">                
-                <h2 class="text-center">Lista urządzeń na powyższej stacji paliw.</h2>
-                <div class="list-group">            
+                <div class="list-group">
+                    <li class="list-group-item list-group-item-info">Urządzenia zlokalizowane na stacji</li>             
                     {% for urzadzenie in obiekty %}
                     
                     <a href="#" class="list-group-item">{{ urzadzenie.nazwa }}</a>

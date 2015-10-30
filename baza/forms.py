@@ -31,9 +31,8 @@ class ObiektForm(ModelForm):
 
 
 class StacjaForm(ObiektForm):
-
-    fields = ('nazwa', 'lokalizacja', 'nr', 'wytyczne')
-            
+    class Meta(ObiektForm.Meta):
+        exclude = ('typ',)
 
 
 
