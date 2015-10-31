@@ -120,7 +120,7 @@ def szukaj(request):
     stacje = Obiekt.objects.all().filter(typ='stacja')
  
     # przekazać wszystkie pobrane stacje do renderowania   
-    return render(request, 'baza/szukaj.html', {'obiekty':stacje})
+    return render(request, 'baza/szukaj.html', {'obiekty': stacje})
 
 
 
@@ -142,7 +142,15 @@ def stacja (request, stacja_id):
     
     # obiekt = get_object_or_404(Obiekt, pk=obiekt_id)
 
-    return render(request, 'baza/stacja.html', {'form': form, 'obiekty': obiekty})
+    return render(request, 'baza/stacja.html', {'stacja': stacja, 'form': form, 'obiekty': obiekty})
+
+def obiekt(request, stacja_id, obiekt_id):
+    stacja = Obiekt.objects.get(pk=stacja_id)
+    obiekt = Urzadzenie.objects.get(pk=obiekt_id)
+    form = UrzadzenieForm(instance=obiekt)
+    urzadzenia = Przedmiot.objects.all().filter(urzadzenie=obiekt)
+
+    return render(request, 'baza/obiekt.html', {'stacja': stacja, 'obiekt': obiekt, 'form': form, 'urzadzenia': urzadzenia})
 
 
 
