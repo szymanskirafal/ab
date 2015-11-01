@@ -130,6 +130,7 @@ def szukaj(request):
 def stacja (request, stacja_id):
     stacja = Obiekt.objects.get(pk=stacja_id)
     form = StacjaForm(instance=stacja)
+    form_obiekt = PrzedmiotForm()
     if request.method =='POST':
         form = StacjaForm(request.POST, instance=stacja)
         if form.is_valid():
@@ -142,13 +143,14 @@ def stacja (request, stacja_id):
     
     # obiekt = get_object_or_404(Obiekt, pk=obiekt_id)
 
-    return render(request, 'baza/stacja.html', {'stacja': stacja, 'form': form, 'obiekty': obiekty})
+    return render(request, 'baza/stacja.html', {'stacja': stacja, 'form': form, 'obiekty': obiekty, 'form_obiekt': form_obiekt})
 
 def obiekt(request, stacja_id, obiekt_id):
     stacja = Obiekt.objects.get(pk=stacja_id)
     obiekt = Urzadzenie.objects.get(pk=obiekt_id)
     form = UrzadzenieForm(instance=obiekt)
     urzadzenia = Przedmiot.objects.all().filter(urzadzenie=obiekt)
+    
     if request.method =='POST':
         form = UrzadzenieForm(request.POST, instance=obiekt)
         if form.is_valid():
@@ -159,6 +161,21 @@ def obiekt(request, stacja_id, obiekt_id):
 
     return render(request, 'baza/obiekt.html', {'stacja': stacja, 'obiekt': obiekt, 'form': form, 'urzadzenia': urzadzenia})
 
+def urzadzenie(request, stacja_id, obiekt_id, urzadzenie_id):
+    stacja = Obiekt.objects.get(pk=stacja_id)
+    obiekt = Urzadzenie.objects.get(pk=obiekt_id)
+    urzadzenie = Przedmiot.objects.get(pk=urzadzenie_id)
+    form = PrzedmiotForm(instance=urzadzenie)
+    
+    if request.method =='POST':
+        form = PrzedmiotForm(request.POST, instance=urzadzenie)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/dodane/')
+        else:
+            return HttpResponseRedirect('/niedodane/')
+
+    return render(request, 'baza/urzadzenie.html', {'stacja': stacja, 'obiekt': obiekt, 'form': form})
 
 
 

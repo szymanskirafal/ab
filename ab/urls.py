@@ -37,6 +37,7 @@ urlpatterns = [
     url(r'profile/szukaj/$', views.szukaj, name='szukaj'),
     url(r'profile/szukaj/stacja/(?P<stacja_id>[0-9]+)/$', views.stacja, name='stacja'),
     url(r'profile/szukaj/stacja/obiekt/(?P<stacja_id>[0-9]+)/(?P<obiekt_id>[0-9]+)/$', views.obiekt, name='obiekt'),
+    url(r'profile/szukaj/stacja/obiekt/urzadzenie/(?P<stacja_id>[0-9]+)/(?P<obiekt_id>[0-9]+)/(?P<urzadzenie_id>[0-9]+)$', views.urzadzenie, name='urzadzenie'),
 
     url(r'^wybranyobiekt/(?P<obiekt_id>[0-9]+)/$', views.wybranyobiekt, name='wybranyobiekt'),
     url(r'^znalezionyobiekt/(?P<obiekt_id>[0-9]+)/$', views.znalezionyobiekt, name='znalezionyobiekt'),

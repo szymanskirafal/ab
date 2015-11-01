@@ -48,7 +48,7 @@
                     <li class="list-group-item list-group-item-info">Urządzenia przypisane do obiektu</li>             
                     {% for urzadzenie in urzadzenia %}
                                     
-                    <a href="#" class="list-group-item">{{ urzadzenie.nazwa }}</a>
+                    <a href="{% url 'urzadzenie' stacja.id obiekt.id urzadzenie.id %}" class="list-group-item">{{ urzadzenie.nazwa }}</a>
 
                     {% endfor %}
                 </div> 
