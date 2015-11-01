@@ -45,15 +45,15 @@
                 
                 <hr class="half-rule">                
                 <div class="list-group">
-                    <li class="list-group-item list-group-item-info">Urządzenia zlokalizowane na stacji</li>             
-                    {% for obiekt in obiekty %}
+                    <li class="list-group-item list-group-item-info">Urządzenia przypisane do obiektu</li>             
+                    {% for urzadzenie in urzadzenia %}
                                     
-                    <a href="{% url 'obiekt' stacja.id obiekt.id %}" class="list-group-item">{{ obiekt.nazwa }}</a>
+                    <a href="#" class="list-group-item">{{ urzadzenie.nazwa }}</a>
 
                     {% endfor %}
                 </div> 
              
-                
+                 
                 <!--    modal     -->
                 
                 <div class="modal fade" id="Zapisz" tabindex="-1" role="dialog" aria-labelledby="ZapiszLabel">

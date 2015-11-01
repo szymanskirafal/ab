@@ -149,6 +149,13 @@ def obiekt(request, stacja_id, obiekt_id):
     obiekt = Urzadzenie.objects.get(pk=obiekt_id)
     form = UrzadzenieForm(instance=obiekt)
     urzadzenia = Przedmiot.objects.all().filter(urzadzenie=obiekt)
+    if request.method =='POST':
+        form = UrzadzenieForm(request.POST, instance=obiekt)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/dodane/')
+        else:
+            return HttpResponseRedirect('/niedodane/')
 
     return render(request, 'baza/obiekt.html', {'stacja': stacja, 'obiekt': obiekt, 'form': form, 'urzadzenia': urzadzenia})
 

@@ -41,7 +41,7 @@
                 
                 <hr class="half-rule">                
                 <div class="list-group">
-                    <li class="list-group-item list-group-item-info">Urządzenia zlokalizowane na stacji</li>             
+                    <li class="list-group-item list-group-item-info">Obiekty zlokalizowane na stacji</li>             
                     {% for obiekt in obiekty %}
                                     
                     <a href="{% url 'obiekt' stacja.id obiekt.id %}" class="list-group-item">{{ obiekt.nazwa }}</a>
