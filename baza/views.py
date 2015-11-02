@@ -130,8 +130,8 @@ def szukaj(request):
 def stacja (request, stacja_id):
     stacja = Obiekt.objects.get(pk=stacja_id)
     form = StacjaForm(instance=stacja)
-    form_obiekt = PrzedmiotForm()
-    if request.method =='POST':
+    obiekty = Urzadzenie.objects.all().filter(obiekt=stacja)
+    if request.method == 'POST':
         form = StacjaForm(request.POST, instance=stacja)
         if form.is_valid():
             form.save()
@@ -139,11 +139,7 @@ def stacja (request, stacja_id):
         else:
             return HttpResponseRedirect('/niedodane/')
 
-    obiekty = Urzadzenie.objects.all().filter(obiekt=stacja)
-    
-    # obiekt = get_object_or_404(Obiekt, pk=obiekt_id)
-
-    return render(request, 'baza/stacja.html', {'stacja': stacja, 'form': form, 'obiekty': obiekty, 'form_obiekt': form_obiekt})
+    return render(request, 'baza/stacja.html', {'stacja': stacja, 'form': form, 'obiekty': obiekty})
 
 def obiekt(request, stacja_id, obiekt_id):
     stacja = Obiekt.objects.get(pk=stacja_id)
