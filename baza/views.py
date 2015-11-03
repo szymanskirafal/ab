@@ -115,6 +115,63 @@ def szukajobiekt(request):
         form = SzukajObiektForm()
     return render(request, 'baza/szukajobiekt.html', {'form':form})
 
+def dodaj_stacje(request):
+    if request.method == 'POST':
+        form = ObiektForm(request.POST)
+     
+        if form.is_valid():
+
+            typ = form.cleaned_data['typ']
+            nazwa = form.cleaned_data['nazwa']
+            lokalizacja = form.cleaned_data['lokalizacja']
+            numer = form.cleaned_data['nr']
+            wytyczne = form.cleaned_data['wytyczne']
+            obiekt = Obiekt.objects.create(
+                typ=typ,
+                nazwa=nazwa,
+                lokalizacja=lokalizacja,
+                nr=numer,
+                wytyczne=wytyczne)
+            return HttpResponseRedirect('/dodane/')
+        else:
+            return HttpResponseRedirect('/niedodane/')
+            
+    else:
+        form = ObiektForm()
+
+    return render(request, 'baza/dodaj_stacje.html', {'form': form})
+
+
+
+
+
+def dodaj_obiekt(request, stacja_id):
+    stacja = Obiekt.objects.get(pk=stacja_id)
+    nazwa_stacji = stacja.nazwa
+    if request.method == 'POST':
+        form = UrzadzenieForm(request.POST)
+        if form.is_valid():
+            obiekt = stacja
+            nazwa = form.cleaned_data['nazwa']
+            lokalizacja = form.cleaned_data['lokalizacja']
+            numer = form.cleaned_data['nr']
+            wytyczne = form.cleaned_data['wytyczne']
+            urzadzenie = Urzadzenie.objects.create(
+                obiekt=obiekt,
+                nazwa=nazwa,
+                lokalizacja=lokalizacja,
+                nr=numer,
+                wytyczne=wytyczne)
+            return HttpResponseRedirect('/dodane/')
+        else:
+            return HttpResponseRedirect('/niedodane/')
+    else:
+        form = UrzadzenieForm()
+    return render(request, 'baza/dodaj_obiekt.html', {'nazwa_stacji': nazwa_stacji, 'form': form})
+
+
+
+
 def szukaj(request):
     # pobrać z bazy wszystkie stacje
     stacje = Obiekt.objects.all().filter(typ='stacja')

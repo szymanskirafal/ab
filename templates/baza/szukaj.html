@@ -17,8 +17,9 @@
                 <a href="{% url 'stacja' stacja.id %}" class="list-group-item">{{ stacja.nazwa }}</a>
                 
                 {% endfor %}
-            </div>            
-            <a class="btn btn-default btn-lg btn-block" href='/profile/' role="button">Główne Menu</a>
+            </div>
+            <a class="btn btn-default btn-lg" href='/profile/' role="button">Główne Menu</a>
+            <a class="btn btn-default btn-lg"  href="{% url 'dodaj_stacje' %}" role="button">Dodaj nową stację paliw</a>
         </div>
     </div>
 </div>
