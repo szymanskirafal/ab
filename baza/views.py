@@ -3,7 +3,33 @@ from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect
 
 from .forms import ObiektForm, StacjaForm, SzukajObiektForm, UrzadzenieForm, PrzedmiotForm
-from .models import Obiekt, Urzadzenie, Przedmiot
+from .models import Miejsce, Obiekt, Urzadzenie, Przedmiot
+
+
+
+
+
+
+def czytaj(request):
+
+    return render(request, 'baza/czytaj.html', {
+        'miejsce': mijesce,
+        'obiekt': obiekt,
+        'dopuszczenia': dopuszczenia,
+        'legalizacje': legalizacje,})
+
+
+
+
+
+def magazyny(request):
+    miejsca = Miejsce.objects.all().filter(typ='magazyn')
+    return render(request, 'baza/miejsca.html', {'miejsca': miejsca})
+
+
+
+
+# ponizej stare views
 
 
 def dodajobiekt(request):
