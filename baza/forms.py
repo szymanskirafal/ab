@@ -1,9 +1,12 @@
 from django.forms import ModelForm, Select, TextInput, Textarea
 from django.utils.translation import ugettext_lazy as _
 
-from .models import Obiekt, Urzadzenie, Przedmiot
+from .models import Miejsce, Obiekt, Urzadzenie, Przedmiot
 
-
+class MiejsceForm(ModelForm):
+    class Meta:
+        model = Miejsce
+        fields = ('typ', 'nazwa', 'adres', 'telefon')
 
 
 class ObiektForm(ModelForm):

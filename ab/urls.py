@@ -20,7 +20,12 @@ from baza import views
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^profile/$', views.profile, name='profile'),    
+    url(r'^profile/$', views.profile, name='profile'),
+    url(r'^dodaj/miejsce/$', views.dodaj_miejsce, name='dodaj_miejsce'),
+
+    # poniżej stare urls
+
+
     url(r'dodajobiekt/$', views.dodajobiekt, name='dodajobiekt'),
     url(r'dodajurzadzenie/$', views.dodajurzadzenie, name='dodajurzadzenie'),
     url(r'dodaj/urzadzenie/$', views.dodaj_urzadzenie, name='dodaj_urzadzenie'),
@@ -38,6 +43,7 @@ urlpatterns = [
     url(r'profile/dodaje/stacje/$', views.dodaj_stacje, name='dodaj_stacje'),
     url(r'profile/szukaj/$', views.szukaj, name='szukaj'),
     url(r'magazyny/$', views.magazyny, name='magazyny'),
+
     url(r'profile/szukaj/stacja/(?P<stacja_id>[0-9]+)/$', views.stacja, name='stacja'),
     url(r'profile/szukaj/stacja/obiekt/(?P<stacja_id>[0-9]+)/(?P<obiekt_id>[0-9]+)/$', views.obiekt, name='obiekt'),
     url(r'profile/szukaj/stacja/obiekt/urzadzenie/(?P<stacja_id>[0-9]+)/(?P<obiekt_id>[0-9]+)/(?P<urzadzenie_id>[0-9]+)$', views.urzadzenie, name='urzadzenie'),

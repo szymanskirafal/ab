@@ -2,7 +2,7 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect
 
-from .forms import ObiektForm, StacjaForm, SzukajObiektForm, UrzadzenieForm, PrzedmiotForm
+from .forms import MiejsceForm, ObiektForm, StacjaForm, SzukajObiektForm, UrzadzenieForm, PrzedmiotForm
 from .models import Miejsce, Obiekt, Urzadzenie, Przedmiot
 
 
@@ -26,7 +26,37 @@ def magazyny(request):
     miejsca = Miejsce.objects.all().filter(typ='magazyn')
     return render(request, 'baza/miejsca.html', {'miejsca': miejsca})
 
+def dodaj_miejsce(request):
 
+    if request.method == 'POST':
+        form = ObiektForm(request.POST)
+     
+        if form.is_valid():
+
+            typ = form.cleaned_data['typ']
+            nazwa = form.cleaned_data['nazwa']
+            lokalizacja = form.cleaned_data['lokalizacja']
+            numer = form.cleaned_data['nr']
+            wytyczne = form.cleaned_data['wytyczne']
+            obiekt = Obiekt.objects.create(
+                typ=typ,
+                nazwa=nazwa,
+                lokalizacja=lokalizacja,
+                nr=numer,
+                wytyczne=wytyczne)
+            return HttpResponseRedirect('/dodane/')
+        else:
+            return HttpResponseRedirect('/niedodane/')
+            
+    else:
+        form = MiejsceForm()
+
+    # wybierz typ miejsca
+    # wpisz dane do formularza
+    # zapisz
+    # redirect
+
+    return render(request, 'baza/dodaj_miejsce.html', {'form': form})
 
 
 # ponizej stare views
