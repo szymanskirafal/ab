@@ -2,8 +2,8 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect
 
-from .forms import MiejsceForm, ObiektForm, StacjaForm, SzukajObiektForm, UrzadzenieForm, PrzedmiotForm
-from .models import Miejsce, Obiekt, Urzadzenie, Przedmiot
+from .forms import MiejsceForm, ObiektKForm, ObiektForm, StacjaForm, SzukajObiektForm, UrzadzenieForm, PrzedmiotForm
+from .models import Miejsce, ObiektK, DopuszczeniaLegalizacje, PrzegladyTechniczne, Obiekt, Urzadzenie, Przedmiot
 
 
 
@@ -22,12 +22,48 @@ def czytaj(request):
 
 
 
-def magazyny(request):
-    miejsca = Miejsce.objects.all().filter(typ='magazyn')
+def miejsca(request):
+    miejsca = Miejsce.objects.all()
     return render(request, 'baza/miejsca.html', {'miejsca': miejsca})
 
-def dodaj_miejsce(request):
+def miejsce(request, miejsce_id):
 
+    # pokaż nazwę i adres miejsca o podanym id
+    miejsce = Miejsce.objects.get(pk = miejsce_id)
+
+    # pokaż wszystkie obiektyK dla tego miejsca
+    obiekty = ObiektK.objects.all().filter(miejsce = miejsce)
+
+    # dodaj nowy obiektK
+    # link w template do funkcji dodaj_obiektK
+
+    return render(request, 'baza/miejsce.html', {'obiekty': obiekty, 'miejsce': miejsce})
+
+def obiekt(request, miejsce_id, obiekt_id):
+
+    # pokaż nazwę i adres miejsca o podanym id
+    miejsce = Miejsce.objects.get(pk = miejsce_id)
+
+    # pokaż dane obiektu o podanym id
+    obiekt = ObiektK.objects.get(pk = obiekt_id)
+
+    # pokaż wszystkie dopuszczenia
+    dopuszczenia = DopuszczeniaLegalizacje.objects.all().filter(obiekt = obiekt)
+
+    # pokaż wszystkie przeglady
+    przeglady = PrzegladyTechniczne.objects.all().filter(obiekt = obiekt)
+
+    
+    return render(request, 'baza/obiekt.html', {
+        'miejsce': miejsce,
+        'obiekt': obiekt,
+        'dopuszczenia': dopuszczenia,
+        'przeglady': przeglady})
+
+
+
+
+def dodaj_miejsce(request):
     if request.method == 'POST':
         form = MiejsceForm(request.POST)
      
@@ -50,15 +86,31 @@ def dodaj_miejsce(request):
     else:
         form = MiejsceForm()
 
-    # wybierz typ miejsca
-    # wpisz dane do formularza
-    # zapisz
-    # redirect
-
     return render(request, 'baza/dodaj_miejsce.html', {'form': form})
 
 
-# ponizej stare views
+def dodaj_obiekt(request, miejsce_id):
+    if request.method == 'POST':
+        form = ObiektKForm(request.POST)
+        if form.is_valid():
+            miejsce = Miejsce.objects.get(pk = miejsce_id)
+            nazwa = form.cleaned_data['nazwa']
+            dane_techniczne = form.cleaned_data['dane_techniczne']
+            ObiektK.objects.create(
+                miejsce = miejsce,
+                nazwa = nazwa,
+                dane_techniczne = dane_techniczne)
+            return HttpResponseRedirect('/dodane/')
+        else:
+            return Httpresponseredirect('/niedodane/')
+
+    else:
+        form = ObiektKForm()
+    return render(request, 'baza/dodaj_obiekt.html', {'form': form})
+
+
+
+#  ponizej stare views -------------------------------------------
 
 
 def dodajobiekt(request):
@@ -87,10 +139,6 @@ def dodajobiekt(request):
 
     return render(request, 'baza/dodajobiekt.html', {'form': form})
 
-#def dobierzobiekt(request):
-
-    
- #   return render(request, 'baza/dobierzobiekt.html', {'form': form})
 
 
 
@@ -200,7 +248,7 @@ def dodaj_stacje(request):
 
 
 
-def dodaj_obiekt(request, stacja_id):
+def dodaj_okt(request, stacja_id):
     stacja = Obiekt.objects.get(pk=stacja_id)
     nazwa_stacji = stacja.nazwa
     if request.method == 'POST':
@@ -253,7 +301,7 @@ def stacja (request, stacja_id):
 
     return render(request, 'baza/stacja.html', {'stacja': stacja, 'form': form, 'obiekty': obiekty})
 
-def obiekt(request, stacja_id, obiekt_id):
+def obit(request, stacja_id, obiekt_id):
     stacja = Obiekt.objects.get(pk=stacja_id)
     obiekt = Urzadzenie.objects.get(pk=obiekt_id)
     form = UrzadzenieForm(instance=obiekt)

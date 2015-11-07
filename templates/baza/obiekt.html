@@ -1,86 +1,33 @@
-{% extends 'base.html' %}
+{% extends 'bootstrap_base.html' %}
 
 
-{% block content %}
+{% block main %}
 
 <div class="container">
     <div class="row">
-        <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-4 col-lg-6 col-lg-offset-3">
-            <form role="form" method="post">
-                
-                
-                
-                
-                {% block header %}
-                    <div class="text-center">
-                        <h3>Szczegółowe dane obiektu.</h3>
-                        <h4>Obiekt przypisany jest do:</h4>
-                        <h4>{{ stacja.nazwa }}</h4>
-                        <h4>{{ stacja.lokalizacja }}<h4>
-                    </div>
-                {% endblock %}
+        <div class="col-md-8">
+            <div class="text-center">
+                <h2>{{ obiekt.nazwa }}</h2>
+                <h4>zlokalizowany na terenie {{ miejsce.nazwa }}</h4>
+            </div>
+            <h2>Dopuszczenia i Legalizacje</h2>
+            <table class="table table-hover">
+
+
+            </table>
+            <a class="btn btn-default btn-lg"  href="#" role="button">Dodaj nowe dopuszczenia i legalizacje</a>
+            <h2>Przeglądy techniczne</h2>
+            <table class="table table-hover">
 
 
 
+            </table>
+            <a class="btn btn-default btn-lg"  href="#" role="button">Dodaj nowy przegląd techniczny</a>
 
-                <div class="form-group">
-                    {% csrf_token %}
-                    {{ form }}
-                </div>
-                
-                      
-              
-                              
-                <a class="btn btn-default btn-lg" href='/profile/' role="button">Główne Menu</a>
             
-                <button type="button" class="btn btn-danger btn-lg"
-                    data-toggle="modal" data-target="#Zapisz">
-                    Zapisz zmiany
-                </button>
-
-
-
-
-                
-                <hr class="half-rule">                
-                <div class="list-group">
-                    <li class="list-group-item list-group-item-info">Urządzenia przypisane do obiektu</li>             
-                    {% for urzadzenie in urzadzenia %}
-                                    
-                    <a href="{% url 'urzadzenie' stacja.id obiekt.id urzadzenie.id %}" class="list-group-item">{{ urzadzenie.nazwa }}</a>
-
-                    {% endfor %}
-                </div> 
-             
-                 
-                <!--    modal     -->
-                
-                <div class="modal fade" id="Zapisz" tabindex="-1" role="dialog" aria-labelledby="ZapiszLabel">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                                <h4 class="modal-title">Czy na pewno zapisać zmiany?</h4>
-                            </div>
-                            <div class="modal-body">
-                                Zmiany zostaną zapisane w miejscu poprzednich danych, jeśli wybierzesz "Zapisz".
-                                Jeśli nie chcesz zmian, wybierz "Wróć".
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Wróć</button>
-                                <button type="submit" class="btn btn-primary">Zapisz</button>
-                            </div>
-                        <div>
-                    </div>
-                </div>
-            </form>
-
-
+            <a class="btn btn-default btn-lg" href='/profile/' role="button">Główne Menu</a>
         </div>
     </div>
 </div>
 {% endblock %}
-
 

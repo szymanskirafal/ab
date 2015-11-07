@@ -22,6 +22,11 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^profile/$', views.profile, name='profile'),
     url(r'^dodaj/miejsce/$', views.dodaj_miejsce, name='dodaj_miejsce'),
+    url(r'^dodaj/obiekt/(?P<miejsce_id>[0-9]+)/$', views.dodaj_obiekt, name='dodaj_obiekt'),
+    url(r'^miejsca/$', views.miejsca, name='miejsca'),
+    url(r'^miejsce/(?P<miejsce_id>[0-9]+)/$', views.miejsce, name='miejsce'),
+    url(r'^obiekt/(?P<miejsce_id>[0-9]+)/(?P<obiekt_id>[0-9]+)/$', views.obiekt, name='obiekt'),
+
 
     # poniżej stare urls
 
@@ -39,13 +44,10 @@ urlpatterns = [
     url(r'^szukajobiekt/$', views.szukajobiekt, name='szukajobiekt'),
     url(r'szukajurzadzenie/$', views.szukajurzadzenie, name='szukajurzadzenie'),
     url(r'szukaj/urzadzenie/$', views.szukajurzadzenie, name='szukajurzadzenie'),
-    url(r'profile/dodaj/obiekt/(?P<stacja_id>[0-9]+)/$', views.dodaj_obiekt, name='dodaj_obiekt'),
     url(r'profile/dodaje/stacje/$', views.dodaj_stacje, name='dodaj_stacje'),
     url(r'profile/szukaj/$', views.szukaj, name='szukaj'),
-    url(r'magazyny/$', views.magazyny, name='magazyny'),
 
     url(r'profile/szukaj/stacja/(?P<stacja_id>[0-9]+)/$', views.stacja, name='stacja'),
-    url(r'profile/szukaj/stacja/obiekt/(?P<stacja_id>[0-9]+)/(?P<obiekt_id>[0-9]+)/$', views.obiekt, name='obiekt'),
     url(r'profile/szukaj/stacja/obiekt/urzadzenie/(?P<stacja_id>[0-9]+)/(?P<obiekt_id>[0-9]+)/(?P<urzadzenie_id>[0-9]+)$', views.urzadzenie, name='urzadzenie'),
 
     url(r'^wybranyobiekt/(?P<obiekt_id>[0-9]+)/$', views.wybranyobiekt, name='wybranyobiekt'),

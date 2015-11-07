@@ -1,7 +1,7 @@
 from django.forms import ModelForm, Select, TextInput, Textarea
 from django.utils.translation import ugettext_lazy as _
 
-from .models import Miejsce, Obiekt, Urzadzenie, Przedmiot
+from .models import Miejsce, ObiektK, Obiekt, Urzadzenie, Przedmiot
 
 class MiejsceForm(ModelForm):
     class Meta:
@@ -21,6 +21,22 @@ class MiejsceForm(ModelForm):
                     attrs={'class':'form-control'}
                     ),
                 } 
+
+
+class ObiektKForm(ModelForm):
+    class Meta:
+        model = ObiektK
+        fields = ('nazwa', 'dane_techniczne')
+        widgets = {
+                'nazwa': TextInput(
+                    attrs={'class':'form-control'}
+                    ),
+                'dane_techniczne': Textarea(
+                    attrs={'class':'form-control'}
+                    ),
+                } 
+
+
 
 
 class ObiektForm(ModelForm):
