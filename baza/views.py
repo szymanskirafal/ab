@@ -29,21 +29,20 @@ def magazyny(request):
 def dodaj_miejsce(request):
 
     if request.method == 'POST':
-        form = ObiektForm(request.POST)
+        form = MiejsceForm(request.POST)
      
         if form.is_valid():
 
             typ = form.cleaned_data['typ']
             nazwa = form.cleaned_data['nazwa']
-            lokalizacja = form.cleaned_data['lokalizacja']
-            numer = form.cleaned_data['nr']
-            wytyczne = form.cleaned_data['wytyczne']
-            obiekt = Obiekt.objects.create(
-                typ=typ,
-                nazwa=nazwa,
-                lokalizacja=lokalizacja,
-                nr=numer,
-                wytyczne=wytyczne)
+            adres = form.cleaned_data['adres']
+            telefon = form.cleaned_data['telefon']
+            Miejsce.objects.create(
+                typ = typ,
+                nazwa = nazwa,
+                adres = adres,
+                telefon = telefon)
+                
             return HttpResponseRedirect('/dodane/')
         else:
             return HttpResponseRedirect('/niedodane/')

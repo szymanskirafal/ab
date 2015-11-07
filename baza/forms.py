@@ -7,6 +7,20 @@ class MiejsceForm(ModelForm):
     class Meta:
         model = Miejsce
         fields = ('typ', 'nazwa', 'adres', 'telefon')
+        widgets = {
+                'typ': Select(
+                    attrs={'class': 'form-control'}
+                    ),
+                'nazwa': TextInput(
+                    attrs={'class':'form-control'}
+                    ),
+                'adres': TextInput(
+                    attrs={'class':'form-control'}
+                    ),
+                'telefon': TextInput(
+                    attrs={'class':'form-control'}
+                    ),
+                } 
 
 
 class ObiektForm(ModelForm):

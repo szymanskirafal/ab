@@ -1,14 +1,13 @@
-{% extends 'bootstrap_base.html' %}
+{% extends 'base.html' %}
 
 
-{% block main %}
+{% block content %}
 
 <div class="container">
     <div class="row">
-        <div class="col-md-8">
-            <h2 class="text-center">Dodaj Stację, Magazyn lub inny obiekt.</h2>
-                      
-
+        <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-4 col-lg-6 col-lg-offset-3">
+            <h2 class="text-center">Dodaj obiekt</h2>
+            <h4 class="text-center">do {{ nazwa_stacji }}.</h4>
             <form role="form"  method="post">
                 <div class="form-group">
                     {% csrf_token %}
