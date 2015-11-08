@@ -11,7 +11,13 @@
                 <h4>zlokalizowany na terenie {{ miejsce.nazwa }}</h4>
             </div>
             <h2>Dopuszczenia i Legalizacje</h2>
+            {% for dopuszczenie in dopuszczenia %}
+                <p>{{ dopuszczenie.nazwa_urzadzenia }}</p>
+            {% endfor %}
             <table class="table table-hover">
+                {% for dopuszczenie in dopuszczenia %}
+                {{ dopuszczenie.nazwa }}
+                {% endfor %}
 
 
             </table>

@@ -79,7 +79,7 @@ class DopuszczeniaLegalizacjeForm(ModelForm):
                     attrs={'class':'form-control'}
                     ),
                 } 
-
+# poniżej stare fomrsyy ------------------------
 
 class ObiektForm(ModelForm):
     class Meta:

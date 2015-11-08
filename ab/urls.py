@@ -28,6 +28,7 @@ urlpatterns = [
     url(r'^miejsca/$', views.miejsca, name='miejsca'),
     url(r'^miejsce/(?P<miejsce_id>[0-9]+)/$', views.miejsce, name='miejsce'),
     url(r'^obiekt/(?P<miejsce_id>[0-9]+)/(?P<obiekt_id>[0-9]+)/$', views.obiekt, name='obiekt'),
+    url(r'^niedodane/$', views.niedodane, name='niedodane'),
 
 
     # poniżej stare urls
@@ -40,7 +41,6 @@ urlpatterns = [
     url(r'dodaj/urzadzenie/dostacji/doobiektu/(?P<stacja_id>[0-9]+)/(?P<obiekt_id>[0-9]+)/$', views.wybrany_obiekt_dla_urzadzenia, name='wybrany_obiekt_dla_urzadzenia'),
     url(r'doobiektu/$', views.wybrany_obiekt_dla_urzadzenia, name='wybrany_obiekt_dla_urzadzenia'),
     url(r'dodane/$', views.dodane, name='dodane'),
-    url(r'niedodane/$', views.niedodane, name='niedodane'),
     url(r'^obiektdlaurzadzenia/(?P<obiekt_id>[0-9]+)/$', views.obiektdlaurzadzenia, name='obiektdlaurzadzenia'),
     url(r'^signin/$', views.signin, name='signin'),
     url(r'^szukajobiekt/$', views.szukajobiekt, name='szukajobiekt'),

@@ -49,7 +49,7 @@ def obiekt(request, miejsce_id, obiekt_id):
     obiekt = ObiektK.objects.get(pk = obiekt_id)
 
     # pokaż wszystkie dopuszczenia
-    dopuszczenia = DopuszczeniaLegalizacje.objects.all().filter(obiektk = obiekt)
+    dopuszczenia = DopuszczeniaLegalizacje.objects.all()
 
     # pokaż wszystkie przeglady
     przeglady = PrzegladyTechniczne.objects.all().filter(obiektk = obiekt)
@@ -114,14 +114,14 @@ def dodaj_dopuszczenie(request, miejsce_id, obiekt_id):
         form = DopuszczeniaLegalizacjeForm(request.POST)
         if form.is_valid():
             obiektk = ObiektK.objects.get(pk = obiekt_id)
-            nazwa_urzadzenia = form.cleaned_data['nazwa_urzadzenia'],
-            nr_urzadzenia = form.cleaned_data['nr_urzadzenia'],
-            opis_czynnosci = form.cleaned_data['opis_czynnosci'],
-            jednostka_dozorowa = form.cleaned_data['jednostka_dozorowa'],
-            data_ostatniej_czynnosci = form.cleaned_data['data_ostatniej_czynnosci'],
-            nr_decyzji = form.cleaned_data['nr_decyzji'],
-            data_najblizszej_czynnosci = form.cleaned_data['data_najblizszej_czynnosci'],
-            osoba_odpowiedzialna_za_nadzor = form.cleaned_data['osoba_odpowiedzialna_za_nadzor'],
+            nazwa_urzadzenia = form.cleaned_data['nazwa_urzadzenia']
+            nr_urzadzenia = form.cleaned_data['nr_urzadzenia']
+            opis_czynnosci = form.cleaned_data['opis_czynnosci']
+            jednostka_dozorowa = form.cleaned_data['jednostka_dozorowa']
+            data_ostatniej_czynnosci = form.cleaned_data['data_ostatniej_czynnosci']
+            nr_decyzji = form.cleaned_data['nr_decyzji']
+            data_najblizszej_czynnosci = form.cleaned_data['data_najblizszej_czynnosci']
+            osoba_odpowiedzialna_za_nadzor = form.cleaned_data['osoba_odpowiedzialna_za_nadzor']
             uwagi = form.cleaned_data['uwagi']
 
             DopuszczeniaLegalizacje.objects.create(
@@ -136,8 +136,8 @@ def dodaj_dopuszczenie(request, miejsce_id, obiekt_id):
                 osoba_odpowiedzialna_za_nadzor = osoba_odpowiedzialna_za_nadzor,
                 uwagi = uwagi)
             return HttpResponseRedirect('/dodane/')
-        else:
-            return HttpResponseRedirect('/niedodane/')
+     #   else:
+      #      return HttpResponseRedirect('/niedodane/')
 
     else:
         form = DopuszczeniaLegalizacjeForm()
