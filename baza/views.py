@@ -2,7 +2,7 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect
 
-from .forms import MiejsceForm, ObiektKForm, ObiektForm, StacjaForm, SzukajObiektForm, UrzadzenieForm, PrzedmiotForm
+from .forms import MiejsceForm, ObiektKForm, DopuszczeniaLegalizacjeForm, ObiektForm, StacjaForm, SzukajObiektForm, UrzadzenieForm, PrzedmiotForm
 from .models import Miejsce, ObiektK, DopuszczeniaLegalizacje, PrzegladyTechniczne, Obiekt, Urzadzenie, Przedmiot
 
 
@@ -39,6 +39,7 @@ def miejsce(request, miejsce_id):
 
     return render(request, 'baza/miejsce.html', {'obiekty': obiekty, 'miejsce': miejsce})
 
+
 def obiekt(request, miejsce_id, obiekt_id):
 
     # pokaż nazwę i adres miejsca o podanym id
@@ -48,10 +49,10 @@ def obiekt(request, miejsce_id, obiekt_id):
     obiekt = ObiektK.objects.get(pk = obiekt_id)
 
     # pokaż wszystkie dopuszczenia
-    dopuszczenia = DopuszczeniaLegalizacje.objects.all().filter(obiekt = obiekt)
+    dopuszczenia = DopuszczeniaLegalizacje.objects.all().filter(obiektk = obiekt)
 
     # pokaż wszystkie przeglady
-    przeglady = PrzegladyTechniczne.objects.all().filter(obiekt = obiekt)
+    przeglady = PrzegladyTechniczne.objects.all().filter(obiektk = obiekt)
 
     
     return render(request, 'baza/obiekt.html', {
@@ -102,12 +103,54 @@ def dodaj_obiekt(request, miejsce_id):
                 dane_techniczne = dane_techniczne)
             return HttpResponseRedirect('/dodane/')
         else:
-            return Httpresponseredirect('/niedodane/')
+            return HttpResponseRedirect('/niedodane/')
 
     else:
         form = ObiektKForm()
     return render(request, 'baza/dodaj_obiekt.html', {'form': form})
 
+def dodaj_dopuszczenie(request, miejsce_id, obiekt_id):
+    if request.method == 'POST':
+        form = DopuszczeniaLegalizacjeForm(request.POST)
+        if form.is_valid():
+            obiektk = ObiektK.objects.get(pk = obiekt_id)
+            nazwa_urzadzenia = form.cleaned_data['nazwa_urzadzenia'],
+            nr_urzadzenia = form.cleaned_data['nr_urzadzenia'],
+            opis_czynnosci = form.cleaned_data['opis_czynnosci'],
+            jednostka_dozorowa = form.cleaned_data['jednostka_dozorowa'],
+            data_ostatniej_czynnosci = form.cleaned_data['data_ostatniej_czynnosci'],
+            nr_decyzji = form.cleaned_data['nr_decyzji'],
+            data_najblizszej_czynnosci = form.cleaned_data['data_najblizszej_czynnosci'],
+            osoba_odpowiedzialna_za_nadzor = form.cleaned_data['osoba_odpowiedzialna_za_nadzor'],
+            uwagi = form.cleaned_data['uwagi']
+
+            DopuszczeniaLegalizacje.objects.create(
+                obiektk = obiektk,
+                nazwa_urzadzenia = nazwa_urzadzenia,
+                nr_urzadzenia = nr_urzadzenia,
+                opis_czynnosci = opis_czynnosci,
+                jednostka_dozorowa = jednostka_dozorowa,
+                data_ostatniej_czynnosci = data_ostatniej_czynnosci,
+                nr_decyzji = nr_decyzji,
+                data_najblizszej_czynnosci = data_najblizszej_czynnosci,
+                osoba_odpowiedzialna_za_nadzor = osoba_odpowiedzialna_za_nadzor,
+                uwagi = uwagi)
+            return HttpResponseRedirect('/dodane/')
+        else:
+            return HttpResponseRedirect('/niedodane/')
+
+    else:
+        form = DopuszczeniaLegalizacjeForm()
+    return render(request, 'baza/dodaj_dopuszczenia.html', {'form': form})
+
+  
+
+
+
+
+def dodaj_legalizacje(request, miejsce_id, obiekt_id):
+
+    pass
 
 
 #  ponizej stare views -------------------------------------------
