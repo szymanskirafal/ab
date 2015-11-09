@@ -5,22 +5,35 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="text-center">
                 <h2>{{ obiekt.nazwa }}</h2>
                 <h4>zlokalizowany na terenie {{ miejsce.nazwa }}</h4>
             </div>
-            <h2>Dopuszczenia i Legalizacje</h2>
-            {% for dopuszczenie in dopuszczenia %}
-                <p>{{ dopuszczenie.nazwa_urzadzenia }}</p>
-            {% endfor %}
+            <h2>Dopuszczenia i Legalizacje:</h2>
             <table class="table table-hover">
                 {% for dopuszczenie in dopuszczenia %}
-                {{ dopuszczenie.nazwa }}
+                <tr>
+                    <td>{{ dopuszczenie.label }}</td>
+                    <td>{{ dopuszczenie.value }}</td>
+                    <td>{{ dopuszczenie.field }}</td>
+ 
+                </tr>
+                <tr>
+                    <td>{{ dopuszczenie.nazwa_urzadzenia }}</td>
+                    <td>{{ dopuszczenie.nr_urzadzenia }}</td>
+                    <td>{{ dopuszczenie.opis_czynnosci }}</td>
+                    <td>{{ dopuszczenie.jednostka_dozorowa }}</td>
+                    <td>{{ dopuszczenie.data_ostatniej_czynnosci }}</td>
+                    <td>{{ dopuszczenie.nr_decyzji }}</td>
+                    <td>{{ dopuszczenie.data_najblizszej_czynnosci }}</td>
+                    <td>{{ dopuszczenie.osoba_odpowiedzialna_za_nadzor }}</td>
+                    <td>{{ dopuszczenie.uwagi }}</td>
+                </tr>
                 {% endfor %}
-
-
             </table>
+
+            
             <a class="btn btn-default btn-lg"  href="{% url 'dodaj_dopuszczenie' miejsce.id obiekt.id %}" role="button">Dodaj nowe dopuszczenia i legalizacje</a>
             <h2>Przeglądy techniczne</h2>
             <table class="table table-hover">
