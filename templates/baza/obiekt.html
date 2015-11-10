@@ -5,7 +5,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-lg-12">
             <div class="text-center">
                 <h2>{{ obiekt.nazwa }}</h2>
                 <h4>zlokalizowany na terenie {{ miejsce.nazwa }}</h4>
@@ -24,19 +24,22 @@
                         <td>Osoba odpowiedzialna za nadzor</td>
                         <td>Uwagi</td>
                     </tr>
-                <thead>
+                </thead>
                 <tbody>
                     {% for dopuszczenie in dopuszczenia %}
-                     
-                        <td>{{ dopuszczenie.nazwa_urzadzenia }}</td>
-                        <td>{{ dopuszczenie.nr_urzadzenia }}</td>
-                        <td>{{ dopuszczenie.opis_czynnosci }}</td>
-                        <td>{{ dopuszczenie.jednostka_dozorowa }}</td>
-                        <td>{{ dopuszczenie.data_ostatniej_czynnosci }}</td>
-                        <td>{{ dopuszczenie.nr_decyzji }}</td>
-                        <td>{{ dopuszczenie.data_najblizszej_czynnosci }}</td>
-                        <td>{{ dopuszczenie.osoba_odpowiedzialna_za_nadzor }}</td>
-                        <td>{{ dopuszczenie.uwagi }}</td>
+                        
+                        <tr>
+                            <td>{{ dopuszczenie.nazwa_urzadzenia }}</td>
+                            <td>{{ dopuszczenie.nr_urzadzenia }}</td>
+                            <td>{{ dopuszczenie.opis_czynnosci }}</td>
+                            <td>{{ dopuszczenie.jednostka_dozorowa }}</td>
+                            <td>{{ dopuszczenie.data_ostatniej_czynnosci }}</td>
+                            <td>{{ dopuszczenie.nr_decyzji }}</td>
+                            <td>{{ dopuszczenie.data_najblizszej_czynnosci }}</td>
+                            <td>{{ dopuszczenie.osoba_odpowiedzialna_za_nadzor }}</td>
+                            <td>{{ dopuszczenie.uwagi }}</td>
+                        </tr>
+                       
                      {% endfor %}
                 </tbody>
             </table>
@@ -52,7 +55,7 @@
             <a class="btn btn-default btn-lg"  href="#" role="button">Dodaj nowy przegląd techniczny</a>
 
             
-            <a class="btn btn-default btn-lg" href='/profile/' role="button">Główne Menu</a>
+            <a class="btn btn-default btn-lg" href="{% url 'profile' %}" role="button">Główne Menu</a>
         </div>
     </div>
 </div>
