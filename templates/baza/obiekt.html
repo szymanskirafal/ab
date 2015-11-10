@@ -12,25 +12,33 @@
             </div>
             <h2>Dopuszczenia i Legalizacje:</h2>
             <table class="table table-hover">
-                {% for dopuszczenie in dopuszczenia %}
-                <tr>
-                    <td>{{ dopuszczenie.label }}</td>
-                    <td>{{ dopuszczenie.value }}</td>
-                    <td>{{ dopuszczenie.field }}</td>
- 
-                </tr>
-                <tr>
-                    <td>{{ dopuszczenie.nazwa_urzadzenia }}</td>
-                    <td>{{ dopuszczenie.nr_urzadzenia }}</td>
-                    <td>{{ dopuszczenie.opis_czynnosci }}</td>
-                    <td>{{ dopuszczenie.jednostka_dozorowa }}</td>
-                    <td>{{ dopuszczenie.data_ostatniej_czynnosci }}</td>
-                    <td>{{ dopuszczenie.nr_decyzji }}</td>
-                    <td>{{ dopuszczenie.data_najblizszej_czynnosci }}</td>
-                    <td>{{ dopuszczenie.osoba_odpowiedzialna_za_nadzor }}</td>
-                    <td>{{ dopuszczenie.uwagi }}</td>
-                </tr>
-                {% endfor %}
+                <thead>
+                    <tr>
+                        <td>Nazwa urzadzenia</td>
+                        <td>Nr urzadzenia</td>
+                        <td>Opis czynnosci</td>
+                        <td>Jednostka dozorowa</td>
+                        <td>Data ostatniej czynnosci</td>
+                        <td>Nr decyzji</td>
+                        <td>Data najblizszej czynnosci</td>
+                        <td>Osoba odpowiedzialna za nadzor</td>
+                        <td>Uwagi</td>
+                    </tr>
+                <thead>
+                <tbody>
+                    {% for dopuszczenie in dopuszczenia %}
+                     
+                        <td>{{ dopuszczenie.nazwa_urzadzenia }}</td>
+                        <td>{{ dopuszczenie.nr_urzadzenia }}</td>
+                        <td>{{ dopuszczenie.opis_czynnosci }}</td>
+                        <td>{{ dopuszczenie.jednostka_dozorowa }}</td>
+                        <td>{{ dopuszczenie.data_ostatniej_czynnosci }}</td>
+                        <td>{{ dopuszczenie.nr_decyzji }}</td>
+                        <td>{{ dopuszczenie.data_najblizszej_czynnosci }}</td>
+                        <td>{{ dopuszczenie.osoba_odpowiedzialna_za_nadzor }}</td>
+                        <td>{{ dopuszczenie.uwagi }}</td>
+                     {% endfor %}
+                </tbody>
             </table>
 
             
