@@ -6,61 +6,37 @@
 <div class="container">
     <div class="row">
         <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-4 col-lg-6 col-lg-offset-3">
+
+
+
             <h2 class="text-center">Menu</h2>
-            <a class="btn btn-default btn-lg btn-block" href="{% url 'miejsca' %}" role="button">Magazyny, stacje i budynki</a>
-            <p>
-            <div class="dropdown">
-                <button class="btn btn-primary btn-lg btn-block dropdown-toggle" type="button" data-toggle="dropdown">Dodaj / Nowy
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a href="/dodajobiekt/">Stację paliw lub Magazyn paliw</a></li>
-                    <li><a href="/dodajurzadzenie/">Obiekt (Zbiornik lub dystrybutor)</a></li>
-                    <li><a href="/dodaj/urzadzenie/">Urzadzenie (np. odmierzacz)</a></li>
-                    <li><a href="#">Dokument (np. Świadectwo legalizacji)</a></li>
-                </ul>
-            </div>
-            </p>
-            <p>
-            <div class="dropdown">
-                <button class="btn btn-primary btn-lg btn-block dropdown-toggle" type="button" data-toggle="dropdown">Szukaj / Przegladaj
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a href="/szukajobiekt/">Stację paliw lub Magazyn paliw</a></li>
-                    <li><a href="/szukajurzadzenie/">Obiekt (Zbiornik lub dystrybutor)</a></li>
-                    <li><a href="/szukaj/urzadzenie/">Urządzenie (np. odmierzacz)</a></li>
-                    <li><a href="#">Dokument (np. Świadectwo legalizacji)</a></li>
-            
-                </ul>
-             </div>
-             </p>
-             <p>
-             <div class="dropdown">
-                <button class="btn btn-primary btn-lg btn-block dropdown-toggle" type="button" data-toggle="dropdown">Raporty
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a href="#">Obiekt</a></li>
-                    <li><a href="#">Urzadzenie</a></li>
-                    <li><a href="#">Dokument</a></li>
-                </ul>
-            </div>
-            </p>
-            <div>
-                <button class="btn btn-success btn-lg btn-block" type="button" data-toggle="collapse"
-                    data-target="#collapseExample" aria-expanded="false"
-                    aria-controls="collapseExample">Nowa opcja szukania
-                </button>
-                <div class="collapse" id="collapseExample">
-                    <div class="well">
-                        <div class="btn-group btn-group-justified" role="group" aria-label="...">
-                            <a class="btn btn-lg btn-success" href="{% url 'szukaj' %}" role="button">Stacje paliw</a>                      
-                            <a class="btn btn-lg btn-danger" href="{% url 'szukaj' %}" role="button">Magazyny paliw</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
+
+
+           
+ 
+ 
+                <a class="btn btn-default btn-lg btn-block" href="{% url 'miejsca' %}" role="button">Magazyny, stacje i budynki</a>
+
+    
+                <div class="dropdown">
+                    <button class="btn btn-primary btn-lg btn-block dropdown-toggle" type="button" data-toggle="dropdown">Raporty
+     
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Obiekt</a></li>
+                        <li><a href="#">Urzadzenie</a></li>
+                        <li><a href="#">Dokument</a></li>
+                  </ul>
+               </div>
+ 
+
+   
+ 
+
+
+
         </div>
     </div>
 <div>

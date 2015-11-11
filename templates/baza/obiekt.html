@@ -14,14 +14,14 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <td>Nazwa urzadzenia</td>
-                        <td>Nr urzadzenia</td>
-                        <td>Opis czynnosci</td>
+                        <td>Nazwa urządzenia</td>
+                        <td>Nr urządzenia</td>
+                        <td>Opis czynności</td>
                         <td>Jednostka dozorowa</td>
-                        <td>Data ostatniej czynnosci</td>
+                        <td>Data ostatniej czynności</td>
                         <td>Nr decyzji</td>
-                        <td>Data najblizszej czynnosci</td>
-                        <td>Osoba odpowiedzialna za nadzor</td>
+                        <td>Data najbliższej czynności</td>
+                        <td>Osoba odpowiedzialna za nadzór</td>
                         <td>Uwagi</td>
                     </tr>
                 </thead>
@@ -48,11 +48,41 @@
             <a class="btn btn-default btn-lg"  href="{% url 'dodaj_dopuszczenie' miejsce.id obiekt.id %}" role="button">Dodaj nowe dopuszczenia i legalizacje</a>
             <h2>Przeglądy techniczne</h2>
             <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <td>Nazwa urządzenia</td>
+                        <td>Nr urządzenia</td>
+                        <td>Opis czynności</td>
+                        <td>Jednostka kontrolująca</td>
+                        <td>Data ostatniej czynności</td>
+                        <td>Nr protokołu</td>
+                        <td>Data najbliższej czynności</td>
+                        <td>Osoba odpowiedzialna za nadzór</td>
+                        <td>Uwagi</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for przeglad in przeglady %}
+                        
+                        <tr class="clickable_row" data-url="{% url 'profile' %}">
+                            <td>{{ przeglad.nazwa_urzadzenia }}</td>
+                            <td>{{ przeglad.nr_urzadzenia }}</td>
+                            <td>{{ przeglad.opis_czynnosci }}</td>
+                            <td>{{ przeglad.jednostka_kontrolujaca }}</td>
+                            <td>{{ przeglad.data_ostatniej_czynnosci }}</td>
+                            <td>{{ przeglad.nr_protokolu }}</td>
+                            <td>{{ przeglad.data_najblizszej_czynnosci }}</td>
+                            <td>{{ przeglad.osoba_odpowiedzialna_za_nadzor }}</td>
+                            <td>{{ przeglad.uwagi }}</td>
+                        </tr>
+                       
+                     {% endfor %}
+                </tbody>
 
 
 
             </table>
-            <a class="btn btn-default btn-lg"  href="#" role="button">Dodaj nowy przegląd techniczny</a>
+            <a class="btn btn-default btn-lg"  href="{% url 'dodaj_przeglad' miejsce.id obiekt.id %}" role="button">Dodaj nowy przegląd techniczny</a>
 
             
             <a class="btn btn-default btn-lg" href="{% url 'profile' %}" role="button">Główne Menu</a>

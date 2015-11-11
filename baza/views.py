@@ -2,7 +2,7 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect
 
-from .forms import MiejsceForm, ObiektKForm, DopuszczeniaLegalizacjeForm, ObiektForm, StacjaForm, SzukajObiektForm, UrzadzenieForm, PrzedmiotForm
+from .forms import MiejsceForm, ObiektKForm, DopuszczeniaLegalizacjeForm, PrzegladyTechniczneForm, ObiektForm, StacjaForm, SzukajObiektForm, UrzadzenieForm, PrzedmiotForm
 from .models import Miejsce, ObiektK, DopuszczeniaLegalizacje, PrzegladyTechniczne, Obiekt, Urzadzenie, Przedmiot
 
 
@@ -49,7 +49,7 @@ def obiekt(request, miejsce_id, obiekt_id):
     obiekt = ObiektK.objects.get(pk = obiekt_id)
 
     # pokaż wszystkie dopuszczenia
-    dopuszczenia = DopuszczeniaLegalizacje.objects.all()
+    dopuszczenia = DopuszczeniaLegalizacje.objects.all().filter(obiektk = obiekt)
 
     # pokaż wszystkie przeglady
     przeglady = PrzegladyTechniczne.objects.all().filter(obiektk = obiekt)
@@ -143,14 +143,44 @@ def dodaj_dopuszczenie(request, miejsce_id, obiekt_id):
         form = DopuszczeniaLegalizacjeForm()
     return render(request, 'baza/dodaj_dopuszczenia.html', {'form': form})
 
-  
+def dodaj_przeglad(request, miejsce_id, obiekt_id):
+    if request.method == 'POST':
+        form = PrzegladyTechniczneForm(request.POST)
+        if form.is_valid():
+            obiektk = ObiektK.objects.get(pk = obiekt_id)
+            nazwa_urzadzenia = form.cleaned_data['nazwa_urzadzenia']
+            nr_urzadzenia = form.cleaned_data['nr_urzadzenia']
+            opis_czynnosci = form.cleaned_data['opis_czynnosci']
+            jednostka_kontrolujaca = form.cleaned_data['jednostka_kontrolujaca']
+            data_ostatniej_czynnosci = form.cleaned_data['data_ostatniej_czynnosci']
+            nr_protokolu = form.cleaned_data['nr_protokolu']
+            data_najblizszej_czynnosci = form.cleaned_data['data_najblizszej_czynnosci']
+            osoba_odpowiedzialna_za_nadzor = form.cleaned_data['osoba_odpowiedzialna_za_nadzor']
+            uwagi = form.cleaned_data['uwagi']
+
+            PrzegladyTechniczne.objects.create(
+                obiektk = obiektk,
+                nazwa_urzadzenia = nazwa_urzadzenia,
+                nr_urzadzenia = nr_urzadzenia,
+                opis_czynnosci = opis_czynnosci,
+                jednostka_kontrolujaca = jednostka_kontrolujaca,
+                data_ostatniej_czynnosci = data_ostatniej_czynnosci,
+                nr_protokolu = nr_protokolu,
+                data_najblizszej_czynnosci = data_najblizszej_czynnosci,
+                osoba_odpowiedzialna_za_nadzor = osoba_odpowiedzialna_za_nadzor,
+                uwagi = uwagi)
+            return HttpResponseRedirect('/dodane/')
+     #   else:
+      #      return HttpResponseRedirect('/niedodane/')
+
+    else:
+        form = PrzegladyTechniczneForm()
+    return render(request, 'baza/dodaj_przeglad.html', {'form': form})
+ 
 
 
 
 
-def dodaj_legalizacje(request, miejsce_id, obiekt_id):
-
-    pass
 
 
 #  ponizej stare views -------------------------------------------

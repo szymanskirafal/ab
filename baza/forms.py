@@ -1,7 +1,7 @@
 from django.forms import ModelForm, Select, TextInput, Textarea
 from django.utils.translation import ugettext_lazy as _
 
-from .models import Miejsce, ObiektK, DopuszczeniaLegalizacje, Obiekt, Urzadzenie, Przedmiot
+from .models import Miejsce, ObiektK, DopuszczeniaLegalizacje, PrzegladyTechniczne, Obiekt, Urzadzenie, Przedmiot
 
 class MiejsceForm(ModelForm):
     class Meta:
@@ -79,6 +79,55 @@ class DopuszczeniaLegalizacjeForm(ModelForm):
                     attrs={'class':'form-control'}
                     ),
                 } 
+
+        
+class PrzegladyTechniczneForm(ModelForm):
+    class Meta:
+        model = PrzegladyTechniczne
+        fields = (
+            'nazwa_urzadzenia',
+            'nr_urzadzenia',
+            'opis_czynnosci',
+            'jednostka_kontrolujaca',
+            'data_ostatniej_czynnosci',
+            'nr_protokolu',
+            'data_najblizszej_czynnosci',
+            'osoba_odpowiedzialna_za_nadzor',
+            'uwagi')
+        widgets = {
+                'nazwa_urzadzenia': TextInput(
+                    attrs={'class':'form-control'}
+                    ),
+                'nr_urzadzenia': TextInput(
+                    attrs={'class':'form-control'}
+                    ),
+                'opis_czynnosci': TextInput(
+                    attrs={'class':'form-control'}
+                    ),
+                'jednostka_kontrolujaca': TextInput(
+                    attrs={'class':'form-control'}
+                    ),
+                'data_ostatniej_czynnosci': TextInput(
+                    attrs={'class':'form-control'}
+                    ),
+                'nr_protokolu': TextInput(
+                    attrs={'class':'form-control'}
+                    ),
+                'data_najblizszej_czynnosci': TextInput(
+                    attrs={'class':'form-control'}
+                    ),
+                'osoba_odpowiedzialna_za_nadzor': TextInput(
+                    attrs={'class':'form-control'}
+                    ),
+                'uwagi': Textarea(
+                    attrs={'class':'form-control'}
+                    ),
+                } 
+       
+        
+        
+
+        
 # poniżej stare fomrsyy ------------------------
 
 class ObiektForm(ModelForm):
