@@ -28,7 +28,7 @@
                 <tbody>
                     {% for dopuszczenie in dopuszczenia %}
                         
-                        <tr>
+                        <tr class="clickable_row" data-url="{% url 'profile' %}">
                             <td>{{ dopuszczenie.nazwa_urzadzenia }}</td>
                             <td>{{ dopuszczenie.nr_urzadzenia }}</td>
                             <td>{{ dopuszczenie.opis_czynnosci }}</td>
