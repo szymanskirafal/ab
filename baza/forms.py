@@ -64,13 +64,19 @@ class DopuszczeniaLegalizacjeForm(ModelForm):
                     attrs={'class':'form-control'}
                     ),
                 'data_ostatniej_czynnosci': TextInput(
-                    attrs={'class':'form-control'}
+                    attrs={
+                        'class':'form-control',
+                        'placeholder':'format daty 2016-07-01'
+                        }
                     ),
                 'nr_decyzji': TextInput(
                     attrs={'class':'form-control'}
                     ),
                 'data_najblizszej_czynnosci': TextInput(
-                    attrs={'class':'form-control'}
+                    attrs={
+                        'class':'form-control',
+                        'placeholder':'format daty 2016-07-02'
+                        }
                     ),
                 'osoba_odpowiedzialna_za_nadzor': TextInput(
                     attrs={'class':'form-control'}
@@ -108,13 +114,19 @@ class PrzegladyTechniczneForm(ModelForm):
                     attrs={'class':'form-control'}
                     ),
                 'data_ostatniej_czynnosci': TextInput(
-                    attrs={'class':'form-control'}
+                    attrs={
+                        'class':'form-control',
+                        'placeholder':'format daty 2016-05-21'
+                        }
                     ),
                 'nr_protokolu': TextInput(
                     attrs={'class':'form-control'}
                     ),
                 'data_najblizszej_czynnosci': TextInput(
-                    attrs={'class':'form-control'}
+                    attrs={
+                        'class':'form-control',
+                        'placeholder':'format daty 2016-05-22'
+                        }
                     ),
                 'osoba_odpowiedzialna_za_nadzor': TextInput(
                     attrs={'class':'form-control'}
