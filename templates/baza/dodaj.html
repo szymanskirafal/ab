@@ -3,14 +3,14 @@
 
 {% block main  %}
 
-<div class="container">
+
     <div class="row">
         <div class="col-md-8">
-            <div class="text-center">
-                {% block cododac %}
+
+            {% block cododac %}
             
-                {% endblock %}
-            </div>
+            {% endblock %}
+
             <form role="form"  method="post">
                 <div class="form-group">
                     {% csrf_token %}
@@ -20,7 +20,7 @@
             </form>          
         </div>
     </div>
-</div>
+
 {% endblock %}
 
 

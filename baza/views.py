@@ -22,9 +22,18 @@ def czytaj(request):
 
 
 
-def miejsca(request):
-    miejsca = Miejsce.objects.all()
-    return render(request, 'baza/miejsca.html', {'miejsca': miejsca})
+def miejsca(request, miejsca):
+
+    if miejsca == 'magazyn':
+        typ_miejsca = 'Magazyn paliw'
+    elif miejsca == 'stacja':
+        typ_miejsca = 'Stacja paliw'
+    else:
+        typ_miejsca = 'Budynek'
+
+    miejsca = Miejsce.objects.all().filter(typ=miejsca)
+
+    return render(request, 'baza/miejsca.html', {'typ_miejsca': typ_miejsca, 'miejsca': miejsca})
 
 def miejsce(request, miejsce_id):
 
