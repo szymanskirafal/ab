@@ -29,24 +29,28 @@ def edytuj_obiekt(request, obiekt_id):
 
 def edytuj_dopuszczenie(request, obiekt_id):
     obiekt = DopuszczeniaLegalizacje.objects.get(pk = obiekt_id)
-    
-    nazwa_klasy  = obiekt.__class__.__name__
-    formularz = 'Form(instance = obiekt)'
-    fo = nazwa_klasy + formularz
-
+    form = DopuszczeniaLegalizacjeForm(instance = obiekt) 
+   
     if request.method == 'POST':
         form = DopuszczeniaLegalizacjeForm(request.POST, instance = obiekt)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect('/dodane/')
-        else:
-            return HttpResponseRedirect('/niedodane/')
+
+    return render(request, 'baza/edytuj_dopuszczenie.html', {'form': form})
 
 
+def edytuj_przeglad(request, obiekt_id):
+    obiekt = PrzegladyTechniczne.objects.get(pk = obiekt_id)
+    form = PrzegladyTechniczneForm(instance = obiekt) 
+   
+    if request.method == 'POST':
+        form = PrzegladyTechniczneForm(request.POST, instance = obiekt)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/dodane/')
 
-    return render(request, 'baza/edytuj_przeglad.html', {'form': form, 'nazwa_klasy': nazwa_klasy})
-
-
+    return render(request, 'baza/edytuj_przeglad.html', {'form': form})
 
 
 

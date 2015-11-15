@@ -84,7 +84,7 @@
                 <tbody>
                     {% for przeglad in przeglady %}
                         
-                        <tr class="clickable_row" data-url="{% url 'profile' %}">
+                        <tr class="clickable_row" data-url="{% url 'edytuj_przeglad' przeglad.id %}">
                             <td>{{ przeglad.nazwa_urzadzenia }}</td>
                             <td>{{ przeglad.nr_urzadzenia }}</td>
                             <td>{{ przeglad.opis_czynnosci }}</td>
