@@ -10,8 +10,21 @@
             <h2>{{ obiekt.nazwa }}</h2>
             <h4>{{ miejsce.nazwa }}, {{ miejsce.adres }}.</h4>
             <hr class="half-rule">
+
+
+
+
             <h2>Dane techniczne:</h2>
-            <p>{{ obiekt.dane_techniczne }}</p>
+            <table class="table table-hover">
+                <tr class="clickable_row" data-url="{% url 'edytuj_obiekt' obiekt.id %}">
+                    <td>{{ obiekt.dane_techniczne }}</td>
+                </tr>
+            </table>
+            <hr class=half-rule">
+
+
+
+
             <h2>Dopuszczenia i Legalizacje:</h2>
             <table class="table table-hover">
                 <thead>
@@ -30,7 +43,7 @@
                 <tbody>
                     {% for dopuszczenie in dopuszczenia %}
                         
-                        <tr class="clickable_row" data-url="{% url 'profile' %}">
+                        <tr class="clickable_row" data-url="{% url 'edytuj_dopuszczenie' dopuszczenie.id %}">
                             <td>{{ dopuszczenie.nazwa_urzadzenia }}</td>
                             <td>{{ dopuszczenie.nr_urzadzenia }}</td>
                             <td>{{ dopuszczenie.opis_czynnosci }}</td>
@@ -48,6 +61,11 @@
 
             
             <a class="btn btn-default btn-lg"  href="{% url 'dodaj_dopuszczenie' miejsce.id obiekt.id %}" role="button">Dodaj nowe dopuszczenia i legalizacje</a>
+
+
+
+
+
             <h2>Przeglądy techniczne</h2>
             <table class="table table-hover">
                 <thead>

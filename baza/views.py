@@ -10,13 +10,41 @@ from .models import Miejsce, ObiektK, DopuszczeniaLegalizacje, PrzegladyTechnicz
 
 
 
-def czytaj(request):
+def edytuj_obiekt(request, obiekt_id):
+    obiekt = ObiektK.objects.get(pk=obiekt_id)
+    form = ObiektKForm(instance = obiekt)
+    if request.method == 'POST':
+        form = ObiektKForm(request.POST, instance = obiekt)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/dodane/')
+        else:
+            return HttpResponseRedirect('/niedodane/')
 
-    return render(request, 'baza/czytaj.html', {
-        'miejsce': mijesce,
-        'obiekt': obiekt,
-        'dopuszczenia': dopuszczenia,
-        'legalizacje': legalizacje,})
+
+
+    return render(request, 'baza/edytuj_obiekt.html', {'form': form})
+
+
+
+def edytuj_dopuszczenie(request, obiekt_id):
+    obiekt = DopuszczeniaLegalizacje.objects.get(pk = obiekt_id)
+    
+    nazwa_klasy  = obiekt.__class__.__name__
+    formularz = 'Form(instance = obiekt)'
+    fo = nazwa_klasy + formularz
+
+    if request.method == 'POST':
+        form = DopuszczeniaLegalizacjeForm(request.POST, instance = obiekt)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/dodane/')
+        else:
+            return HttpResponseRedirect('/niedodane/')
+
+
+
+    return render(request, 'baza/edytuj_przeglad.html', {'form': form, 'nazwa_klasy': nazwa_klasy})
 
 
 
@@ -35,6 +63,11 @@ def miejsca(request, miejsca):
 
     return render(request, 'baza/miejsca.html', {'typ_miejsca': typ_miejsca, 'miejsca': miejsca})
 
+
+
+
+
+
 def miejsce(request, miejsce_id):
 
     # pokaż nazwę i adres miejsca o podanym id
@@ -47,6 +80,11 @@ def miejsce(request, miejsce_id):
     # link w template do funkcji dodaj_obiektK
 
     return render(request, 'baza/miejsce.html', {'obiekty': obiekty, 'miejsce': miejsce})
+
+
+
+
+
 
 
 def obiekt(request, miejsce_id, obiekt_id):
