@@ -34,8 +34,13 @@ def edytuj_dopuszczenie(request, obiekt_id):
     if request.method == 'POST':
         form = DopuszczeniaLegalizacjeForm(request.POST, instance = obiekt)
         if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('/dodane/')
+            if 'save' in request.POST:
+                form.save()
+                return HttpResponseRedirect('/dodane/')
+            elif 'delete' in request.POST:
+                obiekt.delete()
+                
+                return HttpResponseRedirect('/profile/')
 
     return render(request, 'baza/edytuj_dopuszczenie.html', {'form': form})
 
