@@ -9,7 +9,6 @@ from .models import Miejsce, ObiektK, DopuszczeniaLegalizacje, PrzegladyTechnicz
 
 
 
-
 def edytuj_obiekt(request, obiekt_id):
     obiekt = ObiektK.objects.get(pk=obiekt_id)
     form = ObiektKForm(instance = obiekt)

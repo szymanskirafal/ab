@@ -20,6 +20,7 @@ from baza import views
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^accounts/', include('allauth.urls')),
     url(r'^profile/$', views.profile, name='profile'),
     url(r'^dodaj/miejsce/$', views.dodaj_miejsce, name='dodaj_miejsce'),
     url(r'^dodaj/obiekt/(?P<miejsce_id>[0-9]+)/$', views.dodaj_obiekt, name='dodaj_obiekt'),
