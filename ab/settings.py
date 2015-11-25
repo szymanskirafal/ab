@@ -48,6 +48,16 @@ INSTALLED_APPS = (
 
 # allauth
 SITE_ID = 1
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# allauth
+ACCOUNT_AUTHENTICATIONS_METHOD = "email"
+ACCOUNT_CONFIRM_EMAIL_ON_GET = False
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+
+
+
 
 # allauth
 AUTHENTICATION_BACKENDS = (
