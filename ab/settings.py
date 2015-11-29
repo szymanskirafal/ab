@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from sec.mail_settings import *
+
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -43,12 +45,19 @@ INSTALLED_APPS = (
     'allauth.account',
     'allauth.socialaccount',
     'baza',
+    'sec',
     'templates',
 )
 
 # allauth
 SITE_ID = 1
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = S_EMAIL_HOST
+EMAIL_PORT = S_EMAIL_PORT
+EMAIL_HOST_USER = S_EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = S_EMAIL_HOST_PASSWORD
+
 
 # allauth
 ACCOUNT_AUTHENTICATIONS_METHOD = "email"
