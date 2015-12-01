@@ -16,6 +16,8 @@ from sec.mail_settings import *
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+STATIC_ROOT = "/home/RafalSzymanski/ab/static"
 
 
 # Quick-start development settings - unsuitable for production
@@ -52,11 +54,12 @@ INSTALLED_APPS = (
 # allauth
 SITE_ID = 1
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
 EMAIL_USE_TLS = True
-EMAIL_HOST = S_EMAIL_HOST
-EMAIL_PORT = S_EMAIL_PORT
-EMAIL_HOST_USER = S_EMAIL_HOST_USER
-EMAIL_HOST_PASSWORD = S_EMAIL_HOST_PASSWORD
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'testowanie.web.app@gmail.com'
+EMAIL_HOST_PASSWORD = '1qazZAQ!2wsxXSW@'
+EMAIL_PORT = '587'
 
 
 # allauth

@@ -58,6 +58,11 @@ def edytuj_przeglad(request, obiekt_id):
 
 
 
+def home(request):
+    return render(request, 'baza/home.html')
+
+
+
 def miejsca(request, miejsca):
 
     if miejsca == 'magazyn':
