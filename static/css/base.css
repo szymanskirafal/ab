@@ -1,14 +1,18 @@
-.front {
+.home_main {
     background-color: orange;
-    text-align: center;
+    height: 100vh; 
+
+
 }
 
-.home_title {
+.home_app_description{
+    position: relative;
+    top: 40%;
     text-align: center;
     
-
 }
 
-.home_page {
-    height: 100%;
+.home_login_register_buttons {
+    padding-top: 30px;
+    
 }
