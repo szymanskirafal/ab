@@ -1,13 +1,14 @@
 .home_main {
     background-color: orange;
-    height: 100vh; 
-
+    height: 100vh;
+    margin-top: -20px;
+    margin-left: -20px;
 
 }
 
-.home_app_description{
+.home_app_description {
     position: relative;
-    top: 40%;
+    top: 35%;
     text-align: center;
     
 }
@@ -15,4 +16,11 @@
 .home_login_register_buttons {
     padding-top: 30px;
     
+}
+
+
+.home_link {
+    color: red;
+
+
 }
