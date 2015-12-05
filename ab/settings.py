@@ -11,10 +11,9 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+
+
 import os
-from sec.mail_settings import *
-
-
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 STATIC_ROOT = "/home/RafalSzymanski/ab/static"
@@ -47,8 +46,8 @@ INSTALLED_APPS = (
     'allauth.account',
     'allauth.socialaccount',
     'baza',
-    'sec',
     'templates',
+    'crispy_forms',
 )
 
 # allauth
@@ -62,11 +61,12 @@ EMAIL_HOST_PASSWORD = '1qazZAQ!2wsxXSW@'
 EMAIL_PORT = '587'
 
 
-# allauth
+# allauth configuration
 ACCOUNT_AUTHENTICATIONS_METHOD = "email"
 ACCOUNT_CONFIRM_EMAIL_ON_GET = False
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+# ACCOUNT_FORMS = {'login': 'baza.forms.LoginForm'}
 
 
 
@@ -80,7 +80,8 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
-
+# crispy-forms
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',

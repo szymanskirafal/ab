@@ -1,7 +1,24 @@
-from django.forms import ModelForm, Select, TextInput, Textarea
-from django.utils.translation import ugettext_lazy as _
+
+from django.forms import Form, ModelForm, Select, TextInput, Textarea
+
 
 from .models import Miejsce, ObiektK, DopuszczeniaLegalizacje, PrzegladyTechniczne, Obiekt, Urzadzenie, Przedmiot
+
+from allauth.account.forms import LoginForm
+from crispy_forms.helper import FormHelper
+
+
+
+class LoginForm(LoginForm):
+    def __init__(self, *args, **kwargs):
+        super(LoginForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_class = 'form-control'
+
+
+
+
+
 
 class MiejsceForm(ModelForm):
     class Meta:
@@ -20,7 +37,7 @@ class MiejsceForm(ModelForm):
                 'telefon': TextInput(
                     attrs={'class':'form-control'}
                     ),
-                } 
+                }
 
 
 class ObiektKForm(ModelForm):
@@ -34,7 +51,7 @@ class ObiektKForm(ModelForm):
                 'dane_techniczne': Textarea(
                     attrs={'class':'form-control'}
                     ),
-                } 
+                }
 
 
 class DopuszczeniaLegalizacjeForm(ModelForm):
@@ -84,9 +101,9 @@ class DopuszczeniaLegalizacjeForm(ModelForm):
                 'uwagi': Textarea(
                     attrs={'class':'form-control'}
                     ),
-                } 
+                }
 
-        
+
 class PrzegladyTechniczneForm(ModelForm):
     class Meta:
         model = PrzegladyTechniczne
@@ -134,12 +151,12 @@ class PrzegladyTechniczneForm(ModelForm):
                 'uwagi': Textarea(
                     attrs={'class':'form-control'}
                     ),
-                } 
-       
-        
-        
+                }
 
-        
+
+
+
+
 # poniżej stare fomrsyy ------------------------
 
 class ObiektForm(ModelForm):
@@ -216,7 +233,7 @@ class PrzedmiotForm(ModelForm):
                     attrs={'class':'form-control'}
                     ),
             }
-       
+
 #class ObiektFormValueIsFieldValue(ObiektForm):
  #    widgets = {
   #           'typ': Select(
@@ -247,4 +264,4 @@ class SzukajObiektForm(ModelForm):
                 'typ': Select(
                     attrs={'class': 'form-control'}
                     )}
-                
+

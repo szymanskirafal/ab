@@ -4,36 +4,36 @@
 {% block main %}
 
 <main class="home_main">
-    
+
     <div class="home_app_description">
 
         <h1>Aplikacja, która przypomina o terminach.</h1>
         <h4>Automatycznie informuje Cię o przeglądach technicznych, legalizacjach, itp.</h4>
         <a class="home_link" href="#">Dowiedz sie wiecej.</>
-        
- 
-        <div class="home_login_register_buttons">
-        
-            <a class="btn btn-default btn-lg" href="#" role="button">Login</a> or
 
-            <a class="btn btn-default btn-lg" href="#" role="button">Register</a>
+
+        <div class="home_login_register_buttons">
+
+            <a class="btn btn-default btn-lg" href="{% url 'account_login' %}" role="button">Login</a> or
+
+            <a class="btn btn-default btn-lg" href="{% url 'account_signup' %}" role="button">Register</a>
 
         </div>
-  
-  
+
+
 
 
 
     </div>
 
 
-    
-    
-    
-</main>
-    
 
- 
+
+
+</main>
+
+
+
 
 </div>
 
