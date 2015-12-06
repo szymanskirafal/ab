@@ -10,8 +10,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    
-    <title>Nie przegap terminu</title>
+
+    <title>{% block head_title %}Nie przegap terminu{% endblock %}</title>
+    {% block extra_head %}
+    {% endblock %}
     <script>
         jQuery(document).ready(function($) {
             $(".clickable_row").css("cursor", "pointer");
@@ -23,34 +25,38 @@
 
 </head>
 <body>
+    {% block body %}
     <div class="container-fluid">
 
 
 
         <header>
             {% block header %}
-    
             {% endblock %}
         </header>
 
 
-    
+
         <main>
             {% block main %}
-    
+            {% endblock %}
+
+            {% block content %}
+            {% endblock %}
+
+            {% block extra_body %}
             {% endblock %}
         </main>
 
 
         <footer>
             {% block footer %}
-        
             {% endblock %}
         </footer>
 
 
 
     </div>
-
+    {% endblock %}
 </body>
 </html>
