@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 
 
@@ -14,6 +15,9 @@ class Miejsce(models.Model):
     nazwa = models.CharField(max_length = 100)
     adres = models.CharField(max_length = 150)
     telefon = models.CharField(max_length = 30)
+    created_by = models.CharField(max_length = 30, null = True, blank = True)
+    grupa = models.CharField(max_length = 20, null = True, blank = True)
+
 
 
 
@@ -49,7 +53,7 @@ class PrzegladyTechniczne(models.Model):
 
 
 class Obiekt(models.Model):
-    
+
 
     TYPY_OBIEKTOW = (
         ('stacja', 'Stacja Paliw'),
@@ -57,7 +61,7 @@ class Obiekt(models.Model):
     )
 
     typ = models.CharField(max_length=100, choices=TYPY_OBIEKTOW)
-    
+
     nazwa = models.CharField(max_length=100)
     lokalizacja = models.CharField(max_length=100, default=None)
     nr = models.CharField(max_length=100, default=None)

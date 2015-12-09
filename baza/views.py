@@ -1,14 +1,21 @@
-from django.core.urlresolvers import reverse
-from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect
+from django.shortcuts import render
+
+from  django.contrib.auth.decorators import login_required
 
 from .forms import MiejsceForm, ObiektKForm, DopuszczeniaLegalizacjeForm, PrzegladyTechniczneForm, ObiektForm, StacjaForm, SzukajObiektForm, UrzadzenieForm, PrzedmiotForm
 from .models import Miejsce, ObiektK, DopuszczeniaLegalizacje, PrzegladyTechniczne, Obiekt, Urzadzenie, Przedmiot
 
 
+@login_required
+def profile(request):
+    user = request.user
+    name = user.username
+    return render(request, 'baza/profile.html')
 
 
 
+@login_required
 def edytuj_obiekt(request, obiekt_id):
     obiekt = ObiektK.objects.get(pk=obiekt_id)
     form = ObiektKForm(instance = obiekt)
@@ -25,11 +32,11 @@ def edytuj_obiekt(request, obiekt_id):
     return render(request, 'baza/edytuj_obiekt.html', {'form': form})
 
 
-
+@login_required
 def edytuj_dopuszczenie(request, obiekt_id):
     obiekt = DopuszczeniaLegalizacje.objects.get(pk = obiekt_id)
-    form = DopuszczeniaLegalizacjeForm(instance = obiekt) 
-   
+    form = DopuszczeniaLegalizacjeForm(instance = obiekt)
+
     if request.method == 'POST':
         form = DopuszczeniaLegalizacjeForm(request.POST, instance = obiekt)
         if form.is_valid():
@@ -38,16 +45,16 @@ def edytuj_dopuszczenie(request, obiekt_id):
                 return HttpResponseRedirect('/dodane/')
             elif 'delete' in request.POST:
                 obiekt.delete()
-                
+
                 return HttpResponseRedirect('/profile/')
 
     return render(request, 'baza/edytuj_dopuszczenie.html', {'form': form})
 
-
+@login_required
 def edytuj_przeglad(request, obiekt_id):
     obiekt = PrzegladyTechniczne.objects.get(pk = obiekt_id)
-    form = PrzegladyTechniczneForm(instance = obiekt) 
-   
+    form = PrzegladyTechniczneForm(instance = obiekt)
+
     if request.method == 'POST':
         form = PrzegladyTechniczneForm(request.POST, instance = obiekt)
         if form.is_valid():
@@ -62,7 +69,7 @@ def home(request):
     return render(request, 'baza/home.html')
 
 
-
+@login_required
 def miejsca(request, miejsca):
 
     if miejsca == 'magazyn':
@@ -80,7 +87,7 @@ def miejsca(request, miejsca):
 
 
 
-
+@login_required
 def miejsce(request, miejsce_id):
 
     # pokaż nazwę i adres miejsca o podanym id
@@ -99,7 +106,7 @@ def miejsce(request, miejsce_id):
 
 
 
-
+@login_required
 def obiekt(request, miejsce_id, obiekt_id):
 
     # pokaż nazwę i adres miejsca o podanym id
@@ -114,7 +121,7 @@ def obiekt(request, miejsce_id, obiekt_id):
     # pokaż wszystkie przeglady
     przeglady = PrzegladyTechniczne.objects.all().filter(obiektk = obiekt)
 
-    
+
     return render(request, 'baza/obiekt.html', {
         'miejsce': miejsce,
         'obiekt': obiekt,
@@ -123,33 +130,36 @@ def obiekt(request, miejsce_id, obiekt_id):
 
 
 
-
+@login_required
 def dodaj_miejsce(request):
     if request.method == 'POST':
         form = MiejsceForm(request.POST)
-     
+        username = request.user.username
+        
         if form.is_valid():
 
             typ = form.cleaned_data['typ']
             nazwa = form.cleaned_data['nazwa']
             adres = form.cleaned_data['adres']
             telefon = form.cleaned_data['telefon']
+            created_by = username
             Miejsce.objects.create(
                 typ = typ,
                 nazwa = nazwa,
                 adres = adres,
-                telefon = telefon)
-                
+                telefon = telefon,
+                created_by = created_by)
+
             return HttpResponseRedirect('/dodane/')
         else:
             return HttpResponseRedirect('/niedodane/')
-            
+
     else:
         form = MiejsceForm()
 
     return render(request, 'baza/dodaj_miejsce.html', {'form': form})
 
-
+@login_required
 def dodaj_obiekt(request, miejsce_id):
     if request.method == 'POST':
         form = ObiektKForm(request.POST)
@@ -169,6 +179,7 @@ def dodaj_obiekt(request, miejsce_id):
         form = ObiektKForm()
     return render(request, 'baza/dodaj_obiekt.html', {'form': form})
 
+@login_required
 def dodaj_dopuszczenie(request, miejsce_id, obiekt_id):
     if request.method == 'POST':
         form = DopuszczeniaLegalizacjeForm(request.POST)
@@ -236,7 +247,7 @@ def dodaj_przeglad(request, miejsce_id, obiekt_id):
     else:
         form = PrzegladyTechniczneForm()
     return render(request, 'baza/dodaj_przeglad.html', {'form': form})
- 
+
 
 
 
@@ -249,7 +260,7 @@ def dodaj_przeglad(request, miejsce_id, obiekt_id):
 def dodajobiekt(request):
     if request.method == 'POST':
         form = ObiektForm(request.POST)
-     
+
         if form.is_valid():
 
             typ = form.cleaned_data['typ']
@@ -266,7 +277,7 @@ def dodajobiekt(request):
             return HttpResponseRedirect('/dodane/')
         else:
             return HttpResponseRedirect('/')
-            
+
     else:
         form = ObiektForm()
 
@@ -279,12 +290,12 @@ def dodajobiekt(request):
 def dodaj_urzadzenie(request):
     if request.method == 'POST':
         form = SzukajObiektForm(request.POST)
-     
+
         if form.is_valid():
 
             typ = form.cleaned_data['typ']
             obiekty = Obiekt.objects.all().filter(typ=typ)
-             
+
             return render(request, 'baza/okresl_stacje_dla_urzadzenia.html', {'obiekty': obiekty})
         else:
             return HttpResponseRedirect('/')
@@ -298,19 +309,19 @@ def dodaj_urzadzenie(request):
 def dodajurzadzenie(request):
     if request.method == 'POST':
         form = SzukajObiektForm(request.POST)
-     
+
         if form.is_valid():
 
             typ = form.cleaned_data['typ']
             obiekty = Obiekt.objects.all().filter(typ=typ)
-             
+
             return render(request, 'baza/okreslobiekt.html', {'obiekty': obiekty})
         else:
             return HttpResponseRedirect('/')
 
     form = SzukajObiektForm()
     return render(request, 'baza/dobierzobiekt.html', {'form':form})
-   
+
 def dodane(request):
     return render(request, 'baza/dodane.html')
 
@@ -318,8 +329,7 @@ def niedodane(request):
     return render(request, 'baza/niedodane.html')
 
 
-def profile(request):
-    return render(request, 'baza/profile.html')
+
 
 
 def rafal(request):
@@ -336,17 +346,17 @@ def signin(request):
 def szukajobiekt(request):
     if request.method == 'POST':
         form = SzukajObiektForm(request.POST)
-     
+
         if form.is_valid():
 
             typ = form.cleaned_data['typ']
             obiekty = Obiekt.objects.all().filter(typ=typ)
-             
+
             return render(request, 'baza/wybierzobiekt.html', {'obiekty': obiekty})
         else:
             return HttpResponseRedirect('/')
-    
-        
+
+
     else:
         form = SzukajObiektForm()
     return render(request, 'baza/szukajobiekt.html', {'form':form})
@@ -354,7 +364,7 @@ def szukajobiekt(request):
 def dodaj_stacje(request):
     if request.method == 'POST':
         form = ObiektForm(request.POST)
-     
+
         if form.is_valid():
 
             typ = form.cleaned_data['typ']
@@ -371,7 +381,7 @@ def dodaj_stacje(request):
             return HttpResponseRedirect('/dodane/')
         else:
             return HttpResponseRedirect('/niedodane/')
-            
+
     else:
         form = ObiektForm()
 
@@ -411,8 +421,8 @@ def dodaj_okt(request, stacja_id):
 def szukaj(request):
     # pobrać z bazy wszystkie stacje
     stacje = Obiekt.objects.all().filter(typ='stacja')
- 
-    # przekazać wszystkie pobrane stacje do renderowania   
+
+    # przekazać wszystkie pobrane stacje do renderowania
     return render(request, 'baza/szukaj.html', {'obiekty': stacje})
 
 
@@ -439,7 +449,7 @@ def obit(request, stacja_id, obiekt_id):
     obiekt = Urzadzenie.objects.get(pk=obiekt_id)
     form = UrzadzenieForm(instance=obiekt)
     urzadzenia = Przedmiot.objects.all().filter(urzadzenie=obiekt)
-    
+
     if request.method =='POST':
         form = UrzadzenieForm(request.POST, instance=obiekt)
         if form.is_valid():
@@ -455,7 +465,7 @@ def urzadzenie(request, stacja_id, obiekt_id, urzadzenie_id):
     obiekt = Urzadzenie.objects.get(pk=obiekt_id)
     urzadzenie = Przedmiot.objects.get(pk=urzadzenie_id)
     form = PrzedmiotForm(instance=urzadzenie)
-    
+
     if request.method =='POST':
         form = PrzedmiotForm(request.POST, instance=urzadzenie)
         if form.is_valid():
@@ -471,17 +481,17 @@ def urzadzenie(request, stacja_id, obiekt_id, urzadzenie_id):
 def szukajurzadzenie(request):
     if request.method == 'POST':
         form = SzukajObiektForm(request.POST)
-     
+
         if form.is_valid():
 
             typ = form.cleaned_data['typ']
             obiekty = Obiekt.objects.all().filter(typ=typ)
-             
+
             return render(request, 'baza/wybierzobiekt-urzadzenie.html', {'obiekty': obiekty})
         else:
             return HttpResponseRedirect('/')
-    
-        
+
+
     else:
         form = SzukajObiektForm()
 
@@ -507,7 +517,7 @@ def wybrany_obiekt_dla_urzadzenia(request, stacja_id, obiekt_id):
     # zwrócić nazwę obiektu
     obiekt = Urzadzenie.objects.get(pk=obiekt_id)
     nazwa_obiektu = obiekt.nazwa
-    
+
     if request.method == 'POST':
         form = PrzedmiotForm(request.POST)
         if form.is_valid():
@@ -548,7 +558,7 @@ def wybranyobiekt(request, obiekt_id):
     adres_obiektu = obiekt.lokalizacja
     if request.method == 'POST':
         form = UrzadzenieForm(request.POST)
-     
+
         if form.is_valid():
 
             obiekt = obiekt
@@ -565,18 +575,18 @@ def wybranyobiekt(request, obiekt_id):
             return HttpResponseRedirect('/dodane/')
         else:
             return HttpResponseRedirect('/')
-            
+
     else:
         form = UrzadzenieForm()
-     
-    
+
+
 
     return render(request, 'baza/dodajurzadzenie.html',
         {
         'obiekt': nazwa_obiektu,
         'adres': adres_obiektu,
-        'form': form})  
-    
+        'form': form})
+
 
 
 
@@ -592,8 +602,8 @@ def znalezionyobiekt(request, obiekt_id):
         else:
             return HttpResponseRedirect('/niedodane/')
 
-    
-    
+
+
     # obiekt = get_object_or_404(Obiekt, pk=obiekt_id)
 
     return render(request, 'baza/znalezionyobiekt.html', {'form': form})
