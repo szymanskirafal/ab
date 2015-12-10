@@ -71,6 +71,7 @@ def home(request):
 
 @login_required
 def miejsca(request, miejsca):
+    username = request.user.username
 
     if miejsca == 'magazyn':
         typ_miejsca = 'Magazyn paliw'
@@ -79,7 +80,8 @@ def miejsca(request, miejsca):
     else:
         typ_miejsca = 'Budynek'
 
-    miejsca = Miejsce.objects.all().filter(typ=miejsca)
+
+    miejsca = Miejsce.objects.all().filter(typ=miejsca).filter(created_by=username)
 
     return render(request, 'baza/miejsca.html', {'typ_miejsca': typ_miejsca, 'miejsca': miejsca})
 
@@ -135,7 +137,7 @@ def dodaj_miejsce(request):
     if request.method == 'POST':
         form = MiejsceForm(request.POST)
         username = request.user.username
-        
+
         if form.is_valid():
 
             typ = form.cleaned_data['typ']
