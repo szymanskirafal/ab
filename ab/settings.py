@@ -48,6 +48,7 @@ INSTALLED_APPS = (
     'baza',
     'templates',
     'crispy_forms',
+    'grupa',
 )
 
 # allauth
