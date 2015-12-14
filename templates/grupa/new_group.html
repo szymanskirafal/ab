@@ -1,0 +1,32 @@
+{% extends 'bootstrap_base.html' %}
+
+
+{% block main %}
+
+
+    <div class="row">
+        <div class="col-md-8">
+
+
+
+            <h1>Tworzenie nowej grupy</h1>
+            <form role="form"  method="post">
+                <div class="form-group">
+                    {% csrf_token %}
+                    {{ form }}
+                </div>
+                <button type="submit" class="btn btn-default btn-lg" name="save">Zapisz</button>
+
+            </form>
+
+
+            <a class="btn btn-default btn-lg" href="{% url 'profile' %}" role="button">Główne Menu</a>
+
+
+
+
+
+        </div>
+    </div>
+
+{% endblock %}

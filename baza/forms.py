@@ -1,11 +1,14 @@
 
-from django.forms import Form, ModelForm, Select, TextInput, Textarea
+from django.forms import ModelForm, Select, TextInput, Textarea
+
 
 
 from .models import Miejsce, ObiektK, DopuszczeniaLegalizacje, PrzegladyTechniczne, Obiekt, Urzadzenie, Przedmiot
 
 from allauth.account.forms import LoginForm
 from crispy_forms.helper import FormHelper
+
+
 
 
 
@@ -157,7 +160,7 @@ class PrzegladyTechniczneForm(ModelForm):
 
 
 
-# poniżej stare fomrsyy ------------------------
+# poniżej stare formsyy ------------------------
 
 class ObiektForm(ModelForm):
     class Meta:
