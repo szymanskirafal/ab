@@ -1,0 +1,33 @@
+{% extends 'bootstrap_base.html' %}
+
+
+{% block main %}
+
+
+    <div class="row">
+        <div class="col-md-8">
+
+
+
+            <h1>Zarządzanie grupą</h1>
+            <p>Nazwa grupy to: {{ group_name }}</p>
+            <p>Uczestnicy tej grupy to:</p>
+
+            {% for member in members %}
+                <p>{{ member }}</p>
+            {% endfor %}
+
+
+
+
+
+            <a class="btn btn-default btn-lg" href="{% url 'profile' %}" role="button">Główne Menu</a>
+            <a class="btn btn-default btn-lg"  href="{% url 'add_new_member' group_name %}" role="button">Dodaj uczestnika</a>
+
+
+
+
+        </div>
+    </div>
+
+{% endblock %}

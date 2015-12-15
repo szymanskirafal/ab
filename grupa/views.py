@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 
 
-from .forms import NewGroupForm
+from .forms import NewGroupForm, NewMemberForm
 
 
 
@@ -42,5 +42,26 @@ def nowa(request):
 
 @login_required
 def group(request, group_name):
+    group = Group.objects.get(name = group_name)
+    members = group.user_set.all()
 
-    return render(request, 'grupa/group.html')
+    return render(request, 'grupa/group.html',
+        {
+            'group_name': group_name,
+            'members': members
+            })
+
+@login_required
+def add_new_member(request, group_name):
+    if request.method == 'POST':
+        form = NewMemberForm(request.POST)
+        if form.is_valid():
+            new_member = form.cleaned_data['new_member_name']
+            group = Group.objects.get(name=group_name)
+            group.user_set.add(new_member)
+
+            return HttpResponseRedirect('/dodane/')
+    else:
+        form = NewMemberForm()
+
+    return render(request, 'grupa/new_member.html', {'form': form})
