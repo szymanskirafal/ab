@@ -7,18 +7,29 @@ from django.contrib.auth.models import Group
 
 
 from .forms import NewGroupForm, NewMemberForm
+from .models import CustomGroup
 
 
 
 
 
 @login_required
-def grupa(request):
+def grupy(request):
     current_user = request.user
     grupy = current_user.groups.all()
-    return render(request, 'grupa/grupa.html', {
+    groups_created_by_current_user = CustomGroup.objects.all().filter(group_creator = current_user)
+
+    # sprawdz czy current user jest group_creator ktorejs z grup
+    # jesli tak, to wyszczególnij te grupy
+    # jesli nie, to lepiej nie pisac calego akapitu
+    trzecia_grupa = CustomGroup.objects.get(name = 'trzecia grupa')
+    creator_trzeciej_grupy = trzecia_grupa.group_creator
+
+    return render(request, 'grupa/grupy.html', {
         'current_user': current_user,
-        'grupy': grupy})
+        'groups_created_by_current_user': groups_created_by_current_user,
+        'grupy': grupy,
+        'creator_trzeciej_grupy': creator_trzeciej_grupy})
 
 
 
@@ -30,7 +41,7 @@ def nowa(request):
         form = NewGroupForm(request.POST)
         if form.is_valid():
             group_name = form.cleaned_data['group_name']
-            new_group = Group.objects.create(name=group_name)
+            new_group = CustomGroup.objects.create(name=group_name, group_creator = request.user.username)
             new_group.user_set.add(group_creator)
 
             return HttpResponseRedirect('/dodane/')
