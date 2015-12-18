@@ -9,5 +9,5 @@ class NewGroupForm(forms.Form):
 
 
 class NewMemberForm(forms.Form):
-    new_member_name = forms.CharField(label='Nazwa uczestnika', max_length = 40,
-        widget = forms.TextInput(attrs={'placeholder':'Wpisz nazwę uczestnika, którego chcesz dodać do grupy'}))
+    new_member_name = forms.CharField(label='', max_length = 40,
+        widget = forms.TextInput(attrs={'placeholder':'Wpisz nazwę uczestnika'}))

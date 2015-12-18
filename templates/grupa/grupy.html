@@ -11,13 +11,17 @@
 
             <h1>Grupy</h1>
             <p>Jestes zalogowany, jako {{ current_user }}</p>
-            <p>Lista grup, które utworzyłes:</p>
-            <div class="list-group">
-                {% for group_name in groups_created_by_current_user %}
-                    <a href="{% url 'group' group_name %}" class="list-group-item">{{ group_name }}</a>
 
-                {% endfor %}
-            </div>
+            {% if groups_created_by_current_user %}
+
+                <p>Lista grup, które utworzyłes:</p>
+                <div class="list-group">
+                    {% for group_name in groups_created_by_current_user %}
+                        <a href="{% url 'group_created' group_name %}" class="list-group-item">{{ group_name }}</a>
+
+                    {% endfor %}
+                </div>
+            {% endif %}
 
             <p>Lista wszystkich grup, których jestes uczestnikiem:</p>
             <div class="list-group">
@@ -26,7 +30,7 @@
 
                 {% endfor %}
             </div>
-            <p>Kto stworzył trzecią grupę? Ten tutaj - {{ creator_trzeciej_grupy }}</p>
+
 
 
 

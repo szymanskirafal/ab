@@ -34,6 +34,7 @@ urlpatterns = [
     url(r'^edytuj/przeglad(?P<obiekt_id>[0-9]+)/$', baza.views.edytuj_przeglad, name="edytuj_przeglad"),
     url(r'^grupy/$', grupa.views.grupy, name='grupy'),
     url(r'^grupa/nowa/$', grupa.views.nowa, name='nowa'),
+    url(r'^grupa/created/(?P<group_name>[A-Za-z0-9 _]+)/$', grupa.views.group_created, name='group_created'),
     url(r'^grupa/dodaj/(?P<group_name>[A-Za-z0-9 _]+)/$', grupa.views.add_new_member, name='add_new_member'),
     url(r'^grupa/group/(?P<group_name>[A-Za-z0-9 _]+)/$', grupa.views.group, name='group'),
     url(r'^miejsca/(?P<miejsca>[a-z]+)/$', baza.views.miejsca, name='miejsca'),

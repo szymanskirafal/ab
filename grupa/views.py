@@ -16,20 +16,19 @@ from .models import CustomGroup
 @login_required
 def grupy(request):
     current_user = request.user
-    grupy = current_user.groups.all()
+
     groups_created_by_current_user = CustomGroup.objects.all().filter(group_creator = current_user)
 
     # sprawdz czy current user jest group_creator ktorejs z grup
     # jesli tak, to wyszczególnij te grupy
     # jesli nie, to lepiej nie pisac calego akapitu
-    trzecia_grupa = CustomGroup.objects.get(name = 'trzecia grupa')
-    creator_trzeciej_grupy = trzecia_grupa.group_creator
 
+    grupy = current_user.groups.all()
     return render(request, 'grupa/grupy.html', {
         'current_user': current_user,
         'groups_created_by_current_user': groups_created_by_current_user,
         'grupy': grupy,
-        'creator_trzeciej_grupy': creator_trzeciej_grupy})
+        })
 
 
 
@@ -61,6 +60,27 @@ def group(request, group_name):
             'group_name': group_name,
             'members': members
             })
+
+
+@login_required
+def group_created(request, group_name):
+    # check if current user is creator of group with given group_name
+    current_user = request.user
+    group = CustomGroup.objects.get(name = group_name)
+    group_creator = group.group_creator
+    if not request.user.username == group_creator:
+        return HttpResponseRedirect('/accounts/profile/')
+    else:
+        members = group.user_set.all()
+        form = NewMemberForm()
+        return render(request, 'grupa/group_created.html', {
+            'current_user': current_user,
+            'group_name': group_name,
+            'members': members,
+            'form': form})
+
+
+
 
 @login_required
 def add_new_member(request, group_name):
