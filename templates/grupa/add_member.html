@@ -1,4 +1,6 @@
 {% extends 'bootstrap_base.html' %}
+{% load crispy_forms_tags %}
+
 
 
 {% block main %}
@@ -11,11 +13,13 @@
 
             <h1>Zarządzanie grupą</h1>
 
-            <p>Dodaj nowego uczestnika do grupy o nazwie {{ group_name }}</p>
+            <p>Dodaj nowego uczestnika do grupy.</p>
+
+
             <form role="form"  method="post">
                 <div class="form-group">
                     {% csrf_token %}
-                    {{ form }}
+                    {{ form|crispy}}
                 </div>
                 <button type="submit" class="btn btn-default btn-lg" name="save">Dodaj</button>
 
@@ -23,7 +27,8 @@
 
 
 
-            <a class="btn btn-default btn-lg" href="{% url 'profile' %}" role="button">Główne Menu</a>
+
+
 
 
 

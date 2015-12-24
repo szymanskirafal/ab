@@ -12,40 +12,20 @@
             <h1>Grupa, którą utworzyłeś</h1>
             <p>Jestes zalogowany, jako {{ current_user }}</p>
 
-            <p>Nazwa grupy to: {{ group_name }}</p>
-            <p>Możesz w pełni zarządzać tą grupą, jako jej twórca</p>
-            <p>Możesz dodawać i usuwać uczestników.</p>
-            <p>Możesz usunąć całą grupę</p>
+            <p>Nazwa grupy: {{ group_name }}</p>
 
-            <p>Uczestnicy grupy to:</p>
+
+
+            <p>Uczestnicy grupy:</p>
             <div class="list-group">
-                {% for member in members %}
-                <a href="#" class="list-group-item">{{ member }}</a>
-                {% endfor %}
+            {% for member in members %}
+                <a href="{% url 'member' group_name member.username %}" class="list-group-item">{{ member }}</a>
+            {% endfor %}
             </div>
-
-
 
             <a class="btn btn-default btn-lg" href="{% url 'profile' %}" role="button">Główne Menu</a>
-            <button class="btn btn-default btn-lg" type="button" data-toggle="collapse"
-                data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                Dodaj uczestnika
-            </button>
-            <div class="collapse" id="collapseExample">
-                <div class="well">
-                    <p>Podaj nazwę uczestnika, którego chcesz dodać do grupy:</p>
-                    <form role="form"  method="post">
-                        <div class="form-group">
-                        {% csrf_token %}
-                        {{ form }}
-                    </div>
-                    <button type="submit" class="btn btn-default" name="save">Dodaj</button>
-                    </form>
-                </div>
-            </div>
-            <a class="btn btn-default btn-lg"  href="#" role="button">Usuń uczestnika</a>
+            <a class="btn btn-default btn-lg"  href="{% url 'add_member' group_name %}" role="button">Dodaj uczestnika</a>
             <a class="btn btn-danger btn-lg"  href="#" role="button">Usuń Grupę</a>
-
 
 
 

@@ -1,12 +1,13 @@
 
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.core.urlresolvers import reverse
 
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, User
 
 
-from .forms import NewGroupForm, NewMemberForm
+from .forms import NewGroupForm, NewMemberForm, MemberForm
 from .models import CustomGroup
 
 
@@ -64,7 +65,6 @@ def group(request, group_name):
 
 @login_required
 def group_created(request, group_name):
-    # check if current user is creator of group with given group_name
     current_user = request.user
     group = CustomGroup.objects.get(name = group_name)
     group_creator = group.group_creator
@@ -72,27 +72,67 @@ def group_created(request, group_name):
         return HttpResponseRedirect('/accounts/profile/')
     else:
         members = group.user_set.all()
-        form = NewMemberForm()
+
         return render(request, 'grupa/group_created.html', {
             'current_user': current_user,
             'group_name': group_name,
-            'members': members,
-            'form': form})
-
-
+            'members': members})
 
 
 @login_required
-def add_new_member(request, group_name):
+def add_member(request, group_name):
+
+    group = CustomGroup.objects.get(name = group_name)
+    group_creator = group.group_creator
+    if not request.user.username == group_creator:
+        return HttpResponseRedirect('/accounts/profile/')
+
+
     if request.method == 'POST':
         form = NewMemberForm(request.POST)
         if form.is_valid():
-            new_member = form.cleaned_data['new_member_name']
-            group = Group.objects.get(name=group_name)
-            group.user_set.add(new_member)
+            new_member_name = form.cleaned_data['new_member_name']
+            users_names = []
+            all_users = User.objects.all()
+            for user in all_users:
+                users_names.append(user.username)
+            if new_member_name in users_names:
+                new_member = User.objects.get(username = new_member_name)
 
-            return HttpResponseRedirect('/dodane/')
+                new_member.groups.add(group)
+                return HttpResponseRedirect(reverse('dodane'))
+            else:
+                return HttpResponseRedirect(reverse('niedodane'))
+
     else:
         form = NewMemberForm()
 
-    return render(request, 'grupa/new_member.html', {'form': form})
+    return render(request, 'grupa/add_member.html', {'form': form})
+
+
+@login_required
+def member(request, group_name, member):
+    member_object = User.objects.get(username = member)
+    form = MemberForm(instance = member_object)
+    if request.method == 'POST':
+        form = MemberForm(request.POST, instance = member_object)
+        if form.is_valid():
+            member_name = form.cleaned_data['username']
+            member = User.objects.get(username = member_name)
+            group = CustomGroup.objects.get(name = group_name)
+            group.user_set.remove(member)
+            return HttpResponseRedirect(reverse('dodane'))
+
+
+
+    return render(request, 'grupa/member.html',
+        {
+            'group_name': group_name,
+            'member': member,
+            'member_object': member_object,
+            'form': form,
+            })
+
+
+
+
