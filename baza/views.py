@@ -1,16 +1,22 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
-from  django.contrib.auth.decorators import login_required
+import calendar
+import datetime
+from datetime import timedelta
+
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 from .forms import MiejsceForm, ObiektKForm, DopuszczeniaLegalizacjeForm, PrzegladyTechniczneForm, ObiektForm, StacjaForm, SzukajObiektForm, UrzadzenieForm, PrzedmiotForm
 from .models import Miejsce, ObiektK, DopuszczeniaLegalizacje, PrzegladyTechniczne, Obiekt, Urzadzenie, Przedmiot
 
+# from grupa.models import CustomGroup
+
 
 @login_required
 def profile(request):
-    user = request.user
-    name = user.username
+
     return render(request, 'baza/profile.html')
 
 
@@ -82,10 +88,30 @@ def miejsca(request, miejsca):
     else:
         typ_miejsca = 'Budynek'
 
+    # check if user belongs to some group
+    user = request.user
+    user_groups = user.groups.all()
 
-    miejsca = Miejsce.objects.all().filter(typ=miejsca).filter(created_by=username)
+    # check all members of these groups
 
-    return render(request, 'baza/miejsca.html', {'typ_miejsca': typ_miejsca, 'miejsca': miejsca})
+    all_members = []
+    for group in user_groups:
+        for member in group.user_set.all():
+            all_members.append(member.username)
+
+    # find objects created by these members
+
+
+
+    miejsca = Miejsce.objects.all().filter(typ=miejsca).filter(created_by__in = all_members)
+
+
+    return render(request, 'baza/miejsca.html',
+        {
+            'typ_miejsca': typ_miejsca,
+            'miejsca': miejsca,
+
+            })
 
 
 
@@ -251,6 +277,60 @@ def dodaj_przeglad(request, miejsce_id, obiekt_id):
     else:
         form = PrzegladyTechniczneForm()
     return render(request, 'baza/dodaj_przeglad.html', {'form': form})
+
+
+def raport(request):
+    current_date = datetime.date.today()
+    current_date2 = datetime.date.today().isoformat()
+    current_weekday = current_date.weekday()
+    days_in_week = 7
+    days_remaining_to_full_week = days_in_week - current_weekday
+    this_week_ends_in = current_date + timedelta(days = days_remaining_to_full_week)
+    next_week_starts_in = this_week_ends_in + timedelta(days = 1)
+    next_week_ends_in = next_week_starts_in + timedelta(days = 6)
+    rest_of_this_month_starts_in = next_week_ends_in + timedelta(days = 1)
+    this_month = current_date.month
+    this_year = current_date.year
+    year = this_year
+    month = this_month
+
+    weekday_of_first_day, number_of_days = calendar.monthrange(year, month)
+    # Returns weekday of first day of the month and number of days in month, for the specified year and month.
+
+    this_month_ends_in = datetime.date(year, month, number_of_days)
+    if month == 12:
+        year = year + 1
+        month = 1
+        weekday_of_first_day, number_of_days = calendar.monthrange(year, month)
+        next_month_starts_in = datetime.date(year, month, 1)
+        next_month_ends_in = datetime.date(year, month, number_of_days)
+    else:
+        year = year
+        month = month + 1
+        weekday_of_first_day, number_of_days = calendar.monthrange(year, month)
+        next_month_starts_in = datetime.date(year, month, 1)
+        next_month_ends_in = datetime.date(year, month, number_of_days)
+
+
+    return render(request, 'baza/raport.html',
+        {
+            'current_date': current_date,
+            'current_date2': current_date2,
+            'current_weekday': current_weekday,
+            'days_remaining_to_full_week': days_remaining_to_full_week,
+            'this_week_ends_in': this_week_ends_in,
+            'next_week_starts_in': next_week_starts_in,
+            'next_week_ends_in': next_week_ends_in,
+            'rest_of_this_month_starts_in': rest_of_this_month_starts_in,
+            'this_month': this_month,
+            'this_year': this_year,
+            'weekday_of_first_day': weekday_of_first_day,
+            'number_of_days': number_of_days,
+            'this_month_ends_in': this_month_ends_in,
+            'next_month_starts_in': next_month_starts_in,
+            'next_month_ends_in': next_month_ends_in,
+
+            })
 
 
 

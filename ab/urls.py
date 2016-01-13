@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^dodaj/obiekt/(?P<miejsce_id>[0-9]+)/$', baza.views.dodaj_obiekt, name='dodaj_obiekt'),
     url(r'^dodaj/dopuszczenie/(?P<miejsce_id>[0-9]+)/(?P<obiekt_id>[0-9]+)/$', baza.views.dodaj_dopuszczenie, name='dodaj_dopuszczenie'),
     url(r'^dodaj/przeglad/(?P<miejsce_id>[0-9]+)/(?P<obiekt_id>[0-9]+)/$', baza.views.dodaj_przeglad, name='dodaj_przeglad'),
+    url(r'dodane/$', baza.views.dodane, name='dodane'),
     url(r'^edytuj/obiekt/(?P<obiekt_id>[0-9]+)/$', baza.views.edytuj_obiekt, name="edytuj_obiekt"),
     url(r'^edytuj/dopuszczenie(?P<obiekt_id>[0-9]+)/$', baza.views.edytuj_dopuszczenie, name="edytuj_dopuszczenie"),
     url(r'^edytuj/przeglad(?P<obiekt_id>[0-9]+)/$', baza.views.edytuj_przeglad, name="edytuj_przeglad"),
@@ -40,9 +41,8 @@ urlpatterns = [
     url(r'^grupa/group/(?P<group_name>[A-Za-z0-9 _]+)/$', grupa.views.group, name='group'),
     url(r'^miejsca/(?P<miejsca>[a-z]+)/$', baza.views.miejsca, name='miejsca'),
     url(r'^miejsce/(?P<miejsce_id>[0-9]+)/$', baza.views.miejsce, name='miejsce'),
-    url(r'^obiekt/(?P<miejsce_id>[0-9]+)/(?P<obiekt_id>[0-9]+)/$', baza.views.obiekt, name='obiekt'),
     url(r'^niedodane/$', baza.views.niedodane, name='niedodane'),
-    url(r'dodane/$', baza.views.dodane, name='dodane'),
-
+    url(r'^obiekt/(?P<miejsce_id>[0-9]+)/(?P<obiekt_id>[0-9]+)/$', baza.views.obiekt, name='obiekt'),
+    url(r'^raport/$', baza.views.raport, name='raport'),
 
 ]

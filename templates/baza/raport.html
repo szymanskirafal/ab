@@ -1,0 +1,44 @@
+{% extends 'bootstrap_base.html' %}
+
+
+{% block main %}
+
+
+    <div class="row">
+        <div class="col-lg-12">
+
+            <h1>Zestawienie wszystkich przegladów w kolejności terminów ważności</h1>
+
+            <p>Dzisiaj jest {{ current_date }}, {{ current_date2 }}</p>
+            <p>To jest {{ current_weekday }} dzień tygodnia</p>
+            <p>days_remaining_to_full_week {{ days_remaining_to_full_week }}</p>
+            <p>Koniec tego tygodnia nastąpi w dniu {{ this_week_ends_in }}</p>
+            <p>Początek przyszłego tygodnia zaczyna się w dniu {{ next_week_starts_in }}</p>
+            <p>Koniec przyszłego tygodnia nastąpi w dniu {{ next_week_ends_in }}</p>
+            <p>Reszta bieżącego miesiąca zaczyna się w dniu {{ rest_of_this_month_starts_in }}</p>
+            <p>Bieżący miesiąc to {{ this_month }}</p>
+            <p>Bieżący rok to {{ this_year }}</p>
+            <p>weekday_of_first_day {{ weekday_of_first_day }}</p>
+            <p>number_od_days {{ number_of_days }}</p>
+            <p>Bieżący miesiąc kończy się w dniu {{ this_month_ends_in }}</p>
+            <p>Przyszły miesiąc zaczyna się {{ next_month_starts_in }}</p>
+            <p>next_month_ends_in {{ next_month_ends_in }}</p>
+            <h2>W tym tygodniu kończy się termin nastepujących przeglądów</h2>
+
+            <h2>W przyszłym togodniu kończy się termin następujących przeglądów</h2>
+
+            <h2>Do końca miesiąca skończy się termin następujących przeglądów</h2>
+
+            <h2>W przyszłym miesiącu skończy się termin następujących przeglądów</h2>
+
+            <p>Przeglądy, których terminy ważności skończą się później, niż w przyszłym miesiącu nie zostały wyszczególnione</p>
+
+
+
+
+
+            <a class="btn btn-default btn-lg" href="{% url 'profile' %}" role="button">Główne Menu</a>
+        </div>
+    </div>
+
+{% endblock %}
