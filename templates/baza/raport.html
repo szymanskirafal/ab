@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-lg-12">
 
-            <h1>Zestawienie wszystkich przegladów w kolejności terminów ważności</h1>
+            <h1>Zestawienie wszystkich przeglądów w kolejności terminów ważności</h1>
 
             <p>Dzisiaj jest {{ current_date }}, {{ current_date2 }}</p>
             <p>To jest {{ current_weekday }} dzień tygodnia</p>
@@ -32,6 +32,24 @@
             <h2>W przyszłym miesiącu skończy się termin następujących przeglądów</h2>
 
             <p>Przeglądy, których terminy ważności skończą się później, niż w przyszłym miesiącu nie zostały wyszczególnione</p>
+
+            {% for miejsce in miejsca %}
+                <p>to jest miejsce o nazwie ---- {{ miejsce.nazwa }}</p>
+            {% endfor %}
+
+
+            {% for obiekt in obiekty %}
+                <p>to jest obiekt o nazwie ---- {{ obiekt.nazwa }}</p>
+            {% endfor %}
+
+            {% for dopuszczenie in dopuszczenia %}
+                <p>to jest obiekt o nazwie ---- {{ dopuszczenie.nazwa_urzadzenia }}, {{ dopuszczenie.data_najblizszej_czynnosci }}</p>
+            {% endfor %}
+
+            {% for przeglad in przeglady %}
+                <p>to jest obiekt o nazwie ---- {{ przeglad.nazwa_urzadzenia }}, {{ przeglad.data_najblizszej_czynnosci }}</p>
+            {% endfor %}
+
 
 
 

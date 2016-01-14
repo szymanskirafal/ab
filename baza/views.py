@@ -311,6 +311,41 @@ def raport(request):
         next_month_starts_in = datetime.date(year, month, 1)
         next_month_ends_in = datetime.date(year, month, number_of_days)
 
+    # wszystkie obiekty:
+    # miejsce
+    #    obiekt
+    #        dopuszczenie
+    #        przegląd
+
+    # czyli wszystkie miejsca stworzone przez current user lub kolegów z jego grup
+    # kto jest current user
+    # w jakich grupach
+    # kim są koledzy z grup
+
+    # check if current_user belongs to some group
+    user = request.user
+    user_groups = user.groups.all()
+
+    # check all members of these groups
+    all_members = []
+    for group in user_groups:
+        for member in group.user_set.all():
+            all_members.append(member.username)
+
+    # find objects created by these members
+    miejsca = Miejsce.objects.all().filter(created_by__in = all_members)
+
+    # wykaż wszystkiego obiekty zlokalizowane na każdym z miejsc
+    obiekty = ObiektK.objects.all().filter(miejsce__in = miejsca)
+
+    # pokaż wszystkie dopuszczenia
+    dopuszczenia = DopuszczeniaLegalizacje.objects.all().filter(obiektk__in = obiekty).order_by('data_najblizszej_czynnosci')
+
+    # pokaż wszystkie przeglady
+    przeglady = PrzegladyTechniczne.objects.all().filter(obiektk__in = obiekty).order_by('data_najblizszej_czynnosci')
+
+
+
 
     return render(request, 'baza/raport.html',
         {
@@ -329,6 +364,10 @@ def raport(request):
             'this_month_ends_in': this_month_ends_in,
             'next_month_starts_in': next_month_starts_in,
             'next_month_ends_in': next_month_ends_in,
+            'miejsca': miejsca,
+            'obiekty': obiekty,
+            'dopuszczenia': dopuszczenia,
+            'przeglady': przeglady,
 
             })
 
