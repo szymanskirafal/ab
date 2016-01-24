@@ -16,8 +16,8 @@
 
                 <p>Lista grup, które utworzyłes:</p>
                 <div class="list-group">
-                    {% for group_name in groups_created_by_current_user %}
-                        <a href="{% url 'group_created' group_name %}" class="list-group-item">{{ group_name }}</a>
+                    {% for group in groups_created_by_current_user %}
+                        <a href="{% url 'group_created' group %}" class="list-group-item">{{ group }}</a>
 
                     {% endfor %}
                 </div>
@@ -25,8 +25,8 @@
 
             <p>Lista wszystkich grup, których jestes uczestnikiem:</p>
             <div class="list-group">
-                {% for group_name in grupy %}
-                    <a href="{% url 'group' group_name %}" class="list-group-item">{{ group_name }}</a>
+                {% for group in grupy %}
+                    <a href="{% url 'group' group %}" class="list-group-item">{{ group }}</a>
 
                 {% endfor %}
             </div>

@@ -35,14 +35,15 @@ urlpatterns = [
     url(r'^edytuj/przeglad(?P<obiekt_id>[0-9]+)/$', baza.views.edytuj_przeglad, name="edytuj_przeglad"),
     url(r'^grupy/$', grupa.views.grupy, name='grupy'),
     url(r'^grupa/nowa/$', grupa.views.nowa, name='nowa'),
-    url(r'^grupa/created/(?P<group_name>[A-Za-z0-9 _]+)/$', grupa.views.group_created, name='group_created'),
-    url(r'^grupy/created/add/(?P<group_name>[A-Za-z0-9 _]+)/$', grupa.views.add_member, name='add_member'),
-    url(r'^grupy/created/member/(?P<group_name>[A-Za-z0-9 _]+)/(?P<member>[A-Za-z0-9 _]+)/$', grupa.views.member, name='member'),
-    url(r'^grupa/group/(?P<group_name>[A-Za-z0-9 _]+)/$', grupa.views.group, name='group'),
-    url(r'^miejsca/(?P<miejsca>[a-z]+)/$', baza.views.miejsca, name='miejsca'),
+    url(r'^grupa/created/(?P<group_name>[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ0-9 _.-]+)/$', grupa.views.group_created, name='group_created'),
+    url(r'^grupy/created/add/(?P<group_name>[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ0-9 _.-]+)/$', grupa.views.add_member, name='add_member'),
+    url(r'^grupy/created/member/(?P<group_name>[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ0-9 ]+)/(?P<member>[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ0-9 _.-]+)/$', grupa.views.member, name='member'),
+    url(r'^grupa/group/(?P<group_name>[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ0-9 _.-]+)/$', grupa.views.group, name='group'),
+    url(r'^miejsca/(?P<miejsca>[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ0-9 _.-]+)/$', baza.views.miejsca, name='miejsca'),
     url(r'^miejsce/(?P<miejsce_id>[0-9]+)/$', baza.views.miejsce, name='miejsce'),
     url(r'^niedodane/$', baza.views.niedodane, name='niedodane'),
     url(r'^obiekt/(?P<miejsce_id>[0-9]+)/(?P<obiekt_id>[0-9]+)/$', baza.views.obiekt, name='obiekt'),
-    url(r'^raport/$', baza.views.raport, name='raport'),
+
+    url(r'^raport/', include('raporty.urls', namespace='raporty')),
 
 ]

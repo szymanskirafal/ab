@@ -11,6 +11,13 @@
 
             <p>Ta część jest w trakcie budowy.</p>
 
+            <h2>W tym tygodniu kończy się termin nastepujących przeglądów</h2>
+            {% for obiekt in current_week_objects %}
+                <p>---- {{ obiekt.nazwa_urzadzenia }}, {{ obiekt.data_najblizszej_czynnosci }}</p>
+            {% endfor %}
+
+
+
             <!---
             <p>Dzisiaj jest {{ current_date }}, {{ current_date2 }}</p>
             <p>To jest {{ current_weekday }} dzień tygodnia</p>
@@ -56,6 +63,7 @@
             {% endfor %}
 
             --->
+
 
 
 

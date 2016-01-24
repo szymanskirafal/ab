@@ -31,7 +31,7 @@ def get_env_variable(var_name):
     try:
         return os.environ[var_name]
     except KeyError:
-        error_masg = "Set the %s environment variable" % var_name
+        error_msg = "Set the %s environment variable" % var_name
         raise ImproperlyConfigured(error_msg)
 
 SECRET_KEY = get_env_variable('SECRET_KEY')
@@ -60,6 +60,7 @@ INSTALLED_APPS = (
     'templates',
     'crispy_forms',
     'grupa',
+    'raporty',
 )
 
 # allauth
