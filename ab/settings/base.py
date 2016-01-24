@@ -23,7 +23,7 @@ STATIC_ROOT = "/home/RafalSzymanski/ab/static"
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'i5q7+_(8zbly0pa7djs_0ex^w=g(j93d&9gc4^$o+t%wt!9(hz'
+
 
 from django.core.exceptions import ImproperlyConfigured
 
