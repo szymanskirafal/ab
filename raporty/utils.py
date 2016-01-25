@@ -3,15 +3,18 @@ import datetime
 from datetime import timedelta
 
 
+class DateRanges(object):
 
 
-def current_week_ends_in():
-    days_in_week = 7
-    current_date = datetime.date.today()
-    current_weekday = current_date.weekday()
-    days_remaining_to_full_week = days_in_week - current_weekday
-    current_week_ends_in = current_date + timedelta(days = days_remaining_to_full_week)
-    return current_week_ends_in
+
+
+    def current_week_ends_in():
+        days_in_week = 7
+        current_date = datetime.date.today()
+        current_weekday = current_date.weekday()
+        days_remaining_to_full_week = days_in_week - current_weekday
+        current_week_ends_in = current_date + timedelta(days = days_remaining_to_full_week)
+        return current_week_ends_in
 
 
     # calculating date for different ranges of queries

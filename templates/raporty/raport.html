@@ -13,7 +13,10 @@
 
             <h2>W tym tygodniu kończy się termin nastepujących przeglądów</h2>
             {% for obiekt in current_week_objects %}
-                <p>---- {{ obiekt.nazwa_urzadzenia }}, {{ obiekt.data_najblizszej_czynnosci }}</p>
+                <p>---- {{ obiekt.uwagi }}, {{ obiekt.data_najblizszej_czynnosci }}</p>
+            {% endfor %}
+            {% for dopuszczenie in current_week_objects %}
+                <p>to jest obiekt o nazwie ---- {{ dopuszczenie.nazwa_urzadzenia }}, {{ dopuszczenie.data_najblizszej_czynnosci }}</p>
             {% endfor %}
 
 

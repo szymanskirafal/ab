@@ -1,13 +1,13 @@
 from django.shortcuts import render
 
 
-from .managers import SelectingObjectsManager
+from .managers import ObiektyManager
 
 
 
 def raport(request):
     current_user = request.user
-    current_week_objects = SelectingObjectsManager.current_week_objects(current_user)
+    current_week_objects = ObiektyManager.current_week_objects(current_user)
 
     return render(request, 'raporty/raport.html',
         {
