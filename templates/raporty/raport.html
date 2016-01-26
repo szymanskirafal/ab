@@ -7,69 +7,54 @@
     <div class="row">
         <div class="col-lg-12">
 
-            <h1>Zestawienie wszystkich przeglądów w kolejności terminów ważności</h1>
-
-            <p>Ta część jest w trakcie budowy.</p>
-
-            <h2>W tym tygodniu kończy się termin nastepujących przeglądów</h2>
-            {% for obiekt in current_week_objects %}
-                <p>---- {{ obiekt.uwagi }}, {{ obiekt.data_najblizszej_czynnosci }}</p>
-            {% endfor %}
-            {% for dopuszczenie in current_week_objects %}
-                <p>to jest obiekt o nazwie ---- {{ dopuszczenie.nazwa_urzadzenia }}, {{ dopuszczenie.data_najblizszej_czynnosci }}</p>
-            {% endfor %}
+            <h3>Zestawienie wszystkich przeglądów w kolejności terminów ważności.</h3>
 
 
-
-            <!---
-            <p>Dzisiaj jest {{ current_date }}, {{ current_date2 }}</p>
-            <p>To jest {{ current_weekday }} dzień tygodnia</p>
-            <p>days_remaining_to_full_week {{ days_remaining_to_full_week }}</p>
-            <p>Koniec tego tygodnia nastąpi w dniu {{ this_week_ends_in }}</p>
-            <p>Początek przyszłego tygodnia zaczyna się w dniu {{ next_week_starts_in }}</p>
-            <p>Koniec przyszłego tygodnia nastąpi w dniu {{ next_week_ends_in }}</p>
-            <p>Reszta bieżącego miesiąca zaczyna się w dniu {{ rest_of_this_month_starts_in }}</p>
-            <p>Bieżący miesiąc to {{ this_month }}</p>
-            <p>Bieżący rok to {{ this_year }}</p>
-            <p>weekday_of_first_day {{ weekday_of_first_day }}</p>
-            <p>number_od_days {{ number_of_days }}</p>
-            <p>Bieżący miesiąc kończy się w dniu {{ this_month_ends_in }}</p>
-            <p>Przyszły miesiąc zaczyna się {{ next_month_starts_in }}</p>
-            <p>next_month_ends_in {{ next_month_ends_in }}</p>
+            {% if overdue_objects %}
+                <h1>PO TERMINIE !</h1>
+                <p>Możliwe, że nie wpisano poprawnej daty po przedłużeniu ważności,</p>
+                <p>ale dobrze by było spradzić poniższe terminy i urządzenia.</p>
+                {% for object in overdue_objects %}
+                    <p>{{ object.data_najblizszej_czynnosci }} -- {{ object.nazwa_urzadzenia }}</p>
+                {% endfor %}
+            {% else %}
+                <h4>Przeterminowane:</h4>
+                <p>Ufff... Nie ma przeterminowanych.</p>
+            {% endif %}
+            <hr class="half-rule">
 
 
-            <h2>W tym tygodniu kończy się termin nastepujących przeglądów</h2>
-
-            <h2>W przyszłym togodniu kończy się termin następujących przeglądów</h2>
-
-            <h2>Do końca miesiąca skończy się termin następujących przeglądów</h2>
-
-            <h2>W przyszłym miesiącu skończy się termin następujących przeglądów</h2>
-
-            <p>Przeglądy, których terminy ważności skończą się później, niż w przyszłym miesiącu nie zostały wyszczególnione</p>
-
-            {% for miejsce in miejsca %}
-                <p>to jest miejsce o nazwie ---- {{ miejsce.nazwa }}</p>
-            {% endfor %}
+            <h4>Ten tydzień:</h4>
+            {% if current_week_objects %}
+                {% for object in current_week_objects %}
+                    <p>{{ object.data_najblizszej_czynnosci }} -- {{ object.nazwa_urzadzenia }}</p>
+                {% endfor %}
+            {% else %}
+                <p>Nie kończy się żaden termin ważności w tym tygodniu. Spokojnej pracy.</p>
+            {% endif %}
+            <hr class="half-rule">
 
 
-            {% for obiekt in obiekty %}
-                <p>to jest obiekt o nazwie ---- {{ obiekt.nazwa }}</p>
-            {% endfor %}
-
-            {% for dopuszczenie in dopuszczenia %}
-                <p>to jest obiekt o nazwie ---- {{ dopuszczenie.nazwa_urzadzenia }}, {{ dopuszczenie.data_najblizszej_czynnosci }}</p>
-            {% endfor %}
-
-            {% for przeglad in przeglady %}
-                <p>to jest obiekt o nazwie ---- {{ przeglad.nazwa_urzadzenia }}, {{ przeglad.data_najblizszej_czynnosci }}</p>
-            {% endfor %}
-
-            --->
+            <h4>Przyszły tydzień:</h4>
+            {% if next_week_objects %}
+                {% for object in next_week_objects %}
+                    <p>{{ object.data_najblizszej_czynnosci }} -- {{ object.nazwa_urzadzenia }}</p>
+                {% endfor %}
+            {% else %}
+                <p>Brak. I dobrze.</p>
+            {% endif %}
+            <hr class="half-rule">
 
 
-
-
+            <h4>Do końca miesiąca:</h4>
+            {% if current_month_objects %}
+                {% for object in current_month_objects %}
+                    <p>{{ object.data_najblizszej_czynnosci }} -- {{ object.nazwa_urzadzenia }}</p>
+                {% endfor %}
+            {% else %}
+                <p>W tym miesiącu nie kończą się już żadne inne terminy.</p>
+            {% endif %}
+            <hr class="half-rule">
 
 
 
