@@ -70,7 +70,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'szymanskytp.nazwa.pl'
 EMAIL_HOST_USER = 'email@terminyprzegladow.pl'
-EMAIL_HOST_PASSWORD = '1qazXSW@3edcVFR$'
+EMAIL_HOST_PASSWORD = os.environ['EMAIL_PASS']
 EMAIL_PORT = '587'
 
 
