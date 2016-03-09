@@ -1,18 +1,23 @@
 .home_main {
     background-color: orange;
     height: 100vh;
-    margin-top: -20px;
-    margin-left: -20px;
-    padding-right: 0px;
+    margin-left: -15px;
+    margin-right: -15px;
+    padding: 0px;
+
 
 }
 
 .home_app_description {
     position: relative;
+    overflow: hidden;
     top: 35%;
     text-align: center;
 
 }
+
+
+
 
 .home_login_register_buttons {
     padding: 30px;
@@ -26,6 +31,5 @@
 
 }
 
-.allauth_background {
-    background-color: blue;
-}
+
+

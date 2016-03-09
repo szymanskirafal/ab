@@ -16,34 +16,17 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 
-import baza.views
-import grupa.views
+from allauth import urls
+
+
+
 
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('allauth.urls')),
-    url(r'^$', baza.views.home, name='home'),
-    url(r'^accounts/profile/$', baza.views.profile, name='profile'),
-    url(r'^dodaj/miejsce/$', baza.views.dodaj_miejsce, name='dodaj_miejsce'),
-    url(r'^dodaj/obiekt/(?P<miejsce_id>[0-9]+)/$', baza.views.dodaj_obiekt, name='dodaj_obiekt'),
-    url(r'^dodaj/dopuszczenie/(?P<miejsce_id>[0-9]+)/(?P<obiekt_id>[0-9]+)/$', baza.views.dodaj_dopuszczenie, name='dodaj_dopuszczenie'),
-    url(r'^dodaj/przeglad/(?P<miejsce_id>[0-9]+)/(?P<obiekt_id>[0-9]+)/$', baza.views.dodaj_przeglad, name='dodaj_przeglad'),
-    url(r'dodane/$', baza.views.dodane, name='dodane'),
-    url(r'^edytuj/obiekt/(?P<obiekt_id>[0-9]+)/$', baza.views.edytuj_obiekt, name="edytuj_obiekt"),
-    url(r'^edytuj/dopuszczenie(?P<obiekt_id>[0-9]+)/$', baza.views.edytuj_dopuszczenie, name="edytuj_dopuszczenie"),
-    url(r'^edytuj/przeglad(?P<obiekt_id>[0-9]+)/$', baza.views.edytuj_przeglad, name="edytuj_przeglad"),
-    url(r'^grupy/$', grupa.views.grupy, name='grupy'),
-    url(r'^grupa/nowa/$', grupa.views.nowa, name='nowa'),
-    url(r'^grupa/created/(?P<group_name>[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ0-9 _.-]+)/$', grupa.views.group_created, name='group_created'),
-    url(r'^grupy/created/add/(?P<group_name>[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ0-9 _.-]+)/$', grupa.views.add_member, name='add_member'),
-    url(r'^grupy/created/member/(?P<group_name>[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ0-9 ]+)/(?P<member>[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ0-9 _.-]+)/$', grupa.views.member, name='member'),
-    url(r'^grupa/group/(?P<group_name>[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ0-9 _.-]+)/$', grupa.views.group, name='group'),
-    url(r'^miejsca/(?P<miejsca>[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ0-9 _.-]+)/$', baza.views.miejsca, name='miejsca'),
-    url(r'^miejsce/(?P<miejsce_id>[0-9]+)/$', baza.views.miejsce, name='miejsce'),
-    url(r'^niedodane/$', baza.views.niedodane, name='niedodane'),
-    url(r'^obiekt/(?P<miejsce_id>[0-9]+)/(?P<obiekt_id>[0-9]+)/$', baza.views.obiekt, name='obiekt'),
-
+    url(r'^', include('baza.urls', namespace='baza')),
+    url(r'^grupy/', include('grupa.urls', namespace='grupa')),
     url(r'^raport/', include('raporty.urls', namespace='raporty')),
 
 ]

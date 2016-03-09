@@ -31,7 +31,7 @@ def get_env_variable(var_name):
     try:
         return os.environ[var_name]
     except KeyError:
-        error_msg = "Set the %s environment variable" % var_name
+        error_msg = "Set the %s environment variable, plz" % var_name
         raise ImproperlyConfigured(error_msg)
 
 SECRET_KEY = get_env_variable('SECRET_KEY')
@@ -61,16 +61,16 @@ INSTALLED_APPS = (
     'crispy_forms',
     'grupa',
     'raporty',
+    'tasks',
 )
 
-# allauth
-SITE_ID = 1
+SITE_ID = 3
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'testowanie.web.app@gmail.com'
-EMAIL_HOST_PASSWORD = '1qazZAQ!2wsxXSW@'
+EMAIL_HOST = 'szymanskytp.nazwa.pl'
+EMAIL_HOST_USER = 'email@terminyprzegladow.pl'
+EMAIL_HOST_PASSWORD = '1qazXSW@3edcVFR$'
 EMAIL_PORT = '587'
 
 
@@ -112,7 +112,11 @@ ROOT_URLCONF = 'ab.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates'),
+            '/templates/tasks/',
+            '/ab/templates/tasks/',
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

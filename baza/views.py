@@ -1,9 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.core.urlresolvers import reverse
 
-
-
-from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
 from .forms import MiejsceForm, ObiektKForm, DopuszczeniaLegalizacjeForm, PrzegladyTechniczneForm, ObiektForm, StacjaForm, SzukajObiektForm, UrzadzenieForm, PrzedmiotForm
@@ -18,6 +16,29 @@ def profile(request):
     return render(request, 'baza/profile.html')
 
 
+@login_required
+def edytuj_miejsce(request, miejsce_id):
+    miejsce = Miejsce.objects.get(pk=miejsce_id)
+    form = MiejsceForm(instance = miejsce)
+    if request.method == 'POST':
+        form = MiejsceForm(request.POST, instance = miejsce)
+        if form.is_valid():
+            if 'save' in request.POST:
+                form.save()
+                return HttpResponseRedirect('/dodane/')
+            elif 'delete' in request.POST:
+                miejsce.delete()
+                return HttpResponseRedirect(reverse('baza:profile'))
+
+        else:
+            return HttpResponseRedirect('/niedodane/')
+
+
+
+    return render(request, 'baza/edytuj_miejsce.html', {'form': form})
+
+
+
 
 @login_required
 def edytuj_obiekt(request, obiekt_id):
@@ -26,8 +47,13 @@ def edytuj_obiekt(request, obiekt_id):
     if request.method == 'POST':
         form = ObiektKForm(request.POST, instance = obiekt)
         if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('/dodane/')
+            if 'save' in request.POST:
+                form.save()
+                return HttpResponseRedirect('/dodane/')
+            elif 'delete' in request.POST:
+                obiekt.delete()
+                return HttpResponseRedirect(reverse('baza:profile'))
+
         else:
             return HttpResponseRedirect('/niedodane/')
 
@@ -49,8 +75,7 @@ def edytuj_dopuszczenie(request, obiekt_id):
                 return HttpResponseRedirect('/dodane/')
             elif 'delete' in request.POST:
                 obiekt.delete()
-
-                return HttpResponseRedirect('/profile/')
+                return HttpResponseRedirect(reverse('baza:profile'))
 
     return render(request, 'baza/edytuj_dopuszczenie.html', {'form': form})
 
@@ -62,8 +87,13 @@ def edytuj_przeglad(request, obiekt_id):
     if request.method == 'POST':
         form = PrzegladyTechniczneForm(request.POST, instance = obiekt)
         if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('/dodane/')
+            if 'save' in request.POST:
+                form.save()
+                return HttpResponseRedirect('/dodane/')
+            elif 'delete' in request.POST:
+                obiekt.delete()
+
+                return HttpResponseRedirect(reverse('baza:profile'))
 
     return render(request, 'baza/edytuj_przeglad.html', {'form': form})
 
@@ -77,7 +107,6 @@ def home(request):
 
 @login_required
 def miejsca(request, miejsca):
-    username = request.user.username
 
     if miejsca == 'magazyn':
         typ_miejsca = 'Magazyn paliw'

@@ -29,26 +29,26 @@ class ObiektK(models.Model):
 class DopuszczeniaLegalizacje(models.Model):
     obiektk = models.ForeignKey(ObiektK)
     nazwa_urzadzenia = models.CharField(max_length = 100)
-    nr_urzadzenia = models.CharField(max_length = 50)
+    nr_urzadzenia = models.CharField(max_length = 50, null = True, blank = True)
     opis_czynnosci = models.CharField(max_length = 150)
     jednostka_dozorowa = models.CharField(max_length = 50)
     data_ostatniej_czynnosci = models.DateField(null = True, blank = True)
-    nr_decyzji = models.CharField(max_length = 100)
+    nr_decyzji = models.CharField(max_length = 100, null = True, blank = True)
     data_najblizszej_czynnosci = models.DateField()
     osoba_odpowiedzialna_za_nadzor = models.CharField(max_length = 100)
-    uwagi = models.TextField()
+    uwagi = models.TextField(null = True, blank = True)
 
 class PrzegladyTechniczne(models.Model):
     obiektk = models.ForeignKey(ObiektK)
     nazwa_urzadzenia = models.CharField(max_length = 100)
-    nr_urzadzenia = models.CharField(max_length = 50)
+    nr_urzadzenia = models.CharField(max_length = 50, null = True, blank = True)
     opis_czynnosci = models.CharField(max_length = 150)
     jednostka_kontrolujaca = models.CharField(max_length = 50)
     data_ostatniej_czynnosci = models.DateField(null = True, blank = True)
-    nr_protokolu = models.CharField(max_length = 100)
+    nr_protokolu = models.CharField(max_length = 100, null = True, blank = True)
     data_najblizszej_czynnosci = models.DateField()
     osoba_odpowiedzialna_za_nadzor = models.CharField(max_length = 100)
-    uwagi = models.TextField()
+    uwagi = models.TextField(null = True, blank = True)
 
 
 

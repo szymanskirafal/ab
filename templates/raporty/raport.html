@@ -10,12 +10,13 @@
             <h3>Zestawienie wszystkich przeglądów w kolejności terminów ważności.</h3>
 
 
+
+
             {% if overdue_objects %}
                 <h1>PO TERMINIE !</h1>
-                <p>Możliwe, że nie wpisano poprawnej daty po przedłużeniu ważności,</p>
-                <p>ale dobrze by było spradzić poniższe terminy i urządzenia.</p>
+                <p>Możliwe, że nie wpisano poprawnej daty po przedłużeniu ważności, ale dobrze by było spradzić poniższe terminy i urządzenia:</p>
                 {% for object in overdue_objects %}
-                    <p>{{ object.data_najblizszej_czynnosci }} -- {{ object.nazwa_urzadzenia }}</p>
+                    <p>{{ object.data_najblizszej_czynnosci }} -- {{ object.nazwa_urzadzenia }} -- {{ object.obiektk.nazwa }} -- {{ object.obiektk.miejsce.nazwa }}, {{ object.obiektk.miejsce.adres }}</p>
                 {% endfor %}
             {% else %}
                 <h4>Przeterminowane:</h4>
@@ -27,10 +28,10 @@
             <h4>Ten tydzień:</h4>
             {% if current_week_objects %}
                 {% for object in current_week_objects %}
-                    <p>{{ object.data_najblizszej_czynnosci }} -- {{ object.nazwa_urzadzenia }}</p>
+                    <p>{{ object.data_najblizszej_czynnosci }} -- {{ object.nazwa_urzadzenia }} -- {{ object.obiektk.nazwa }} -- {{ object.obiektk.miejsce.nazwa }}, {{ object.obiektk.miejsce.adres }}</p>
                 {% endfor %}
             {% else %}
-                <p>Nie kończy się żaden termin ważności w tym tygodniu. Spokojnej pracy.</p>
+                <p>Nie kończy się żaden termin ważności w tym tygodniu.</p>
             {% endif %}
             <hr class="half-rule">
 
@@ -38,10 +39,10 @@
             <h4>Przyszły tydzień:</h4>
             {% if next_week_objects %}
                 {% for object in next_week_objects %}
-                    <p>{{ object.data_najblizszej_czynnosci }} -- {{ object.nazwa_urzadzenia }}</p>
+                    <p>{{ object.data_najblizszej_czynnosci }} -- {{ object.nazwa_urzadzenia }} -- {{ object.obiektk.nazwa }} -- {{ object.obiektk.miejsce.nazwa }}, {{ object.obiektk.miejsce.adres }}</p>
                 {% endfor %}
             {% else %}
-                <p>Brak. I dobrze.</p>
+                <p>Brak przeglądów kończących się w przyszłym tygodniu.</p>
             {% endif %}
             <hr class="half-rule">
 
@@ -49,7 +50,7 @@
             <h4>Do końca miesiąca:</h4>
             {% if current_month_objects %}
                 {% for object in current_month_objects %}
-                    <p>{{ object.data_najblizszej_czynnosci }} -- {{ object.nazwa_urzadzenia }}</p>
+                    <p>{{ object.data_najblizszej_czynnosci }} -- {{ object.nazwa_urzadzenia }} -- {{ object.obiektk.nazwa }} -- {{ object.obiektk.miejsce.nazwa }}, {{ object.obiektk.miejsce.adres }}</p>
                 {% endfor %}
             {% else %}
                 <p>W tym miesiącu nie kończą się już żadne inne terminy.</p>
@@ -58,7 +59,7 @@
 
 
 
-            <a class="btn btn-default btn-lg" href="{% url 'profile' %}" role="button">Główne Menu</a>
+            <a class="btn btn-default btn-lg" href="{% url 'baza:profile' %}" role="button">Główne Menu</a>
         </div>
     </div>
 

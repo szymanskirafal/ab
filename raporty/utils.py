@@ -45,3 +45,5 @@ class DateRanges(object):
 #            next_month_starts_in = datetime.date(year, month, 1)
 #           next_month_ends_in = datetime.date(year, month, number_of_days)
 
+
+

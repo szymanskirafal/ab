@@ -8,13 +8,17 @@
         <div class="col-lg-12">
 
             <h2>{{ obiekt.nazwa }}</h2>
-            <h4>{{ miejsce.nazwa }}, {{ miejsce.adres }}.</h4>
-            <hr class="half-rule">
+            <table class="table table-hover">
+                <tr class="clickable_row" data-url="{% url 'baza:edytuj_miejsce' miejsce.id %}">
+                    <td>{{ miejsce.nazwa }}, {{ miejsce.adres }}.</td>
+                </tr>
+            </table>
+
 
 
             <h2>Dane techniczne:</h2>
             <table class="table table-hover">
-                <tr class="clickable_row" data-url="{% url 'edytuj_obiekt' obiekt.id %}">
+                <tr class="clickable_row" data-url="{% url 'baza:edytuj_obiekt' obiekt.id %}">
                     <td>{{ obiekt.dane_techniczne }}</td>
                 </tr>
             </table>
@@ -40,8 +44,8 @@
                 </thead>
                 <tbody>
                     {% for dopuszczenie in dopuszczenia %}
-                        
-                        <tr class="clickable_row" data-url="{% url 'edytuj_dopuszczenie' dopuszczenie.id %}">
+
+                        <tr class="clickable_row" data-url="{% url 'baza:edytuj_dopuszczenie' dopuszczenie.id %}">
                             <td>{{ dopuszczenie.nazwa_urzadzenia }}</td>
                             <td>{{ dopuszczenie.nr_urzadzenia }}</td>
                             <td>{{ dopuszczenie.opis_czynnosci }}</td>
@@ -52,13 +56,13 @@
                             <td>{{ dopuszczenie.osoba_odpowiedzialna_za_nadzor }}</td>
                             <td>{{ dopuszczenie.uwagi }}</td>
                         </tr>
-                       
+
                      {% endfor %}
                 </tbody>
             </table>
 
-            
-            <a class="btn btn-default btn-lg"  href="{% url 'dodaj_dopuszczenie' miejsce.id obiekt.id %}" role="button">Dodaj nowe dopuszczenia i legalizacje</a>
+
+            <a class="btn btn-default btn-lg"  href="{% url 'baza:dodaj_dopuszczenie' miejsce.id obiekt.id %}" role="button">Dodaj nowe dopuszczenia i legalizacje</a>
 
 
 
@@ -81,8 +85,8 @@
                 </thead>
                 <tbody>
                     {% for przeglad in przeglady %}
-                        
-                        <tr class="clickable_row" data-url="{% url 'edytuj_przeglad' przeglad.id %}">
+
+                        <tr class="clickable_row" data-url="{% url 'baza:edytuj_przeglad' przeglad.id %}">
                             <td>{{ przeglad.nazwa_urzadzenia }}</td>
                             <td>{{ przeglad.nr_urzadzenia }}</td>
                             <td>{{ przeglad.opis_czynnosci }}</td>
@@ -93,17 +97,17 @@
                             <td>{{ przeglad.osoba_odpowiedzialna_za_nadzor }}</td>
                             <td>{{ przeglad.uwagi }}</td>
                         </tr>
-                       
+
                      {% endfor %}
                 </tbody>
 
 
 
             </table>
-            <a class="btn btn-default btn-lg"  href="{% url 'dodaj_przeglad' miejsce.id obiekt.id %}" role="button">Dodaj nowy przegląd techniczny</a>
+            <a class="btn btn-default btn-lg"  href="{% url 'baza:dodaj_przeglad' miejsce.id obiekt.id %}" role="button">Dodaj nowy przegląd techniczny</a>
 
-            
-            <a class="btn btn-default btn-lg" href="{% url 'profile' %}" role="button">Główne Menu</a>
+
+            <a class="btn btn-default btn-lg" href="{% url 'baza:profile' %}" role="button">Główne Menu</a>
         </div>
     </div>
 

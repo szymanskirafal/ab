@@ -17,7 +17,7 @@
                 <p>Lista grup, które utworzyłes:</p>
                 <div class="list-group">
                     {% for group in groups_created_by_current_user %}
-                        <a href="{% url 'group_created' group %}" class="list-group-item">{{ group }}</a>
+                        <a href="{% url 'grupa:group_created' group %}" class="list-group-item">{{ group }}</a>
 
                     {% endfor %}
                 </div>
@@ -26,7 +26,7 @@
             <p>Lista wszystkich grup, których jestes uczestnikiem:</p>
             <div class="list-group">
                 {% for group in grupy %}
-                    <a href="{% url 'group' group %}" class="list-group-item">{{ group }}</a>
+                    <a href="{% url 'grupa:group' group %}" class="list-group-item">{{ group }}</a>
 
                 {% endfor %}
             </div>
@@ -35,8 +35,8 @@
 
 
 
-            <a class="btn btn-default btn-lg" href="{% url 'profile' %}" role="button">Główne Menu</a>
-            <a class="btn btn-default btn-lg"  href="{% url 'nowa' %}" role="button">Utwórz Grupę</a>
+            <a class="btn btn-default btn-lg" href="{% url 'baza:profile' %}" role="button">Główne Menu</a>
+            <a class="btn btn-default btn-lg"  href="{% url 'grupa:nowa' %}" role="button">Utwórz Grupę</a>
 
 
 
