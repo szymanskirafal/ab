@@ -1,0 +1,47 @@
+{% extends 'bootstrap_base.html' %}
+
+
+{% block main %}
+
+
+    <div class="row">
+        <div class="col-md-8">
+            <h1>Archiwalne dopuszczenie</h1>
+            <p>Nazwa urzadzenia: {{ object.nazwa_urzadzenia }}</p>
+            <p>Nr urzadzenia: {{ object.nr_urzadzenia }}</p>
+            <p>Opis czynnosci: {{ object.opis_czynnosci }}</p>
+            <p>Jednostka dozorowa: {{ object.jdenostka_dozorowa }}</p>
+            <p>Data ostatniej czynnosci: {{ object.data_ostatniej_czynnosci }}</p>
+
+
+            <a class="btn btn-default btn-lg" href="{% url 'baza:profile' %}" role="button">Główne Menu</a>
+            <!-- modal button-->
+            <button type="button" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#myModal">Usuń</button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Uwaga!</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>Obiekt zostanie usunięty bezpowrotnie po naciśnięciu "Usuń".</p>
+                            <p>Wybierz "Anuluj", jeśli nie chcesz usuwać obiektu.
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Anuluj</button>
+                            <button type="submit" class="btn btn-danger" name="delete">Usuń</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+
+{% endblock %}
+

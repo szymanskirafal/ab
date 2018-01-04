@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group, User
 
 
-from .forms import NewGroupForm, NewMemberForm, MemberForm
+from .forms import DeleteGroupForm, NewGroupForm, NewMemberForm, MemberForm
 from .models import CustomGroup
 
 
@@ -78,6 +78,28 @@ def group_created(request, group_name):
             'group_name': group_name,
             'members': members})
 
+@login_required
+def delete_group(request, group_name):
+    group = CustomGroup.objects.get(name = group_name)
+    group_creator = group.group_creator
+    if not request.user.username == group_creator:
+        return HttpResponseRedirect('/accounts/profile/')
+    else:
+        form = DeleteGroupForm(instance = group)
+        if request.method == 'POST':
+            form = DeleteGroupForm(request.POST, instance = group)
+            if form.is_valid():
+                group.delete()
+                return HttpResponseRedirect('/dodane/')
+
+        members = group.user_set.all()
+        return render(request, 'grupa/delete_group.html', {
+            'group_name': group_name,
+            'members': members,
+            'form': form,
+            })
+
+
 
 @login_required
 def add_member(request, group_name):
@@ -100,9 +122,9 @@ def add_member(request, group_name):
                 new_member = User.objects.get(username = new_member_name)
 
                 new_member.groups.add(group)
-                return HttpResponseRedirect(reverse('dodane'))
+                return HttpResponseRedirect('/dodane/')
             else:
-                return HttpResponseRedirect(reverse('niedodane'))
+                return HttpResponseRedirect('/niedodane/')
 
     else:
         form = NewMemberForm()
@@ -121,7 +143,7 @@ def member(request, group_name, member):
             member = User.objects.get(username = member_name)
             group = CustomGroup.objects.get(name = group_name)
             group.user_set.remove(member)
-            return HttpResponseRedirect(reverse('dodane'))
+            return HttpResponseRedirect('/dodane/')
 
 
 

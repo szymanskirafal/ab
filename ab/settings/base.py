@@ -64,21 +64,23 @@ INSTALLED_APPS = (
     'tasks',
 )
 
-SITE_ID = 3
+SITE_ID = 7
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'szymanskytp.nazwa.pl'
-EMAIL_HOST_USER = 'email@terminyprzegladow.pl'
+EMAIL_USE_SSL = True
+# had to change EMAIL_USE_TLS = True
+EMAIL_HOST = 'mail.privateemail.com'
+EMAIL_HOST_USER = 'support@terminyprzegladow.com'
 EMAIL_HOST_PASSWORD = os.environ['EMAIL_PASS']
-EMAIL_PORT = '587'
-
+EMAIL_PORT = '465'
+# '587' was for EMAIL_USE_TLS
+DEFAULT_FROM_EMAIL = 'support@terminyprzegladow.com'
 
 # allauth configuration
 ACCOUNT_AUTHENTICATIONS_METHOD = "email"
 ACCOUNT_CONFIRM_EMAIL_ON_GET = False
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+
 # ACCOUNT_FORMS = {'login': 'baza.forms.LoginForm'}
 
 

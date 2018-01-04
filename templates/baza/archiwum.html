@@ -1,0 +1,29 @@
+{% extends 'bootstrap_base.html' %}
+
+
+{% block main %}
+
+
+    <div class="row">
+        <div class="col-md-8">
+            <h1>Archiwum</h1>
+            <p>Opis czynnosci: {{ dopuszczenie.opis_czynnosci }}</p>
+            <h2>Lokalizacja:</h2>
+            <p>{{ dopuszczenie.obiektk.nazwa }}</p>
+            <p>{{ dopuszczenie.obiektk.miejsce.nazwa }}  {{ dopuszczenie.obiektk.miejsce.adres }}.</p>
+
+            <h2>Lista archiwalnych dopuszczen:</h2>
+            <div class="list-group">
+                {% for archiwum in archiwum_lista %}
+
+                <p>{{ archiwum.nazwa_urzadzenia }} ... {{ archiwum.opis_czynnosci }} ... data utworzenia: {{ archiwum.created }} <a class="btn btn-default" href="{% url 'baza:archiwum-detail' archiwum.pk %}" role="button">Szczegoly</a></p>
+
+                {% endfor %}
+            </div>
+            <a class="btn btn-default btn-lg" href="{% url 'baza:profile' %}" role="button">Główne Menu</a>
+
+        </div>
+    </div>
+
+{% endblock %}
+

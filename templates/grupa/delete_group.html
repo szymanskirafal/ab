@@ -1,0 +1,61 @@
+{% extends 'bootstrap_base.html' %}
+
+
+{% block main %}
+
+
+    <div class="row">
+        <div class="col-md-8">
+
+
+
+            <h1>Zamierzasz usunąć grupę {{ group_name }}</h1>
+
+            <p>Uczestnicy tej grupy to: </p>
+            {% for member in members %}
+            <p>{{ member.username }}</p>
+            {% endfor %}
+
+
+            <div>
+                <form role="form"  method="post">
+                    <div class="form-group">
+                        {% csrf_token %}
+                        {{ form }}
+                    </div>
+
+                    <a class="btn btn-default btn-lg" href="{% url 'baza:profile' %}" role="button">Główne Menu</a>
+
+
+                    <!-- modal button-->
+                    <button type="button" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#myModal">Usuń grupę</button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">Uwaga!</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Grupa zostanie usunięta bezpowrotnie po naciśnięciu "Usuń".</p>
+                                    <p>Wybierz "Anuluj", jeśli nie chcesz usuwać grupy.
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Anuluj</button>
+                                    <button type="submit" class="btn btn-danger" name="delete">Usuń</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </form>
+            </div>
+
+
+        </div>
+    </div>
+
+{% endblock %}

@@ -8,7 +8,7 @@
         <div class="col-md-8">
 
             {% block coedytowac %}
-            
+
             {% endblock %}
 
             <form role="form"  method="post">
@@ -17,7 +17,11 @@
                     {{ form }}
                 </div>
                 <button type="submit" class="btn btn-default btn-lg" name="save">Zapisz</button>
-           
+
+                {% block archives %}
+
+                {% endblock %}
+
 
                 <!-- modal button-->
                 <button type="button" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#myModal">Usuń</button>
@@ -41,7 +45,9 @@
                         </div>
                     </div>
                 </div>
-            </form>          
+            </form>
+
+
         </div>
     </div>
 

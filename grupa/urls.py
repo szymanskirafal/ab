@@ -10,4 +10,5 @@ urlpatterns = [
     url(r'^created/add/(?P<group_name>[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ0-9 _.-]+)/$', views.add_member, name='add_member'),
     url(r'^created/member/(?P<group_name>[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ0-9 ]+)/(?P<member>[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ0-9 _.-]+)/$', views.member, name='member'),
     url(r'^grupa/group/(?P<group_name>[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ0-9 _.-]+)/$', views.group, name='group'),
+    url(r'^grupa/delete/(?P<group_name>[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ0-9 _.-]+)/$', views.delete_group, name='delete_group'),
 ]

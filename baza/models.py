@@ -8,7 +8,6 @@ class Miejsce(models.Model):
     TYPY_MIEJSC = (
         ('stacja', 'Stacja Paliw'),
         ('magazyn', 'Magazyn Paliw'),
-        ('budynek', 'Budynek'),
     )
 
     typ = models.CharField(max_length = 50, choices = TYPY_MIEJSC)
@@ -31,19 +30,37 @@ class DopuszczeniaLegalizacje(models.Model):
     nazwa_urzadzenia = models.CharField(max_length = 100)
     nr_urzadzenia = models.CharField(max_length = 50, null = True, blank = True)
     opis_czynnosci = models.CharField(max_length = 150)
-    jednostka_dozorowa = models.CharField(max_length = 50)
+    jednostka_dozorowa = models.CharField(max_length = 150)
     data_ostatniej_czynnosci = models.DateField(null = True, blank = True)
     nr_decyzji = models.CharField(max_length = 100, null = True, blank = True)
     data_najblizszej_czynnosci = models.DateField()
     osoba_odpowiedzialna_za_nadzor = models.CharField(max_length = 100)
     uwagi = models.TextField(null = True, blank = True)
 
+
+class ArchiwumDopuszczenie(models.Model):
+    created = models.DateTimeField(auto_now_add = True)
+    modified = models.DateTimeField(auto_now = True)
+    dopuszczenie = models.ForeignKey(DopuszczeniaLegalizacje)
+    nazwa_urzadzenia = models.CharField(max_length = 100)
+    nr_urzadzenia = models.CharField(max_length = 50, null = True, blank = True)
+    opis_czynnosci = models.CharField(max_length = 150)
+    jednostka_dozorowa = models.CharField(max_length = 150)
+    data_ostatniej_czynnosci = models.DateField(null = True, blank = True)
+    nr_decyzji = models.CharField(max_length = 100, null = True, blank = True)
+    data_najblizszej_czynnosci = models.DateField()
+    osoba_odpowiedzialna_za_nadzor = models.CharField(max_length = 100)
+    uwagi = models.TextField(null = True, blank = True)
+
+
+
+
 class PrzegladyTechniczne(models.Model):
     obiektk = models.ForeignKey(ObiektK)
     nazwa_urzadzenia = models.CharField(max_length = 100)
     nr_urzadzenia = models.CharField(max_length = 50, null = True, blank = True)
     opis_czynnosci = models.CharField(max_length = 150)
-    jednostka_kontrolujaca = models.CharField(max_length = 50)
+    jednostka_kontrolujaca = models.CharField(max_length = 150)
     data_ostatniej_czynnosci = models.DateField(null = True, blank = True)
     nr_protokolu = models.CharField(max_length = 100, null = True, blank = True)
     data_najblizszej_czynnosci = models.DateField()

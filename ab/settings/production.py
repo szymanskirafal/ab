@@ -1,6 +1,6 @@
-from .base import *
+from . base import *
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['www.terminyprzegladow.pl']
+ALLOWED_HOSTS = ['www.terminyprzegladow.com']
 

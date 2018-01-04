@@ -1,13 +1,35 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.core.urlresolvers import reverse
+from django.views import generic
 
 from django.contrib.auth.decorators import login_required
 
 from .forms import MiejsceForm, ObiektKForm, DopuszczeniaLegalizacjeForm, PrzegladyTechniczneForm, ObiektForm, StacjaForm, SzukajObiektForm, UrzadzenieForm, PrzedmiotForm
-from .models import Miejsce, ObiektK, DopuszczeniaLegalizacje, PrzegladyTechniczne, Obiekt, Urzadzenie, Przedmiot
+from .models import Miejsce, ObiektK, DopuszczeniaLegalizacje, ArchiwumDopuszczenie, PrzegladyTechniczne, Obiekt, Urzadzenie, Przedmiot
 
 # from grupa.models import CustomGroup
+
+
+class ArchiwumListView(generic.ListView):
+
+    context_object_name = 'archiwum_lista'
+    template_name = "baza/archiwum.html"
+
+    def get_queryset(self, *args, **kwargs):
+        pk = self.kwargs['obiekt_id']
+        self.dopuszczenie = DopuszczeniaLegalizacje.objects.get(pk = pk)
+        return ArchiwumDopuszczenie.objects.all().filter(dopuszczenie=self.dopuszczenie)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['dopuszczenie'] = self.dopuszczenie
+        return context
+
+class ArchiwumDetailView(generic.DetailView):
+
+    model = ArchiwumDopuszczenie
+    template_name = "baza/archiwum-detail.html"
 
 
 @login_required
@@ -73,11 +95,37 @@ def edytuj_dopuszczenie(request, obiekt_id):
             if 'save' in request.POST:
                 form.save()
                 return HttpResponseRedirect('/dodane/')
+            elif 'archive' in request.POST:
+                dopuszczenie = obiekt
+                nazwa_urzadzenia = form.cleaned_data['nazwa_urzadzenia']
+                nr_urzadzenia = form.cleaned_data['nr_urzadzenia']
+                opis_czynnosci = form.cleaned_data['opis_czynnosci']
+                jednostka_dozorowa = form.cleaned_data['jednostka_dozorowa']
+                data_ostatniej_czynnosci = form.cleaned_data['data_ostatniej_czynnosci']
+                nr_decyzji = form.cleaned_data['nr_decyzji']
+                data_najblizszej_czynnosci = form.cleaned_data['data_najblizszej_czynnosci']
+                osoba_odpowiedzialna_za_nadzor = form.cleaned_data['osoba_odpowiedzialna_za_nadzor']
+                uwagi = form.cleaned_data['uwagi']
+
+                ArchiwumDopuszczenie.objects.create(
+                    dopuszczenie = dopuszczenie,
+                    nazwa_urzadzenia = nazwa_urzadzenia,
+                    nr_urzadzenia = nr_urzadzenia,
+                    opis_czynnosci = opis_czynnosci,
+                    jednostka_dozorowa = jednostka_dozorowa,
+                    data_ostatniej_czynnosci = data_ostatniej_czynnosci,
+                    nr_decyzji = nr_decyzji,
+                    data_najblizszej_czynnosci = data_najblizszej_czynnosci,
+                    osoba_odpowiedzialna_za_nadzor = osoba_odpowiedzialna_za_nadzor,
+                    uwagi = uwagi
+                )
+
+                return HttpResponseRedirect('/dodane/')
             elif 'delete' in request.POST:
                 obiekt.delete()
                 return HttpResponseRedirect(reverse('baza:profile'))
 
-    return render(request, 'baza/edytuj_dopuszczenie.html', {'form': form})
+    return render(request, 'baza/edytuj_dopuszczenie.html', {'form': form, 'obiekt':obiekt})
 
 @login_required
 def edytuj_przeglad(request, obiekt_id):
