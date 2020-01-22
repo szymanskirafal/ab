@@ -65,21 +65,28 @@ INSTALLED_APPS = (
 )
 
 SITE_ID = 7
+
+# email settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_USE_SSL = True
-# had to change EMAIL_USE_TLS = True
-EMAIL_HOST = 'mail.privateemail.com'
-EMAIL_HOST_USER = 'support@terminyprzegladow.com'
+# EMAIL_USE_SSL = True ---- used for privateemail
+EMAIL_USE_TLS = True
+#EMAIL_HOST = 'mail.privateemail.com' ---- used for privateemail
+EMAIL_HOST = 'smtp.gmail.com'
+#EMAIL_HOST_USER = 'support@terminyprzegladow.com' ---- used for privateemail
+EMAIL_HOST_USER = 'terminyprzegladow@gmail.com'
 EMAIL_HOST_PASSWORD = os.environ['EMAIL_PASS']
-EMAIL_PORT = '465'
-# '587' was for EMAIL_USE_TLS
-DEFAULT_FROM_EMAIL = 'support@terminyprzegladow.com'
+#EMAIL_PORT = '465' ---- used for SSL which privateemail use
+EMAIL_PORT = '587'
+# '587' is for EMAIL_USE_TLS f.e. gmail
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
 
 # allauth configuration
-ACCOUNT_AUTHENTICATIONS_METHOD = "email"
+ACCOUNT_AUTHENTICATIONS_METHOD = "username"
 ACCOUNT_CONFIRM_EMAIL_ON_GET = False
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_EMAIL_VERIFICATION = "none"
 
 # ACCOUNT_FORMS = {'login': 'baza.forms.LoginForm'}
 
@@ -118,6 +125,7 @@ TEMPLATES = [
             os.path.join(BASE_DIR, 'templates'),
             '/templates/tasks/',
             '/ab/templates/tasks/',
+            'django/contrib/admin/templates/admin/',
         ],
         'APP_DIRS': True,
         'OPTIONS': {

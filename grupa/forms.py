@@ -8,8 +8,10 @@ from .models import CustomGroup
 
 
 class NewGroupForm(forms.Form):
-    group_name = forms.CharField(label='Nazwa grupy', max_length = 30,
+    group_name = forms.CharField(label='Nazwa grupy  ', max_length = 30,
         widget = forms.TextInput(attrs={'placeholder':'Wpisz nazwę grupy'}))
+    #stacje = forms.BooleanField(label='Czy grupa ma dostawać raporty o stacjach?  ', required = False)
+    #magazyny = forms.BooleanField(label='Czy grupa ma dostawać raporty o magazynach?  ', required = False)
 
 
 class DeleteGroupForm(ModelForm):

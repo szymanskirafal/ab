@@ -6,21 +6,27 @@
 
     <div class="row">
         <div class="col-md-8">
-            <h1>Archiwalne dopuszczenie / legalizacja.</h1>
+            <h1>Uwaga!</h1>
+            <h1>Czy na pewno chcesz usunąć archiwalne dopuszczenie / legalizację?</h1>
             <p>Data utworzenia: {{ object.created }}</p>
             <p>Data ostatniej modyfikacji: {{ object.modified }}</p>
             <p>Nazwa urzadzenia: {{ object.nazwa_urzadzenia }}</p>
             <p>Nr urzadzenia: {{ object.nr_urzadzenia }}</p>
             <p>Opis czynnosci: {{ object.opis_czynnosci }}</p>
-            <p>Jednostka dozorowa: {{ object.jdenostka_dozorowa }}</p>
+            <p>Jednostka dozorowa: {{ object.jednostka_dozorowa }}</p>
             <p>Data ostatniej czynnosci: {{ object.data_ostatniej_czynnosci }}</p>
-            <p>Nr decyzji: {{object.nr_decyzji }}</p>
+            <p>Nr decyzji: {{ object.nr_decyzji }}</p>
             <p>Data najbliższej czynnosci: {{ object.data_najblizszej_czynnosci }}</p>
             <p>Osoba odpowiedzialna za nadzór: {{ object.osoba_odpowiedzialna_za_nadzor }}</p>
             <p>Uwagi: {{ object.uwagi }}</p>
 
+            <form action="" method="post">
+                {% csrf_token %}
+                <input class="btn btn-danger btn-lg" type="submit" value="Kasuj na pewno"/>
+            </form>
+            <br>
             <a class="btn btn-default btn-lg" href="{% url 'baza:profile' %}" role="button">Główne Menu</a>
-            <a class="btn btn-default btn-lg" href="{% url 'baza:archiwum-dopuszczenie-delete' object.pk %}" role="button">Kasuj</a>
+
         </div>
     </div>
 

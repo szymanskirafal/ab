@@ -1,0 +1,22 @@
+{% extends 'bootstrap_base.html' %}
+
+
+{% block main %}
+
+
+    <div class="row">
+        <div class="col-md-8">
+            <h2>Lista wszystkich baz.</h2>
+            <div class="list-group">
+                {% for miejsce in miejsca %}
+
+                <a href="{% url 'baza:miejsce' miejsce.id %}" class="list-group-item">{{ miejsce.nazwa }}, {{ miejsce.adres }}</a>
+
+                {% endfor %}
+            </div>
+            <a class="btn btn-default btn-lg" href="{% url 'baza:profile' %}" role="button">Główne Menu</a>
+            <a class="btn btn-default btn-lg"  href="{% url 'baza:dodaj_miejsce' %}" role="button">Dodaj nowy obiekt</a>
+        </div>
+    </div>
+
+{% endblock %}

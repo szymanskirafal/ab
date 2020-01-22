@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.urlresolvers import reverse
 
 
 
@@ -25,6 +26,9 @@ class ObiektK(models.Model):
     nazwa = models.CharField(max_length = 100)
     dane_techniczne = models.TextField()
 
+    def get_absolute_url(self):
+        return reverse('obiekt', kwargs={'pk': self.pk})
+
 class DopuszczeniaLegalizacje(models.Model):
     obiektk = models.ForeignKey(ObiektK)
     nazwa_urzadzenia = models.CharField(max_length = 100)
@@ -36,6 +40,9 @@ class DopuszczeniaLegalizacje(models.Model):
     data_najblizszej_czynnosci = models.DateField()
     osoba_odpowiedzialna_za_nadzor = models.CharField(max_length = 100)
     uwagi = models.TextField(null = True, blank = True)
+
+    def get_absolute_url(self):
+        return reverse('edytuj_dopuszczenie', kwargs={'pk': self.pk})
 
 
 class ArchiwumDopuszczenie(models.Model):
@@ -53,10 +60,23 @@ class ArchiwumDopuszczenie(models.Model):
     uwagi = models.TextField(null = True, blank = True)
 
 
-
-
 class PrzegladyTechniczne(models.Model):
     obiektk = models.ForeignKey(ObiektK)
+    nazwa_urzadzenia = models.CharField(max_length = 100)
+    nr_urzadzenia = models.CharField(max_length = 50, null = True, blank = True)
+    opis_czynnosci = models.CharField(max_length = 150)
+    jednostka_kontrolujaca = models.CharField(max_length = 150)
+    data_ostatniej_czynnosci = models.DateField(null = True, blank = True)
+    nr_protokolu = models.CharField(max_length = 100, null = True, blank = True)
+    data_najblizszej_czynnosci = models.DateField()
+    osoba_odpowiedzialna_za_nadzor = models.CharField(max_length = 100)
+    uwagi = models.TextField(null = True, blank = True)
+
+
+class ArchiwumPrzeglad(models.Model):
+    created = models.DateTimeField(auto_now_add = True)
+    modified = models.DateTimeField(auto_now = True)
+    przeglad = models.ForeignKey(PrzegladyTechniczne)
     nazwa_urzadzenia = models.CharField(max_length = 100)
     nr_urzadzenia = models.CharField(max_length = 50, null = True, blank = True)
     opis_czynnosci = models.CharField(max_length = 150)
@@ -98,5 +118,3 @@ class Przedmiot(models.Model):
     lokalizacja = models.TextField()
     nr = models.CharField(max_length=100)
     wytyczne = models.TextField()
-
-# Create your models here.

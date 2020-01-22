@@ -1,0 +1,30 @@
+{% extends 'bootstrap_base.html' %}
+
+
+{% block main %}
+
+
+    <div class="row">
+        <div class="col-md-8">
+            <h1>Archiwum</h1>
+            <p>Opis czynnosci: {{ przeglad.opis_czynnosci }}</p>
+            <h2>Lokalizacja:</h2>
+            <p>{{ przeglad.obiektk.nazwa }}</p>
+            <p>{{ przeglad.obiektk.miejsce.nazwa }}  {{ przeglad.obiektk.miejsce.adres }}.</p>
+
+
+            <h2>Lista archiwalnych przeglądów:</h2>
+            <div class="list-group">
+                {% for archiwum in archiwum_lista %}
+
+                <p>{{ archiwum.nazwa_urzadzenia }} ... {{ archiwum.opis_czynnosci }} ... data utworzenia: {{ archiwum.created }} <a class="btn btn-default" href="{% url 'baza:archiwum-przeglad-detail' archiwum.pk %}" role="button">Szczegóły</a></p>
+
+                {% endfor %}
+            </div>
+            <a class="btn btn-default btn-lg" href="{% url 'baza:profile' %}" role="button">Główne Menu</a>
+
+        </div>
+    </div>
+
+{% endblock %}
+

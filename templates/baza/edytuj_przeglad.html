@@ -5,6 +5,14 @@
 
     <h2>Edytuj przegląd techniczny.</h2>
 
+
+{% endblock %}
+
+{% block archives %}
+
+    <a class="btn btn-default btn-lg"  href="{% url 'baza:archiwum-przeglad' przeglad.id %}" role="button">Przeglądaj archiwum</a>
+    <button type="submit" class="btn btn-primary btn-lg" name="archive">Dodaj do archiwum</button>
+
 {% endblock %}
 
 

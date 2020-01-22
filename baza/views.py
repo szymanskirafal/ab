@@ -1,17 +1,35 @@
+from django.core.urlresolvers import reverse, reverse_lazy
+from django.db.models.functions import Lower
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.core.urlresolvers import reverse
 from django.views import generic
 
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+import datetime
+
 
 from .forms import MiejsceForm, ObiektKForm, DopuszczeniaLegalizacjeForm, PrzegladyTechniczneForm, ObiektForm, StacjaForm, SzukajObiektForm, UrzadzenieForm, PrzedmiotForm
-from .models import Miejsce, ObiektK, DopuszczeniaLegalizacje, ArchiwumDopuszczenie, PrzegladyTechniczne, Obiekt, Urzadzenie, Przedmiot
+from .models import Miejsce, ObiektK, DopuszczeniaLegalizacje, ArchiwumDopuszczenie, PrzegladyTechniczne, ArchiwumPrzeglad, Obiekt, Urzadzenie, Przedmiot
 
 # from grupa.models import CustomGroup
 
+class BazyListView(LoginRequiredMixin, generic.ListView):
+    context_object_name = 'miejsca'
+    template_name = "baza/bazy.html"
 
-class ArchiwumListView(generic.ListView):
+    def get_queryset(self, *args, **kwargs):
+        return Miejsce.objects.all().filter(typ='magazyn')
+
+class StacjeListView(LoginRequiredMixin, generic.ListView):
+    context_object_name = 'miejsca'
+    template_name = "baza/stacje.html"
+
+    def get_queryset(self, *args, **kwargs):
+        return Miejsce.objects.all().filter(typ='stacja')
+
+
+class ArchiwumListView(LoginRequiredMixin, generic.ListView):
 
     context_object_name = 'archiwum_lista'
     template_name = "baza/archiwum.html"
@@ -26,15 +44,51 @@ class ArchiwumListView(generic.ListView):
         context['dopuszczenie'] = self.dopuszczenie
         return context
 
-class ArchiwumDetailView(generic.DetailView):
+
+class ArchiwumDetailView(LoginRequiredMixin, generic.DetailView):
 
     model = ArchiwumDopuszczenie
     template_name = "baza/archiwum-detail.html"
 
 
+class ArchiwumDopuszczenieDeleteView(LoginRequiredMixin, generic.DeleteView):
+
+    model = ArchiwumDopuszczenie
+    template_name = "baza/archiwum-dopuszczenie-delete.html"
+    success_url = reverse_lazy('baza:profile')
+
+
+class ArchiwumPrzegladListView(LoginRequiredMixin, generic.ListView):
+
+    context_object_name = 'archiwum_lista'
+    template_name = "baza/archiwum-przeglad.html"
+
+    def get_queryset(self, *args, **kwargs):
+        pk = self.kwargs['przeglad_id']
+        self.przeglad = PrzegladyTechniczne.objects.get(pk = pk)
+        return ArchiwumPrzeglad.objects.all().filter(przeglad=self.przeglad)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['przeglad'] = self.przeglad
+        return context
+
+
+class ArchiwumPrzegladDetailView(LoginRequiredMixin, generic.DetailView):
+
+    model = ArchiwumPrzeglad
+    template_name = "baza/archiwum-przeglad-detail.html"
+
+
+class ArchiwumPrzegladDeleteView(LoginRequiredMixin, generic.DeleteView):
+
+    model = ArchiwumPrzeglad
+    template_name = "baza/archiwum-przeglad-delete.html"
+    success_url = reverse_lazy('baza:profile')
+
+
 @login_required
 def profile(request):
-
     return render(request, 'baza/profile.html')
 
 
@@ -128,22 +182,48 @@ def edytuj_dopuszczenie(request, obiekt_id):
     return render(request, 'baza/edytuj_dopuszczenie.html', {'form': form, 'obiekt':obiekt})
 
 @login_required
-def edytuj_przeglad(request, obiekt_id):
-    obiekt = PrzegladyTechniczne.objects.get(pk = obiekt_id)
-    form = PrzegladyTechniczneForm(instance = obiekt)
+def edytuj_przeglad(request, przeglad_id):
+    przeglad = PrzegladyTechniczne.objects.get(pk = przeglad_id)
+    form = PrzegladyTechniczneForm(instance = przeglad)
 
     if request.method == 'POST':
-        form = PrzegladyTechniczneForm(request.POST, instance = obiekt)
+        form = PrzegladyTechniczneForm(request.POST, instance = przeglad)
         if form.is_valid():
             if 'save' in request.POST:
                 form.save()
+
+                return HttpResponseRedirect('/dodane/')
+            elif 'archive' in request.POST:
+                przeglad = przeglad
+                nazwa_urzadzenia = form.cleaned_data['nazwa_urzadzenia']
+                nr_urzadzenia = form.cleaned_data['nr_urzadzenia']
+                opis_czynnosci = form.cleaned_data['opis_czynnosci']
+                jednostka_kontrolujaca = form.cleaned_data['jednostka_kontrolujaca']
+                data_ostatniej_czynnosci = form.cleaned_data['data_ostatniej_czynnosci']
+                nr_protokolu = form.cleaned_data['nr_protokolu']
+                data_najblizszej_czynnosci = form.cleaned_data['data_najblizszej_czynnosci']
+                osoba_odpowiedzialna_za_nadzor = form.cleaned_data['osoba_odpowiedzialna_za_nadzor']
+                uwagi = form.cleaned_data['uwagi']
+
+                ArchiwumPrzeglad.objects.create(
+                    przeglad = przeglad,
+                    nazwa_urzadzenia = nazwa_urzadzenia,
+                    nr_urzadzenia = nr_urzadzenia,
+                    opis_czynnosci = opis_czynnosci,
+                    jednostka_kontrolujaca = jednostka_kontrolujaca,
+                    data_ostatniej_czynnosci = data_ostatniej_czynnosci,
+                    nr_protokolu = nr_protokolu,
+                    data_najblizszej_czynnosci = data_najblizszej_czynnosci,
+                    osoba_odpowiedzialna_za_nadzor = osoba_odpowiedzialna_za_nadzor,
+                    uwagi = uwagi
+                )
+
                 return HttpResponseRedirect('/dodane/')
             elif 'delete' in request.POST:
-                obiekt.delete()
-
+                przeglad.delete()
                 return HttpResponseRedirect(reverse('baza:profile'))
 
-    return render(request, 'baza/edytuj_przeglad.html', {'form': form})
+    return render(request, 'baza/edytuj_przeglad.html', {'form': form, 'przeglad':przeglad})
 
 
 
@@ -154,45 +234,6 @@ def home(request):
 
 
 @login_required
-def miejsca(request, miejsca):
-
-    if miejsca == 'magazyn':
-        typ_miejsca = 'Magazyn paliw'
-    elif miejsca == 'stacja':
-        typ_miejsca = 'Stacja paliw'
-    else:
-        typ_miejsca = 'Budynek'
-
-    # check if user belongs to some group
-    user = request.user
-    user_groups = user.groups.all()
-
-    # check all members of these groups
-
-    all_members = []
-    for group in user_groups:
-        for member in group.user_set.all():
-            all_members.append(member.username)
-
-    # find objects created by these members
-
-
-
-    miejsca = Miejsce.objects.all().filter(typ=miejsca).filter(created_by__in = all_members)
-
-
-    return render(request, 'baza/miejsca.html',
-        {
-            'typ_miejsca': typ_miejsca,
-            'miejsca': miejsca,
-
-            })
-
-
-
-
-
-@login_required
 def miejsce(request, miejsce_id):
 
     # pokaż nazwę i adres miejsca o podanym id
@@ -200,7 +241,7 @@ def miejsce(request, miejsce_id):
 
     # pokaż wszystkie obiektyK dla tego miejsca
     obiekty = ObiektK.objects.all().filter(miejsce = miejsce)
-
+    obiekty = obiekty.order_by(Lower('nazwa'))
     # dodaj nowy obiektK
     # link w template do funkcji dodaj_obiektK
 
@@ -263,6 +304,366 @@ def dodaj_miejsce(request):
         form = MiejsceForm()
 
     return render(request, 'baza/dodaj_miejsce.html', {'form': form})
+
+class DodajObiektWyborOpcjiTemplateView(generic.TemplateView):
+    template_name = 'baza/dodaj-obiekt-wybor-opcji.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        miejsce_id = self.kwargs['miejsce_id']
+        miejsce = Miejsce.objects.get(pk = miejsce_id)
+        context['miejsce'] = miejsce
+        return context
+
+class DodajObiektGotowyCreateView(LoginRequiredMixin, generic.CreateView):
+    form_class = ObiektKForm
+    model = ObiektK
+    success_url = '/dodane/'
+    template_name = "baza/dodaj-obiekt-initial.html"
+    initial = {
+
+        'nazwa': 'agregat proszkowy typ TEX 25 l nr 550/1998 nr doz. N2329002015',
+        'dane_techniczne': 'prod. Grodków typ. TEX 25 L'
+    }
+
+    def form_valid(self, form):
+        miejsce_id = self.kwargs['miejsce_id']
+        miejsce = Miejsce.objects.get(pk = miejsce_id)
+        form.instance.miejsce = miejsce
+        self.object = form.save()
+        now = datetime.datetime.now()
+        DopuszczeniaLegalizacje.objects.create(
+            obiektk = self.object,
+            nazwa_urzadzenia = self.object.nazwa,
+            nr_urzadzenia = 'nr',
+            opis_czynnosci = 'rewizja wewnetrzna',
+            jednostka_dozorowa = 'UDT',
+            data_ostatniej_czynnosci = now,
+            nr_decyzji = 'b/d',
+            data_najblizszej_czynnosci = now,
+            osoba_odpowiedzialna_za_nadzor = 'Rafał Tyrka',
+            uwagi = 'brak'
+        )
+        DopuszczeniaLegalizacje.objects.create(
+            obiektk = self.object,
+            nazwa_urzadzenia = self.object.nazwa,
+            nr_urzadzenia = '550',
+            opis_czynnosci = 'próba ciśnieniowa',
+            jednostka_dozorowa = 'UDT',
+            data_ostatniej_czynnosci = now,
+            nr_decyzji = 'b/d',
+            data_najblizszej_czynnosci = now,
+            osoba_odpowiedzialna_za_nadzor = 'Rafał Tyrka',
+            uwagi = 'brak'
+        )
+        PrzegladyTechniczne.objects.create(
+            obiektk = self.object,
+            nazwa_urzadzenia = self.object.nazwa,
+            nr_urzadzenia = '550',
+            opis_czynnosci = 'okresowy przegląd agregatu',
+            jednostka_kontrolujaca = 'Best Sp. Jawna',
+            data_ostatniej_czynnosci = now,
+            nr_protokolu = '43/2017',
+            data_najblizszej_czynnosci = now,
+            osoba_odpowiedzialna_za_nadzor = 'Rafał Tyrka',
+            uwagi = 'brak'
+        )
+
+        return super().form_valid(form)
+
+
+class DodajOdmierzaczCreateView(LoginRequiredMixin, generic.CreateView):
+    form_class = ObiektKForm
+    model = ObiektK
+    success_url = '/dodane/'
+    template_name = "baza/dodaj-obiekt-initial.html"
+    initial = {
+
+        'nazwa': 'Odmierzacz paliw serii HELIX 6000 model C(NH/LM) 33-33, RV2 nr',
+        'dane_techniczne': 'Odmierzacz paliw serii HELIX 6000 model C(NH/LM) 33-33, RV2,  prod.  Wayne Dresser  rok prod. 2018 trzyproduktowy   (dwie benzyny oraz ON ) sześciowężowy (2 węże ON, 2 węże Pb95, 2 węże Pb 98); o wydajności 40 dm3/min,'
+    }
+
+    def form_valid(self, form):
+        miejsce_id = self.kwargs['miejsce_id']
+        miejsce = Miejsce.objects.get(pk = miejsce_id)
+        form.instance.miejsce = miejsce
+        self.object = form.save()
+        now = datetime.datetime.now()
+        DopuszczeniaLegalizacje.objects.create(
+            obiektk = self.object,
+            nazwa_urzadzenia = 'Czujnik objętości cieczy',
+            nr_urzadzenia = 'x',
+            opis_czynnosci = 'Legalizacja ponowna',
+            jednostka_dozorowa = 'OUM w Zielonej Górze',
+            data_ostatniej_czynnosci = now,
+            nr_decyzji = 'Świadectwo Legalizacji ponownej znak wniosku:  WZ4.400.864.18.2018',
+            data_najblizszej_czynnosci = now,
+            osoba_odpowiedzialna_za_nadzor = 'Grzegorz Staszak',
+            uwagi = 'brak'
+        )
+        DopuszczeniaLegalizacje.objects.create(
+            obiektk = self.object,
+            nazwa_urzadzenia = 'Czujnik objętości cieczy',
+            nr_urzadzenia = 'x',
+            opis_czynnosci = 'Legalizacja ponowna',
+            jednostka_dozorowa = 'OUM w Zielonej Górze',
+            data_ostatniej_czynnosci = now,
+            nr_decyzji = 'Świadectwo Legalizacji ponownej znak wniosku:  WZ4.400.864.18.2018',
+            data_najblizszej_czynnosci = now,
+            osoba_odpowiedzialna_za_nadzor = 'Grzegorz Staszak',
+            uwagi = 'brak'
+        )
+        DopuszczeniaLegalizacje.objects.create(
+            obiektk = self.object,
+            nazwa_urzadzenia = 'Czujnik objętości cieczy',
+            nr_urzadzenia = 'x',
+            opis_czynnosci = 'Legalizacja ponowna',
+            jednostka_dozorowa = 'OUM w Zielonej Górze',
+            data_ostatniej_czynnosci = now,
+            nr_decyzji = 'Świadectwo Legalizacji ponownej znak wniosku:  WZ4.400.864.18.2018',
+            data_najblizszej_czynnosci = now,
+            osoba_odpowiedzialna_za_nadzor = 'Grzegorz Staszak',
+            uwagi = 'brak'
+        )
+        DopuszczeniaLegalizacje.objects.create(
+            obiektk = self.object,
+            nazwa_urzadzenia = 'Czujnik objętości cieczy',
+            nr_urzadzenia = 'x',
+            opis_czynnosci = 'Legalizacja ponowna',
+            jednostka_dozorowa = 'OUM w Zielonej Górze',
+            data_ostatniej_czynnosci = now,
+            nr_decyzji = 'Świadectwo Legalizacji ponownej znak wniosku:  WZ4.400.864.18.2018',
+            data_najblizszej_czynnosci = now,
+            osoba_odpowiedzialna_za_nadzor = 'Grzegorz Staszak',
+            uwagi = 'brak'
+        )
+        DopuszczeniaLegalizacje.objects.create(
+            obiektk = self.object,
+            nazwa_urzadzenia = 'Czujnik objętości cieczy',
+            nr_urzadzenia = 'x',
+            opis_czynnosci = 'Legalizacja ponowna',
+            jednostka_dozorowa = 'OUM w Zielonej Górze',
+            data_ostatniej_czynnosci = now,
+            nr_decyzji = 'Świadectwo Legalizacji ponownej znak wniosku:  WZ4.400.864.18.2018',
+            data_najblizszej_czynnosci = now,
+            osoba_odpowiedzialna_za_nadzor = 'Grzegorz Staszak',
+            uwagi = 'brak'
+        )
+        DopuszczeniaLegalizacje.objects.create(
+            obiektk = self.object,
+            nazwa_urzadzenia = 'Czujnik objętości cieczy',
+            nr_urzadzenia = 'x',
+            opis_czynnosci = 'Legalizacja ponowna',
+            jednostka_dozorowa = 'OUM w Zielonej Górze',
+            data_ostatniej_czynnosci = now,
+            nr_decyzji = 'Świadectwo Legalizacji ponownej znak wniosku:  WZ4.400.864.18.2018',
+            data_najblizszej_czynnosci = now,
+            osoba_odpowiedzialna_za_nadzor = 'Grzegorz Staszak',
+            uwagi = 'brak'
+        )
+        DopuszczeniaLegalizacje.objects.create(
+            obiektk = self.object,
+            nazwa_urzadzenia = 'Czujnik objętości cieczy',
+            nr_urzadzenia = 'x',
+            opis_czynnosci = 'Legalizacja ponowna',
+            jednostka_dozorowa = 'OUM w Zielonej Górze',
+            data_ostatniej_czynnosci = now,
+            nr_decyzji = 'Świadectwo Legalizacji ponownej znak wniosku:  WZ4.400.864.18.2018',
+            data_najblizszej_czynnosci = now,
+            osoba_odpowiedzialna_za_nadzor = 'Grzegorz Staszak',
+            uwagi = 'brak'
+        )
+        DopuszczeniaLegalizacje.objects.create(
+            obiektk = self.object,
+            nazwa_urzadzenia = 'Czujnik objętości cieczy',
+            nr_urzadzenia = 'x',
+            opis_czynnosci = 'Legalizacja ponowna',
+            jednostka_dozorowa = 'OUM w Zielonej Górze',
+            data_ostatniej_czynnosci = now,
+            nr_decyzji = 'Świadectwo Legalizacji ponownej znak wniosku:  WZ4.400.864.18.2018',
+            data_najblizszej_czynnosci = now,
+            osoba_odpowiedzialna_za_nadzor = 'Grzegorz Staszak',
+            uwagi = 'brak'
+        )
+        PrzegladyTechniczne.objects.create(
+            obiektk = self.object,
+            nazwa_urzadzenia = 'Odmierzacz paliw typ Helix 6000 model C(NH/LM)33-33 nr',
+            nr_urzadzenia = '...',
+            opis_czynnosci = 'Przegląd stanu technicznego odmierzacza',
+            jednostka_kontrolujaca = 'Grzegorz Staszak',
+            data_ostatniej_czynnosci = now,
+            nr_protokolu = 'x',
+            data_najblizszej_czynnosci = now,
+            osoba_odpowiedzialna_za_nadzor = 'Grzegorz Staszak',
+            uwagi = 'brak'
+        )
+        PrzegladyTechniczne.objects.create(
+            obiektk = self.object,
+            nazwa_urzadzenia = 'Odmierzacz paliw typ Helix 6000 model C(NH/LM)33-33 nr',
+            nr_urzadzenia = '...',
+            opis_czynnosci = 'badanie VRS',
+            jednostka_kontrolujaca = 'GST Grzegorz Staszak',
+            data_ostatniej_czynnosci = now,
+            nr_protokolu = 'x',
+            data_najblizszej_czynnosci = now,
+            osoba_odpowiedzialna_za_nadzor = 'Grzegorz Staszak',
+            uwagi = 'brak'
+        )
+        PrzegladyTechniczne.objects.create(
+            obiektk = self.object,
+            nazwa_urzadzenia = 'Odmierzacz paliw typ Helix 6000 model C(NH/LM)33-33 nr',
+            nr_urzadzenia = '...',
+            opis_czynnosci = 'Pomiary instalacji elektrycznej, odgromowej oraz badania oporności węży',
+            jednostka_kontrolujaca = 'Baza Paliw Sp. z o.o.',
+            data_ostatniej_czynnosci = now,
+            nr_protokolu = 'x',
+            data_najblizszej_czynnosci = now,
+            osoba_odpowiedzialna_za_nadzor = 'Mirosław Guldziński',
+            uwagi = 'brak'
+        )
+
+        return super().form_valid(form)
+
+
+class DodajPawilonCreateView(LoginRequiredMixin, generic.CreateView):
+    form_class = ObiektKForm
+    model = ObiektK
+    success_url = '/dodane/'
+    template_name = "baza/dodaj-obiekt-initial.html"
+    initial = {
+
+        'nazwa': 'Pawilon TRIP FREE',
+        'dane_techniczne': 'brak'
+    }
+
+    def form_valid(self, form):
+        miejsce_id = self.kwargs['miejsce_id']
+        miejsce = Miejsce.objects.get(pk = miejsce_id)
+        form.instance.miejsce = miejsce
+        self.object = form.save()
+        now = datetime.datetime.now()
+
+        PrzegladyTechniczne.objects.create(
+            obiektk = self.object,
+            nazwa_urzadzenia = 'instalacja wentylacji grawitacyjnej',
+            nr_urzadzenia = 'brak',
+            opis_czynnosci = 'okresowa kontrola stanu przewodów wentylacyjnych',
+            jednostka_kontrolujaca = 'Zakład kominiarski Bogusław Szymkiewicz',
+            data_ostatniej_czynnosci = now,
+            nr_protokolu = '63/10/17',
+            data_najblizszej_czynnosci = now,
+            osoba_odpowiedzialna_za_nadzor = 'Rafał Tyrka',
+            uwagi = 'brak'
+        )
+
+        return super().form_valid(form)
+
+
+class DodajZbiornikCreateView(LoginRequiredMixin, generic.CreateView):
+    form_class = ObiektKForm
+    model = ObiektK
+    success_url = '/dodane/'
+    template_name = "baza/dodaj-obiekt-initial.html"
+    initial = {
+
+        'nazwa': 'Zbiornik magazynowy ZP- 50 nr fabr. .....',
+        'dane_techniczne': 'Zbiornik dwupłaszczowy poj. 50 m3, dwukomorowy (25 m3 Pb 98, 25 m3 ON) prod. Metalchem Kościan nr fabr. 98015 nr ew. N2726000097 rok budowy 1998. Zbiornik wyposażony w przerywacze płomieni PPK-50 prod. Limet o nr 25,26/1994, Zawory oddechowe EKO ZO-50 prod. LIMET nr 21,22/1994. Przestrzeń między płaszczowa monitorowana detektorem wycieku LAG-14 ER prod. Afriso. System kontrolno pomiarowy SITE SENTINEL 2'
+    }
+
+    def form_valid(self, form):
+        miejsce_id = self.kwargs['miejsce_id']
+        miejsce = Miejsce.objects.get(pk = miejsce_id)
+        form.instance.miejsce = miejsce
+        self.object = form.save()
+        now = datetime.datetime.now()
+        DopuszczeniaLegalizacje.objects.create(
+            obiektk = self.object,
+            nazwa_urzadzenia = self.object.nazwa,
+            nr_urzadzenia = 'nr',
+            opis_czynnosci = 'rewizja wewnetrzna',
+            jednostka_dozorowa = 'UDT',
+            data_ostatniej_czynnosci = now,
+            nr_decyzji = 'b/d',
+            data_najblizszej_czynnosci = now,
+            osoba_odpowiedzialna_za_nadzor = 'Grzegorz Staszak',
+            uwagi = 'brak'
+        )
+        DopuszczeniaLegalizacje.objects.create(
+            obiektk = self.object,
+            nazwa_urzadzenia = self.object.nazwa,
+            nr_urzadzenia = '...',
+            opis_czynnosci = 'prewizja zewnetrzna',
+            jednostka_dozorowa = 'UDT',
+            data_ostatniej_czynnosci = now,
+            nr_decyzji = 'b/d',
+            data_najblizszej_czynnosci = now,
+            osoba_odpowiedzialna_za_nadzor = 'Grzegorz Staszak',
+            uwagi = 'brak'
+        )
+        PrzegladyTechniczne.objects.create(
+            obiektk = self.object,
+            nazwa_urzadzenia = 'płaszcz zbiornika',
+            nr_urzadzenia = '...',
+            opis_czynnosci = 'oględziny i pomiary instalacji elektrycznej',
+            jednostka_kontrolujaca = 'UE Benedykt Brenk',
+            data_ostatniej_czynnosci = now,
+            nr_protokolu = 'b/d',
+            data_najblizszej_czynnosci = now,
+            osoba_odpowiedzialna_za_nadzor = 'Zdzisław Kaczorowski',
+            uwagi = 'obejmują oględziny puszek, połączeń ekwipotencjalnych, zadławień przewodów'
+        )
+        PrzegladyTechniczne.objects.create(
+            obiektk = self.object,
+            nazwa_urzadzenia = 'System pomiarowy Site Sentinel system pomiarowy tzw. mokry',
+            nr_urzadzenia = 'b/d',
+            opis_czynnosci = 'okresowa kontrola stanu technicznego urzadzenia',
+            jednostka_kontrolujaca = 'Petromarketing Sp. z o.o. tel. 601 533 997',
+            data_ostatniej_czynnosci = now,
+            nr_protokolu = 'b/d',
+            data_najblizszej_czynnosci = now,
+            osoba_odpowiedzialna_za_nadzor = 'Grzegorz Staszak',
+            uwagi = 'brak'
+        )
+        PrzegladyTechniczne.objects.create(
+            obiektk = self.object,
+            nazwa_urzadzenia = 'Zawór oddechowy EKO ZO 50',
+            nr_urzadzenia = '...',
+            opis_czynnosci = 'przegląd techniczny',
+            jednostka_kontrolujaca = 'Grzegorz Staszak',
+            data_ostatniej_czynnosci = now,
+            nr_protokolu = 'b/d',
+            data_najblizszej_czynnosci = now,
+            osoba_odpowiedzialna_za_nadzor = 'Grzegorz Staszak',
+            uwagi = 'brak'
+        )
+        PrzegladyTechniczne.objects.create(
+            obiektk = self.object,
+            nazwa_urzadzenia = 'przerywacz płowmienia PPK-50',
+            nr_urzadzenia = '...',
+            opis_czynnosci = 'przegląd techniczny urzadzenia',
+            jednostka_kontrolujaca = 'Grzegorz Staszak',
+            data_ostatniej_czynnosci = now,
+            nr_protokolu = 'b/d',
+            data_najblizszej_czynnosci = now,
+            osoba_odpowiedzialna_za_nadzor = 'Grzegorz Staszak',
+            uwagi = 'brak'
+        )
+        PrzegladyTechniczne.objects.create(
+            obiektk = self.object,
+            nazwa_urzadzenia = 'przyłacze oparów UNIMAT',
+            nr_urzadzenia = '...',
+            opis_czynnosci = 'przegląd techniczny urzadzenia',
+            jednostka_kontrolujaca = 'Grzegorz Staszak',
+            data_ostatniej_czynnosci = now,
+            nr_protokolu = 'b/d',
+            data_najblizszej_czynnosci = now,
+            osoba_odpowiedzialna_za_nadzor = 'Grzegorz Staszak',
+            uwagi = 'brak'
+        )
+
+        return super().form_valid(form)
+
+
 
 @login_required
 def dodaj_obiekt(request, miejsce_id):
@@ -432,6 +833,9 @@ def dodajurzadzenie(request):
 
 def dodane(request):
     return render(request, 'baza/dodane.html')
+
+def usuniete(request):
+    return render(request, 'baza/usuniete.html')
 
 def niedodane(request):
     return render(request, 'baza/niedodane.html')

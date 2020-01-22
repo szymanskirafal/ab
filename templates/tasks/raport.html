@@ -3,7 +3,7 @@ Zestawienie wszystkich przeglądów w kolejności terminów ważności.
 PO TERMINIE !
 Możliwe, że nie wpisano poprawnej daty po przedłużeniu ważności, ale dobrze by było spradzić poniższe terminy i urządzenia:
 {% for object in overdue_objects %}
-{{ object.data_najblizszej_czynnosci }} -- {{ object.nazwa_urzadzenia }} -- {{ object.obiektk.nazwa }} -- {{ object.obiektk.miejsce.nazwa }}, {{ object.obiektk.miejsce.adres }}
+{{ object.data_najblizszej_czynnosci|date:"j m Y" }} -- {{ object.nazwa_urzadzenia }} -- {{ object.obiektk.nazwa }} -- {{ object.obiektk.miejsce.nazwa }}, {{ object.obiektk.miejsce.adres }}
 {% endfor %}
 {% else %}
 Przeterminowane:
@@ -13,7 +13,7 @@ Ufff... Nie ma przeterminowanych.
 Ten tydzień:
 {% if current_week_objects %}
 {% for object in current_week_objects %}
-{{ object.data_najblizszej_czynnosci }} -- {{ object.nazwa_urzadzenia }} -- {{ object.obiektk.nazwa }} -- {{ object.obiektk.miejsce.nazwa }}, {{ object.obiektk.miejsce.adres }}
+{{ object.data_najblizszej_czynnosci|date:"j m Y" }} -- {{ object.nazwa_urzadzenia }} -- {{ object.obiektk.nazwa }} -- {{ object.obiektk.miejsce.nazwa }}, {{ object.obiektk.miejsce.adres }}
 {% endfor %}
 {% else %}
 Nie kończy się żaden termin ważności w tym tygodniu.
@@ -22,7 +22,7 @@ Nie kończy się żaden termin ważności w tym tygodniu.
 Przyszły tydzień:
 {% if next_week_objects %}
 {% for object in next_week_objects %}
-{{ object.data_najblizszej_czynnosci }} -- {{ object.nazwa_urzadzenia }} -- {{ object.obiektk.nazwa }} -- {{ object.obiektk.miejsce.nazwa }}, {{ object.obiektk.miejsce.adres }}
+{{ object.data_najblizszej_czynnosci|date:"j m Y" }} -- {{ object.nazwa_urzadzenia }} -- {{ object.obiektk.nazwa }} -- {{ object.obiektk.miejsce.nazwa }}, {{ object.obiektk.miejsce.adres }}
 {% endfor %}
 {% else %}
 Brak przeglądów kończących się w przyszłym tygodniu.
@@ -31,7 +31,7 @@ Brak przeglądów kończących się w przyszłym tygodniu.
 Do końca miesiąca:
 {% if current_month_objects %}
 {% for object in current_month_objects %}
-{{ object.data_najblizszej_czynnosci }} -- {{ object.nazwa_urzadzenia }} -- {{ object.obiektk.nazwa }} -- {{ object.obiektk.miejsce.nazwa }}, {{ object.obiektk.miejsce.adres }}
+{{ object.data_najblizszej_czynnosci|date:"j m Y" }} -- {{ object.nazwa_urzadzenia }} -- {{ object.obiektk.nazwa }} -- {{ object.obiektk.miejsce.nazwa }}, {{ object.obiektk.miejsce.adres }}
 {% endfor %}
 {% else %}
 W tym miesiącu nie kończą się już żadne inne terminy.
