@@ -18,7 +18,7 @@ class Command(BaseCommand):
         current_weekday = today.isoweekday()
         admin_email = User.objects.get(username='RafalSzymanski').email
 
-        if current_weekday == 4:
+        if current_weekday == 1:
             groups = CustomGroup.objects.all()
             for group in groups:
                 if group.name == 'STACJE PALIW LEGALIZACJE':
@@ -41,6 +41,7 @@ class Command(BaseCommand):
                         message = render_to_string(template_name, context)
                         subject = 'Terminy przeglądów'
                         from_email = 'Terminy Przeglądów <terminyprzegladow@gmail.com>'
+                        send_mail(subject, message, from_email, [member.email])
                         send_mail(subject, message, from_email, [admin_email])
 
                 else:
@@ -62,6 +63,7 @@ class Command(BaseCommand):
                         message = render_to_string(template_name, context)
                         subject = 'Terminy przeglądów'
                         from_email = 'Terminy Przeglądów <terminyprzegladow@gmail.com>'
+                        send_mail(subject, message, from_email, [member.email])
                         send_mail(subject, message, from_email, [admin_email])
 
         else:
