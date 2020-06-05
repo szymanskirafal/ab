@@ -1,6 +1,6 @@
 -f /usr/share/pip-wheels
 defusedxml==0.4.1
-Django==1.9
+Django==1.11.29
 django-allauth==0.24.1
 django-crispy-forms==1.5.2
 oauthlib==1.0.3
