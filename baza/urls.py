@@ -18,6 +18,7 @@ urlpatterns = [
     url(r'^dodaj/(?P<miejsce_id>[0-9]+)/pawilon$', views.DodajPawilonCreateView.as_view(), name='dodaj_pawilon'),
     url(r'^dodaj/(?P<miejsce_id>[0-9]+)/zbiornik$', views.DodajZbiornikCreateView.as_view(), name='dodaj_zbiornik'),
     url(r'^dodane/$', views.dodane, name='dodane'),
+    url(r'^dopuszczenie/(?P<pk>[0-9]+)/$', views.DopuszczenieDetailView.as_view(), name='dopuszczenie_detail'),
     url(r'^dopuszczenie/(?P<obiekt_id>[0-9]+)/archiwum/$', views.ArchiwumListView.as_view(), name='archiwum'),
     url(r'^dopuszczenie/archiwum/(?P<pk>[0-9]+)$', views.ArchiwumDetailView.as_view(), name='archiwum-detail'),
     url(r'^dopuszczenie/archiwum/(?P<pk>[0-9]+)/delete/$', views.ArchiwumDopuszczenieDeleteView.as_view(), name='archiwum-dopuszczenie-delete'),

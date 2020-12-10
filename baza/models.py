@@ -31,18 +31,19 @@ class ObiektK(models.Model):
 
 class DopuszczeniaLegalizacje(models.Model):
     obiektk = models.ForeignKey(ObiektK)
-    nazwa_urzadzenia = models.CharField(max_length = 100)
-    nr_urzadzenia = models.CharField(max_length = 50, null = True, blank = True)
-    opis_czynnosci = models.CharField(max_length = 150)
+    nazwa_urzadzenia = models.CharField(max_length = 100, verbose_name="nazwa urządzenia")
+    nr_urzadzenia = models.CharField(max_length = 50, null = True, blank = True, verbose_name="nr urządzenia")
+    opis_czynnosci = models.CharField(max_length = 150, verbose_name="opis czynności")
     jednostka_dozorowa = models.CharField(max_length = 150)
-    data_ostatniej_czynnosci = models.DateField(null = True, blank = True)
+    data_ostatniej_czynnosci = models.DateField(null = True, blank = True, verbose_name="data ostatniej czynności")
     nr_decyzji = models.CharField(max_length = 100, null = True, blank = True)
-    data_najblizszej_czynnosci = models.DateField()
-    osoba_odpowiedzialna_za_nadzor = models.CharField(max_length = 100)
+    data_najblizszej_czynnosci = models.DateField(verbose_name="data najbliższej czynności")
+    osoba_odpowiedzialna_za_nadzor = models.CharField(max_length = 100, verbose_name="osoba odpowiedzialna za nadzór")
     uwagi = models.TextField(null = True, blank = True)
 
     def get_absolute_url(self):
         return reverse('edytuj_dopuszczenie', kwargs={'pk': self.pk})
+
 
 
 class ArchiwumDopuszczenie(models.Model):
@@ -58,6 +59,7 @@ class ArchiwumDopuszczenie(models.Model):
     data_najblizszej_czynnosci = models.DateField()
     osoba_odpowiedzialna_za_nadzor = models.CharField(max_length = 100)
     uwagi = models.TextField(null = True, blank = True)
+
 
 
 class PrzegladyTechniczne(models.Model):

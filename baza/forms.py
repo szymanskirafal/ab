@@ -9,18 +9,11 @@ from allauth.account.forms import LoginForm
 from crispy_forms.helper import FormHelper
 
 
-
-
-
 class LoginForm(LoginForm):
     def __init__(self, *args, **kwargs):
         super(LoginForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_class = 'form-control'
-
-
-
-
 
 
 class MiejsceForm(ModelForm):
@@ -69,7 +62,8 @@ class DopuszczeniaLegalizacjeForm(ModelForm):
             'nr_decyzji',
             'data_najblizszej_czynnosci',
             'osoba_odpowiedzialna_za_nadzor',
-            'uwagi')
+            'uwagi',
+            )
         widgets = {
                 'nazwa_urzadzenia': TextInput(
                     attrs={'class':'form-control'}
@@ -104,6 +98,7 @@ class DopuszczeniaLegalizacjeForm(ModelForm):
                 'uwagi': Textarea(
                     attrs={'class':'form-control'}
                     ),
+
                 }
 
 

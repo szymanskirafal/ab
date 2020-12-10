@@ -1,0 +1,25 @@
+{% extends 'bootstrap_base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block main  %}
+
+
+    <div class="row">
+        <div class="col-md-8">
+
+            <h1>Dodaj zadanie</h1>
+
+            <form role="form"  method="post">
+                <div class="form-group">
+                    {% csrf_token %}
+                    {{ form }}
+                </div>
+                <button type="submit" class="btn btn-default btn-lg" name="save">Zapisz</button>
+
+            </form>
+        </div>
+    </div>
+    <br><br>
+
+{% endblock %}

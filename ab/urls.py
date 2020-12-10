@@ -30,5 +30,6 @@ urlpatterns = [
     url(r'^', include('baza.urls', namespace='baza')),
     url(r'^grupy/', include('grupa.urls', namespace='grupa')),
     url(r'^raport/', include('raporty.urls', namespace='raporty')),
+    url(r'^zadania/', include('zadania.urls', namespace='zadania')),
 
 ]

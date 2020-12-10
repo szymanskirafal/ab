@@ -62,6 +62,7 @@ INSTALLED_APPS = (
     'grupa',
     'raporty',
     'tasks',
+    'zadania',
 )
 
 SITE_ID = 7

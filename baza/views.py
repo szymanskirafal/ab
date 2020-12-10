@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 import datetime
 
+from zadania.models import Zadanie
 
 from .forms import MiejsceForm, ObiektKForm, DopuszczeniaLegalizacjeForm, PrzegladyTechniczneForm, ObiektForm, StacjaForm, SzukajObiektForm, UrzadzenieForm, PrzedmiotForm
 from .models import Miejsce, ObiektK, DopuszczeniaLegalizacje, ArchiwumDopuszczenie, PrzegladyTechniczne, ArchiwumPrzeglad, Obiekt, Urzadzenie, Przedmiot
@@ -87,6 +88,8 @@ class ArchiwumPrzegladDeleteView(LoginRequiredMixin, generic.DeleteView):
     success_url = reverse_lazy('baza:profile')
 
 
+
+
 @login_required
 def profile(request):
     return render(request, 'baza/profile.html')
@@ -116,6 +119,7 @@ def edytuj_miejsce(request, miejsce_id):
 
 
 
+
 @login_required
 def edytuj_obiekt(request, obiekt_id):
     obiekt = ObiektK.objects.get(pk=obiekt_id)
@@ -136,6 +140,21 @@ def edytuj_obiekt(request, obiekt_id):
 
 
     return render(request, 'baza/edytuj_obiekt.html', {'form': form})
+
+
+class DopuszczenieDetailView(LoginRequiredMixin, generic.DetailView):
+    model = DopuszczeniaLegalizacje
+    template_name = "baza/dopuszczenie-detail.html"
+
+    def get_zadania(self):
+        dopuszczenie = self.get_object()
+        return Zadanie.objects.all().filter(dopuszczenie = dopuszczenie)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['zadania'] = self.get_zadania()
+        return context
+
 
 
 @login_required
@@ -160,6 +179,8 @@ def edytuj_dopuszczenie(request, obiekt_id):
                 data_najblizszej_czynnosci = form.cleaned_data['data_najblizszej_czynnosci']
                 osoba_odpowiedzialna_za_nadzor = form.cleaned_data['osoba_odpowiedzialna_za_nadzor']
                 uwagi = form.cleaned_data['uwagi']
+                polecenie = form.cleaned_data['polecenie']
+                termin_wykonania_polecenia = form.cleaned_data['termin_wykonania_polecenia']
 
                 ArchiwumDopuszczenie.objects.create(
                     dopuszczenie = dopuszczenie,
@@ -171,7 +192,9 @@ def edytuj_dopuszczenie(request, obiekt_id):
                     nr_decyzji = nr_decyzji,
                     data_najblizszej_czynnosci = data_najblizszej_czynnosci,
                     osoba_odpowiedzialna_za_nadzor = osoba_odpowiedzialna_za_nadzor,
-                    uwagi = uwagi
+                    uwagi = uwagi,
+                    polecenie = polecenie,
+                    termin_wykonania_polecenia = termin_wykonania_polecenia
                 )
 
                 return HttpResponseRedirect('/dodane/')
