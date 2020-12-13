@@ -22,16 +22,24 @@
             <h2>Zadania:</h2>
             {% if zadania %}
               {% for zadanie in zadania %}
-                <p>jest zadanie</p>
+                <div class="jumbotron">
+                  <p>zadanie: {{ zadanie.tresc }}</p>
+                  <p>utworzone: {{ zadanie.created }}</p>
+                  <p>termin wykonania: {{ zadanie.termin }}</p>
+                  <p>wykonawca: {{ zadanie.wykonawca }}</p>
+                  <a class="btn btn-danger btn-lg" href="{% url 'zadania:detail' zadanie.id %}" role="button">Zmień zadanie</a>
+                </div>
               {% endfor %}
-              <a class="btn btn-danger btn-lg" href="#" role="button">Zmień zadania</a>
+
             {% else %}
               <p>Brak zadań</p>
             {% endif %}
             <a class="btn btn-success btn-lg" href="{% url 'zadania:create' object.id %}" role="button">Dodaj zadanie</a>
             <br><br>
             <a class="btn btn-default btn-lg" href="{% url 'baza:profile' %}" role="button">Główne Menu</a>
+            <br><br>
         </div>
+
 
     </div>
   </div>

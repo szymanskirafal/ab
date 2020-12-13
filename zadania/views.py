@@ -5,7 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from baza.models import DopuszczeniaLegalizacje
 
-from .forms import ZadanieForm
+from .forms import ZadanieForm, ZadanieUpdateForm
 from .models import Zadanie
 
 
@@ -26,3 +26,11 @@ class ZadanieDetailView(generic.DetailView):
     context_object_name = "zadanie"
     model = Zadanie
     template_name = "zadania/detail.html"
+
+
+class ZadanieUpdateView(generic.UpdateView):
+    form_class = ZadanieUpdateForm
+    model = Zadanie
+    template_name = "zadania/update.html"
+
+
